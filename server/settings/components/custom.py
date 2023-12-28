@@ -7,3 +7,7 @@ INSTALLED_APPS += [
     "server.apps.authentication",
     "server.apps.account",
 ]
+
+# Custom User Model
+
+AUTH_USER_MODEL = "account.User"
