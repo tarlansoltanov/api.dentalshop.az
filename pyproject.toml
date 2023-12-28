@@ -47,8 +47,9 @@ order_by_type = false
 max-line-length = 119
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "server.settings"
 env = ["DJANGO_ENV = test"]
+DJANGO_SETTINGS_MODULE = "server.settings"
+filterwarnings = ["ignore::DeprecationWarning"]
 
 [build-system]
 requires = ["poetry-core"]

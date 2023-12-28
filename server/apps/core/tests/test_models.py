@@ -3,6 +3,7 @@ from django.utils import timezone
 from freezegun import freeze_time
 
 from server.apps.core.models import CoreModel
+from server.apps.core.tests.models import InheritedModel
 
 pytestmark = pytest.mark.django_db
 
@@ -18,15 +19,6 @@ class TestCoreModel:
     @pytest.fixture(scope="class")
     def inherited_model(self):
         """Inherited model."""
-
-        class InheritedModel(CoreModel):
-            """Inherited model."""
-
-            class Meta(CoreModel.Meta):
-                """Meta."""
-
-                verbose_name = "Object"
-
         return InheritedModel
 
     def test_model_name(self, inherited_model):
