@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  db:
+    <<: &db
+      image: postgres:14.2-alpine
+      restart: unless-stopped
+      volumes:
+        - pgdata:/var/lib/postgresql/data/
+      env_file:
+        - ./config/.env
+      networks:
+        - webdata
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  webdata:
+    driver: bridge

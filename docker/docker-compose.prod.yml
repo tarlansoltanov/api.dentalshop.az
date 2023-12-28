@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  app:
+    image: django-api-template:prod
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    restart: unless-stopped
+    command: bash ./docker/app/gunicorn/start.sh
+    ports:
+      - 8000:8000
+    volumes:
+      - ./staticfiles:/var/www/static:rw
+      - ./media:/var/www/media:rw
+      - .:/app:rw
+    env_file:
+      - ./config/.env
+    environment:
+      - IN_DOCKER=1
+      - USE_POSTGRES=1
+      - POSTGRES_HOST=db
+      - DJANGO_ENV=prod
+    depends_on:
+      - db
+    networks:
+      - webdata
+    healthcheck:
+      test: |
+        /usr/bin/test $$(
+          /usr/bin/curl --fail http://localhost:8000/health/?format=json
+          --write-out "%{http_code}" --silent --output /dev/null
+        ) -eq 200
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  backup:
+    image: backup
+    build:
+      context: .
+      dockerfile: ./docker/backup/Dockerfile
+    restart: always
+    command: /bin/sh -c "cycle"
+    volumes:
+      - ./backups:/backups
+    env_file:
+      - ./config/.env
+    environment:
+      - POSTGRES_HOST=db
+    networks:
+      - webdata
