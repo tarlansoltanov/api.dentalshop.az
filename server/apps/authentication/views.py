@@ -1,10 +1,27 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status
+from rest_framework import generics, status
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from server.apps.authentication.logic.serializers import AccessTokenSerializer, TokenPairSerializer
-from server.apps.core.logic.responses import TOKEN_NOT_VALID
+from server.apps.authentication.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
+from server.apps.core.logic.responses import INVALID_REQUEST_DATA, TOKEN_NOT_VALID
+
+
+class RegisterView(generics.CreateAPIView):
+    """
+    Takes a set of user credentials and creates a new user account.
+    """
+
+    serializer_class = RegisterSerializer
+
+    @swagger_auto_schema(
+        responses={
+            status.HTTP_201_CREATED: RegisterSerializer,
+            status.HTTP_400_BAD_REQUEST: INVALID_REQUEST_DATA,
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
 
 
 class LoginView(TokenObtainPairView):
