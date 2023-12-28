@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   app:
-    image: django-api-template:prod
+    image: api.dentalshop.az:prod
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile

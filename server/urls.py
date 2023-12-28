@@ -22,9 +22,9 @@ urlpatterns += [
 # DRF YASG (Yet Another Swagger Generator)
 SCHEMA_VIEW = get_schema_view(
     openapi.Info(
-        title="Project API",
+        title="DentalShop API",
         default_version="v1",
-        description="API for Project",
+        description="API for DentalShop Project",
         terms_of_service="https://www.google.com/policies/terms/",
         license=openapi.License(name="BSD License"),
     ),

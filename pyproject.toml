@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "django-api-template"
+name = "api.dentalshop.az"
 version = "0.1.0"
 description = ""
 authors = ["Tarlan Soltanov <tarlansoltanov@outlook.com>"]
