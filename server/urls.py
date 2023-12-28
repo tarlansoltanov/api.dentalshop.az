@@ -14,9 +14,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-# Account URLs
+# Prefix for API URLs
+API_PREFIX = "api/v1/"
+
+# Auth URLs
 urlpatterns += [
-    path("api/auth/", include("server.apps.authentication.urls")),
+    path(f"{API_PREFIX}auth/", include("server.apps.authentication.urls")),
 ]
 
 # DRF YASG (Yet Another Swagger Generator)
@@ -33,10 +36,10 @@ SCHEMA_VIEW = get_schema_view(
 )
 
 urlpatterns += [
-    path("api/swagger<format>/", SCHEMA_VIEW.without_ui(cache_timeout=0), name="schema-json"),
-    path("api/swagger/", SCHEMA_VIEW.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-    path("api/redoc/", SCHEMA_VIEW.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
-    path("api/", RedirectView.as_view(pattern_name="schema-swagger-ui", permanent=False)),
+    path(f"{API_PREFIX}swagger<format>/", SCHEMA_VIEW.without_ui(cache_timeout=0), name="schema-json"),
+    path(f"{API_PREFIX}swagger/", SCHEMA_VIEW.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path(f"{API_PREFIX}redoc/", SCHEMA_VIEW.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path(f"{API_PREFIX}", RedirectView.as_view(pattern_name="schema-swagger-ui", permanent=False)),
 ]
 
 # Django Health Check

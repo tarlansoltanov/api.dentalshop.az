@@ -18,3 +18,17 @@ TOKEN_NOT_VALID = openapi.Response(
         },
     ),
 )
+
+INVALID_REQUEST_DATA = openapi.Response(
+    description="The request data was invalid.",
+    schema=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            "field_name": openapi.Schema(
+                type=openapi.TYPE_ARRAY,
+                items=openapi.Items(type=openapi.TYPE_STRING),
+                description="List of errors for the field.",
+            ),
+        },
+    ),
+)
