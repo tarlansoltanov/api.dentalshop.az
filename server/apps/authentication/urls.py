@@ -2,7 +2,7 @@ from django.urls import path
 
 from server.apps.authentication.views import LoginView, LogoutView, RefreshView, RegisterView, VerifyView
 
-app_name = "authentication"
+app_name = "auth"
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),

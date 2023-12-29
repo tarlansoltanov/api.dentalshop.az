@@ -1,4 +1,5 @@
 import pytest
+from django.urls import reverse
 from rest_framework.test import APIClient
 
 from server.apps.account.models import User
@@ -23,7 +24,7 @@ def user_data():
 def test_register_with_no_data():
     """Test the register endpoint with no data."""
 
-    endpoint = "/api/v1/auth/register/"
+    endpoint = reverse("auth:register")
 
     response = api_client.post(endpoint, {})
 
@@ -37,7 +38,7 @@ def test_register_with_no_data():
 def test_register_passwords_mismatch(user_data):
     """Test the register endpoint with passwords mismatch."""
 
-    endpoint = "/api/v1/auth/register/"
+    endpoint = reverse("auth:register")
 
     user_data["password_confirm"] = "mismatch"
 
@@ -53,7 +54,7 @@ def test_register_passwords_mismatch(user_data):
 def test_register(user_data):
     """Test the register endpoint with correct data."""
 
-    endpoint = "/api/v1/auth/register/"
+    endpoint = reverse("auth:register")
 
     response = api_client.post(endpoint, user_data)
 
