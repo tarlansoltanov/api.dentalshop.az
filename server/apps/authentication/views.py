@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from server.apps.authentication.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
-from server.apps.core.logic.responses import INVALID_REQUEST_DATA, TOKEN_NOT_VALID
+from server.apps.core.logic.responses import INVALID_REQUEST_DATA, UNAUTHORIZED
 
 
 class RegisterView(generics.CreateAPIView):
@@ -33,7 +33,7 @@ class LoginView(TokenObtainPairView):
     @swagger_auto_schema(
         responses={
             status.HTTP_200_OK: TokenPairSerializer,
-            status.HTTP_401_UNAUTHORIZED: TOKEN_NOT_VALID,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         }
     )
     def post(self, request, *args, **kwargs):
@@ -49,7 +49,7 @@ class RefreshView(TokenRefreshView):
     @swagger_auto_schema(
         responses={
             status.HTTP_200_OK: AccessTokenSerializer,
-            status.HTTP_401_UNAUTHORIZED: TOKEN_NOT_VALID,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         }
     )
     def post(self, request, *args, **kwargs):
@@ -67,7 +67,7 @@ class VerifyView(TokenVerifyView):
             status.HTTP_200_OK: openapi.Response(
                 description="Token is valid",
             ),
-            status.HTTP_401_UNAUTHORIZED: TOKEN_NOT_VALID,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         }
     )
     def post(self, request, *args, **kwargs):
@@ -87,7 +87,7 @@ class LogoutView(TokenBlacklistView):
             status.HTTP_200_OK: openapi.Response(
                 description="Token is blacklisted",
             ),
-            status.HTTP_401_UNAUTHORIZED: TOKEN_NOT_VALID,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         }
     )
     def post(self, request, *args, **kwargs):
