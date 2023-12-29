@@ -1,27 +1,12 @@
 import pytest
 from django.urls import reverse
-from rest_framework.test import APIClient
 
 from server.apps.account.models import User
 
 pytestmark = pytest.mark.django_db
 
-api_client = APIClient()
 
-
-@pytest.fixture
-def user_data():
-    return {
-        "first_name": "Test",
-        "last_name": "Test",
-        "birth_date": "2000-01-01",
-        "phone": "500000000",
-        "password": "testpassword",
-        "password_confirm": "testpassword",
-    }
-
-
-def test_register_with_no_data():
+def test_register_with_no_data(api_client):
     """Test the register endpoint with no data."""
 
     endpoint = reverse("auth:register")
@@ -35,7 +20,7 @@ def test_register_with_no_data():
     )
 
 
-def test_register_passwords_mismatch(user_data):
+def test_register_passwords_mismatch(api_client, user_data):
     """Test the register endpoint with passwords mismatch."""
 
     endpoint = reverse("auth:register")
@@ -51,7 +36,7 @@ def test_register_passwords_mismatch(user_data):
     assert User.objects.count() == 0
 
 
-def test_register(user_data):
+def test_register(api_client, user_data):
     """Test the register endpoint with correct data."""
 
     endpoint = reverse("auth:register")

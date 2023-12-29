@@ -6,7 +6,7 @@ https://docs.djangoproject.com/en/5.0/topics/http/urls/
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic.base import RedirectView
+from django.views.generic import RedirectView, TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 
@@ -16,9 +16,21 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-# Auth URLs
+# App URLs
 urlpatterns += [
-    path(f"{API_PREFIX}auth/", include("server.apps.authentication.urls")),
+    path(f"{API_PREFIX}", include("server.apps.authentication.urls")),
+    path(f"{API_PREFIX}", include("server.apps.account.urls")),
+]
+
+# robots.txt
+urlpatterns += [
+    path(
+        "robots.txt",
+        TemplateView.as_view(
+            template_name="txt/robots.txt",
+            content_type="text/plain",
+        ),
+    ),
 ]
 
 # DRF YASG (Yet Another Swagger Generator)
