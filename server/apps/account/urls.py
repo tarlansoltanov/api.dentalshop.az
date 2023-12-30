@@ -5,5 +5,5 @@ from server.apps.account.views import AccountView
 app_name = "account"
 
 urlpatterns = [
-    path("account/", AccountView.as_view(), name="account"),
+    path(f"{app_name}/", AccountView.as_view(), name="account"),
 ]
