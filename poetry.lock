@@ -305,6 +305,38 @@ files = [
 test = ["pytest (>=6)"]
 
 [[package]]
+name = "factory-boy"
+version = "3.3.0"
+description = "A versatile test fixtures replacement based on thoughtbot's factory_bot for Ruby."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "factory_boy-3.3.0-py2.py3-none-any.whl", hash = "sha256:a2cdbdb63228177aa4f1c52f4b6d83fab2b8623bf602c7dedd7eb83c0f69c04c"},
+    {file = "factory_boy-3.3.0.tar.gz", hash = "sha256:bc76d97d1a65bbd9842a6d722882098eb549ec8ee1081f9fb2e8ff29f0c300f1"},
+]
+
+[package.dependencies]
+Faker = ">=0.7.0"
+
+[package.extras]
+dev = ["Django", "Pillow", "SQLAlchemy", "coverage", "flake8", "isort", "mongoengine", "sqlalchemy-utils", "tox", "wheel (>=0.32.0)", "zest.releaser[recommended]"]
+doc = ["Sphinx", "sphinx-rtd-theme", "sphinxcontrib-spelling"]
+
+[[package]]
+name = "faker"
+version = "22.0.0"
+description = "Faker is a Python package that generates fake data for you."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "Faker-22.0.0-py3-none-any.whl", hash = "sha256:9c22c0a734ca01c6e4f2259eab5dab9081905a9d67b27272aea5c9feeb5a3789"},
+    {file = "Faker-22.0.0.tar.gz", hash = "sha256:1d5dc0a75da7bc40741ee4c84d99dc087b97bd086d4222ad06ac4dd2219bcf3f"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+
+[[package]]
 name = "filelock"
 version = "3.13.1"
 description = "A platform independent file lock."
@@ -579,6 +611,23 @@ tomli = {version = ">=2.0.1", markers = "python_version < \"3.11\""}
 test = ["covdefaults (>=2.3)", "coverage (>=7.3.2)", "pytest-mock (>=3.12)"]
 
 [[package]]
+name = "pytest-factoryboy"
+version = "2.6.0"
+description = "Factory Boy support for pytest."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pytest_factoryboy-2.6.0-py3-none-any.whl", hash = "sha256:23facf586a1beedea03e875159001bfeb8393fb56ab104d87ad06f688d269e5b"},
+    {file = "pytest_factoryboy-2.6.0.tar.gz", hash = "sha256:d09c37178693d8e594a96faf3c56e870b7753d2622710298b850ef79eb02d63d"},
+]
+
+[package.dependencies]
+factory_boy = ">=2.10.0"
+inflection = "*"
+pytest = ">=6.2"
+typing_extensions = "*"
+
+[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -783,4 +832,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "969575b30b96e2769b8c17cbe97e29f4604b7e265c1ecf035dd5f9f589eba6b3"
+content-hash = "d98f1cbae6e0249913a168c441c0c05d23e294c144ab55bc7b0afd2360195f06"

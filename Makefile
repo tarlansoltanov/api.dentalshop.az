@@ -32,6 +32,7 @@ help:
 	@echo " test                 to run tests"
 	@echo " test-cov             to run tests with coverage"
 	@echo " test-v               to run tests with verbose"
+	@echo " test-app             to run tests for app"
 	@echo " ------------------- Running commands --------------------"
 	@echo " run-local            to run app locally"
 	@echo " run-local-docker     to run app locally with docker"
@@ -83,6 +84,8 @@ shell:
 # Testing commands
 .PHONY = test test-cov test-v
 
+app :=
+
 test:
 	@echo "TEST: Running tests..."
 	poetry run pytest -v
@@ -94,6 +97,10 @@ test-cov:
 test-v:
 	@echo "TEST: Running tests with verbose..."
 	poetry run pytest -svv
+
+test-app:
+	@echo "TEST: Running tests for app..."
+	poetry run pytest -v server/apps/$(app)
 
 # Docker commands
 .PHONY = docker-help build up down restart log
