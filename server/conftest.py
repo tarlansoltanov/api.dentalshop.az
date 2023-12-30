@@ -1,7 +1,9 @@
 import pytest
+from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
 from server.apps.account.models import User
+from server.apps.brand.tests.factories import BrandFactory
 
 
 @pytest.fixture
@@ -25,3 +27,7 @@ def user_data() -> dict:
 def user(user_data: dict) -> User:
     user_data.pop("password_confirm")
     return User.objects.create_user(**user_data)
+
+
+# Register factories
+register(BrandFactory)
