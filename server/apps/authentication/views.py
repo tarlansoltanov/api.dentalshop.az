@@ -4,7 +4,7 @@ from rest_framework import generics, status
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from server.apps.authentication.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
-from server.apps.core.logic.responses import INVALID_REQUEST_DATA, UNAUTHORIZED
+from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
 
 
 class RegisterView(generics.CreateAPIView):
@@ -17,7 +17,7 @@ class RegisterView(generics.CreateAPIView):
     @swagger_auto_schema(
         responses={
             status.HTTP_201_CREATED: RegisterSerializer,
-            status.HTTP_400_BAD_REQUEST: INVALID_REQUEST_DATA,
+            status.HTTP_400_BAD_REQUEST: BAD_REQUEST,
         }
     )
     def post(self, request, *args, **kwargs):
