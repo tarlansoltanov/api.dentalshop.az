@@ -20,6 +20,7 @@ urlpatterns = [
 urlpatterns += [
     path(f"{API_PREFIX}", include("server.apps.authentication.urls")),
     path(f"{API_PREFIX}", include("server.apps.account.urls")),
+    path(f"{API_PREFIX}", include("server.apps.brand.urls")),
 ]
 
 # robots.txt

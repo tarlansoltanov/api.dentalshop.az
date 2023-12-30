@@ -47,6 +47,7 @@ order_by_type = false
 
 [tool.flake8]
 max-line-length = 119
+ignore=["A003",]
 
 [tool.pytest.ini_options]
 env = ["DJANGO_ENV = test"]
