@@ -40,7 +40,7 @@ def test_brand_detail_invalid_slug(api_client: APIClient) -> None:
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
-def test_brand_detail_valid_id(api_client: APIClient, brand_factory: DjangoModelFactory) -> None:
+def test_brand_detail_valid_slug(api_client: APIClient, brand_factory: DjangoModelFactory) -> None:
     """Test brand detail endpoint with valid slug."""
     brand = brand_factory.create()
 
@@ -49,7 +49,6 @@ def test_brand_detail_valid_id(api_client: APIClient, brand_factory: DjangoModel
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
 
-    assert response.data["id"] == brand.pk
     assert response.data["name"] == brand.name
     assert response.data["slug"] == brand.slug
 
@@ -127,7 +126,7 @@ def test_brand_update_unauthorized(api_client: APIClient, brand_factory: DjangoM
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
-def test_brand_update_invalid_id(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:
+def test_brand_update_invalid_slug(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:
     """Test brand update endpoint with invalid slug but correct permissions."""
     url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
 
@@ -198,7 +197,7 @@ def test_brand_delete_unauthorized(api_client: APIClient, brand_factory: DjangoM
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
-def test_brand_delete_invalid_id(api_client: APIClient, admin_user: User) -> None:
+def test_brand_delete_invalid_slug(api_client: APIClient, admin_user: User) -> None:
     """Test brand delete endpoint with invalid slug but correct permissions."""
     url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
 

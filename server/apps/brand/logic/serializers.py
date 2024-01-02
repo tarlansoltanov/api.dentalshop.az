@@ -8,18 +8,14 @@ class BrandSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Brand
+        lookup_field = "slug"
         fields = [
-            "id",
             "name",
             "slug",
             "created_at",
             "updated_at",
         ]
-
-        lookup_field = "slug"
-
         read_only_fields = [
-            "id",
             "slug",
             "created_at",
             "updated_at",
