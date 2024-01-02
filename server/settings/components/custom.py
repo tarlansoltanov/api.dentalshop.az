@@ -7,6 +7,7 @@ INSTALLED_APPS += [
     "server.apps.authentication",
     "server.apps.account",
     "server.apps.brand",
+    "server.apps.category",
 ]
 
 # Custom User Model
