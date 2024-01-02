@@ -16,6 +16,8 @@ class BrandSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
+        lookup_field = "slug"
+
         read_only_fields = [
             "id",
             "slug",

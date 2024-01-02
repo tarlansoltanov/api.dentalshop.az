@@ -11,6 +11,7 @@ class BrandViewSet(viewsets.ModelViewSet):
 
     model = Brand
     queryset = Brand.objects.all()
+    lookup_field = "slug"
     serializer_class = BrandSerializer
     permission_classes = [permissions.IsAdminUserOrReadOnly]
 
@@ -30,7 +31,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         },
     )
     def retrieve(self, request, *args, **kwargs):
-        """Retrieve a brand by id."""
+        """Retrieve a brand by slug."""
         return super().retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
@@ -54,7 +55,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         },
     )
     def update(self, request, *args, **kwargs):
-        """Update an existing brand."""
+        """Update an existing brand by slug."""
         return super().update(request, *args, **kwargs)
 
     @swagger_auto_schema(
@@ -65,5 +66,5 @@ class BrandViewSet(viewsets.ModelViewSet):
         },
     )
     def destroy(self, request, *args, **kwargs):
-        """Delete an existing brand."""
+        """Delete an existing brand by slug."""
         return super().destroy(request, *args, **kwargs)

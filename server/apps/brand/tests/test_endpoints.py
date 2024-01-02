@@ -32,19 +32,19 @@ def test_brand_list(api_client: APIClient, brand_factory: DjangoModelFactory) ->
     assert len(response.data) == 2
 
 
-def test_brand_detail_invalid_id(api_client: APIClient) -> None:
-    """Test brand detail endpoint with invalid id."""
-    url = reverse("brands:brand-detail", kwargs={"pk": 123})
+def test_brand_detail_invalid_slug(api_client: APIClient) -> None:
+    """Test brand detail endpoint with invalid slug."""
+    url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
 
     response = api_client.get(url)
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
 
 def test_brand_detail_valid_id(api_client: APIClient, brand_factory: DjangoModelFactory) -> None:
-    """Test brand detail endpoint with valid id."""
+    """Test brand detail endpoint with valid slug."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
@@ -101,7 +101,7 @@ def test_brand_update_unauthenticated(api_client: APIClient, brand_factory: Djan
     """Test brand update endpoint without authentication."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     data = {
         "name": "Brand 1",
@@ -115,7 +115,7 @@ def test_brand_update_unauthorized(api_client: APIClient, brand_factory: DjangoM
     """Test brand update endpoint without correct permissions."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     data = {
         "name": "Brand 1",
@@ -128,10 +128,8 @@ def test_brand_update_unauthorized(api_client: APIClient, brand_factory: DjangoM
 
 
 def test_brand_update_invalid_id(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:
-    """Test brand update endpoint with invalid id but correct permissions."""
-    brand = brand_factory.create()
-
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    """Test brand update endpoint with invalid slug but correct permissions."""
+    url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
 
     data = {
         "name": "Brand 1",
@@ -147,7 +145,7 @@ def test_brand_update_invalid_data(api_client: APIClient, brand_factory: DjangoM
     """Test brand update endpoint with invalid data but correct permissions."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     data = {
         "name": "",
@@ -163,7 +161,7 @@ def test_brand_update_valid(api_client: APIClient, brand_factory: DjangoModelFac
     """Test brand update endpoint with valid data and permissions."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     data = {
         "name": "Brand 1",
@@ -182,7 +180,7 @@ def test_brand_delete_unauthenticated(api_client: APIClient, brand_factory: Djan
     """Test brand delete endpoint without authentication."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     response = api_client.delete(url)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -192,7 +190,7 @@ def test_brand_delete_unauthorized(api_client: APIClient, brand_factory: DjangoM
     """Test brand delete endpoint without correct permissions."""
     brand = brand_factory.create()
 
-    url = reverse("brands:brand-detail", kwargs={"pk": brand.pk})
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
 
     api_client.force_authenticate(user=user)
 
@@ -201,10 +199,24 @@ def test_brand_delete_unauthorized(api_client: APIClient, brand_factory: DjangoM
 
 
 def test_brand_delete_invalid_id(api_client: APIClient, admin_user: User) -> None:
-    """Test brand delete endpoint with invalid id but correct permissions."""
-    url = reverse("brands:brand-detail", kwargs={"pk": 123})
+    """Test brand delete endpoint with invalid slug but correct permissions."""
+    url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
 
     api_client.force_authenticate(user=admin_user)
 
     response = api_client.delete(url)
     assert response.status_code == status.HTTP_404_NOT_FOUND
+
+
+def test_brand_delete_valid(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:
+    """Test brand delete endpoint with valid data and permissions."""
+    brand = brand_factory.create()
+
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
+
+    api_client.force_authenticate(user=admin_user)
+
+    response = api_client.delete(url)
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+
+    assert response.data is None
