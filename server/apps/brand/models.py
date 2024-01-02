@@ -10,7 +10,7 @@ class Brand(CoreModel):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
 
-    class Meta:
+    class Meta(CoreModel.Meta):
         """Meta definition for Brand."""
 
         verbose_name = "Brand"

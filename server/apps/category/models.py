@@ -18,7 +18,7 @@ class Category(CoreModel):
         null=True,
     )
 
-    class Meta:
+    class Meta(CoreModel.Meta):
         """Meta definition for Category."""
 
         verbose_name = "Category"
