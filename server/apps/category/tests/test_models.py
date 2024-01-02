@@ -76,7 +76,7 @@ def test_category_model_delete_sub_with_main(
     """Test that Category model delete method works correctly with main category."""
 
     category = category_factory.create(is_main=True)
-    category_factory.create(parent=category)
+    category_factory.create(is_main=False, parent=category)
 
     assert Category.objects.count() == 2
 
