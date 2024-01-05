@@ -7,6 +7,7 @@ from server.apps.core.models import CoreModel
 class Brand(CoreModel):
     """Model definition for Brand."""
 
+    photo = models.ImageField(upload_to="brands", blank=True, null=True)
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
 

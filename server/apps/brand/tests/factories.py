@@ -8,3 +8,4 @@ class BrandFactory(factory.django.DjangoModelFactory):
         model = Brand
 
     name = factory.Faker("company")
+    photo = factory.django.ImageField()

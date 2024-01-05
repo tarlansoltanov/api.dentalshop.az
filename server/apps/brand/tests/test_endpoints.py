@@ -1,3 +1,6 @@
+import pathlib
+import tempfile
+
 import pytest
 from django.urls import reverse
 from django.utils.text import slugify
@@ -49,6 +52,7 @@ def test_brand_detail_valid_slug(api_client: APIClient, brand_factory: DjangoMod
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
 
+    assert brand.photo.url in response.data["photo"]
     assert response.data["name"] == brand.name
     assert response.data["slug"] == brand.slug
 
@@ -79,19 +83,23 @@ def test_brand_create_unauthorized(api_client: APIClient, user: User) -> None:
     assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
-def test_brand_create_valid(api_client: APIClient, admin_user: User) -> None:
+def test_brand_create_valid(api_client: APIClient, admin_user: User, temporary_image) -> None:
     """Test brand create endpoint with valid data and permissions."""
     url = reverse("brands:brand-list")
 
     data = {
+        "photo": temporary_image,
         "name": "Brand 1",
     }
+
+    filename = pathlib.Path(temporary_image.name).name
 
     api_client.force_authenticate(user=admin_user)
 
     response = api_client.post(url, data)
     assert response.status_code == status.HTTP_201_CREATED
 
+    assert filename in response.data["photo"]
     assert response.data["name"] == data["name"]
     assert response.data["slug"] == slugify(data["name"])
 
@@ -171,6 +179,34 @@ def test_brand_update_valid(api_client: APIClient, brand_factory: DjangoModelFac
     response = api_client.put(url, data)
     assert response.status_code == status.HTTP_200_OK
 
+    assert response.data["name"] == data["name"]
+    assert response.data["slug"] == slugify(data["name"])
+
+
+def test_brand_update_valid_with_photo(
+    api_client: APIClient,
+    brand_factory: DjangoModelFactory,
+    admin_user: User,
+    temporary_image: tempfile.NamedTemporaryFile,
+) -> None:
+    """Test brand update endpoint with valid data and permissions and photo."""
+    brand = brand_factory.create()
+
+    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
+
+    data = {
+        "photo": temporary_image,
+        "name": "Brand 1",
+    }
+
+    filename = pathlib.Path(temporary_image.name).name
+
+    api_client.force_authenticate(user=admin_user)
+
+    response = api_client.put(url, data)
+    assert response.status_code == status.HTTP_200_OK
+
+    assert filename in response.data["photo"]
     assert response.data["name"] == data["name"]
     assert response.data["slug"] == slugify(data["name"])
 

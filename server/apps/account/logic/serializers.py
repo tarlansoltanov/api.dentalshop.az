@@ -11,13 +11,15 @@ class AccountSerializer(serializers.ModelSerializer):
             "last_name",
             "birth_date",
             "phone",
+            "is_staff",
+            "is_superuser",
         )
         extra_kwargs = {
             "first_name": {"required": False},
             "last_name": {"required": False},
             "birth_date": {"required": False},
         }
-        read_only_fields = ("phone",)
+        read_only_fields = ("phone", "is_staff", "is_superuser")
 
     def update(self, instance: User, validated_data: dict):
         instance.first_name = validated_data.get("first_name", instance.first_name)

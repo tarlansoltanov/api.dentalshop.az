@@ -21,7 +21,7 @@ def _media_root(
 
 
 @pytest.fixture
-def temporary_image() -> str:
+def temporary_image() -> tempfile.NamedTemporaryFile:
     """Returns path to temporary image."""
     image = Image.new("RGB", (100, 100))
     tmp_file = tempfile.NamedTemporaryFile(suffix=".jpg")

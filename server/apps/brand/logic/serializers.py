@@ -10,6 +10,7 @@ class BrandSerializer(serializers.ModelSerializer):
         model = Brand
         lookup_field = "slug"
         fields = [
+            "photo",
             "name",
             "slug",
             "created_at",
@@ -20,3 +21,25 @@ class BrandSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+    def to_representation(self, instance: Brand) -> dict:
+        """Override to_representation method."""
+
+        data = super().to_representation(instance)
+
+        data["photo"] = self.get_photo_url(instance)
+
+        return data
+
+    def get_photo_url(self, obj: Brand) -> str:
+        """Get photo url with request."""
+
+        return self.context["request"].build_absolute_uri(obj.photo.url)
+
+    def validate_photo(self, photo: str) -> str:
+        """Validate photo."""
+
+        if photo is None and self.instance is None:
+            raise serializers.ValidationError({"photo": "This field is required."})
+
+        return photo

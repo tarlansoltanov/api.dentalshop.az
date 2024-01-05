@@ -1,4 +1,5 @@
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.utils import IntegrityError
 from django.utils.text import slugify
 from faker import Faker
@@ -18,6 +19,7 @@ def test_brand_model_inheritance():
 def test_brand_model_fields():
     """Test that Brand model has all required fields."""
 
+    assert hasattr(Brand, "photo")
     assert hasattr(Brand, "name")
     assert hasattr(Brand, "slug")
 
@@ -61,6 +63,17 @@ def test_brand_model_delete(brand: Brand):
     brand.delete()
 
     assert Brand.objects.count() == 0
+
+
+def test_brand_model_create_with_photo(faker: Faker) -> None:
+    """Test that Brand model create method works correctly with photo."""
+
+    brand_name = faker.company()
+    brand = Brand.objects.create(name=brand_name, photo=SimpleUploadedFile("file.jpg", b"file_content"))
+
+    assert brand.name == brand_name
+    assert brand.slug == slugify(brand_name)
+    assert brand.photo.name == "brands/file.jpg"
 
 
 def test_brand_model_name_unique(faker: Faker):
