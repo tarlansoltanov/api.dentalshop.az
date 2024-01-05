@@ -1,10 +1,33 @@
+import tempfile
+
 import pytest
+from django.conf import LazySettings
+from PIL import Image
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
 from server.apps.account.models import User
 from server.apps.brand.tests.factories import BrandFactory
 from server.apps.category.tests.factories import CategoryFactory
+
+
+@pytest.fixture(autouse=True)
+def _media_root(
+    settings: LazySettings,
+    tmpdir_factory: pytest.TempPathFactory,
+) -> None:
+    """Forces django to save media files into temp folder."""
+    settings.MEDIA_ROOT = tmpdir_factory.mktemp("media", numbered=True)
+
+
+@pytest.fixture
+def temporary_image() -> str:
+    """Returns path to temporary image."""
+    image = Image.new("RGB", (100, 100))
+    tmp_file = tempfile.NamedTemporaryFile(suffix=".jpg")
+    image.save(tmp_file)
+    tmp_file.seek(0)
+    return tmp_file
 
 
 @pytest.fixture
