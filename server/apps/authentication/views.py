@@ -1,10 +1,33 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
+from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from server.apps.authentication.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
-from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
+from server.apps.core.logic.responses import BAD_REQUEST, FORBIDDEN, UNAUTHORIZED
+
+
+class AdminLoginView(TokenObtainPairView):
+    """
+    Takes a set of user credentials and returns an access and refresh JSON web
+    token pair to prove the authentication of those credentials for admin.
+    """
+
+    @swagger_auto_schema(
+        responses={
+            status.HTTP_200_OK: TokenPairSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: FORBIDDEN,
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if not serializer.user.is_staff:
+            return Response({"detail": "You don't have permission to login!"}, status=status.HTTP_403_FORBIDDEN)
+        return super().post(request, *args, **kwargs)
 
 
 class RegisterView(generics.CreateAPIView):

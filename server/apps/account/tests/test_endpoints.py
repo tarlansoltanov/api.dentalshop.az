@@ -8,6 +8,20 @@ from server.apps.account.models import User
 pytestmark = pytest.mark.django_db
 
 
+def test_account_unauthorized(api_client: APIClient) -> None:
+    """Test account endpoint unauthorized request."""
+    url = reverse("account:account")
+
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    response = api_client.put(url)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    response = api_client.delete(url)
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+
 def test_account_get(api_client: APIClient, user: User) -> None:
     """Test account endpoint get request."""
     url = reverse("account:account")

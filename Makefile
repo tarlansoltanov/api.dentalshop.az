@@ -84,7 +84,7 @@ shell:
 # Testing commands
 .PHONY = test test-cov test-v
 
-app :=
+app := core
 
 test:
 	@echo "TEST: Running tests..."

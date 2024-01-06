@@ -10,19 +10,17 @@ class CustomUserAdmin(UserAdmin):
     ordering = ["-date_joined"]
     exclude = ("username", "email")
     fieldsets = (
+        (None, {"fields": ("phone", "password")}),
         (
             "Personal info",
             {
                 "fields": (
                     "first_name",
                     "last_name",
-                    "phone",
-                    "password",
                     "birth_date",
                 )
             },
         ),
-        ("Important dates", {"fields": ("last_login", "date_joined")}),
         (
             "Permissions",
             {
