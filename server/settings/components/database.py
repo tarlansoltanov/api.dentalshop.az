@@ -2,6 +2,7 @@
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 from server.settings.components import BASE_DIR, config
+from server.settings.components.common import INSTALLED_APPS
 
 USE_POSTGRES = config("USE_POSTGRES", cast=bool, default=False)
 
@@ -29,3 +30,8 @@ else:
             },
         }
     }
+
+# django-cleanup
+# https://github.com/un1t/django-cleanup
+
+INSTALLED_APPS += ["django_cleanup.apps.CleanupConfig"]

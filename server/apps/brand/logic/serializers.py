@@ -22,6 +22,14 @@ class BrandSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
+    def __init__(self, *args, **kwargs):
+        """Override init method."""
+        super().__init__(*args, **kwargs)
+
+        if self.instance is not None:
+            for field in self.fields:
+                self.fields[field].required = False
+
     def to_representation(self, instance: Brand) -> dict:
         """Override to_representation method."""
 
@@ -33,6 +41,10 @@ class BrandSerializer(serializers.ModelSerializer):
 
     def get_photo_url(self, obj: Brand) -> str:
         """Get photo url with request."""
+        print(obj.photo)
+
+        if not obj.photo.name:
+            return ""
 
         return self.context["request"].build_absolute_uri(obj.photo.url)
 

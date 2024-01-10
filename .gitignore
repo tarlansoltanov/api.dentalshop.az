@@ -133,3 +133,6 @@ staticfiles/
 
 # Backup files
 backups/
+
+# Media files
+media/
