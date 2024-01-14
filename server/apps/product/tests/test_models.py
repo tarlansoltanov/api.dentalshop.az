@@ -1,5 +1,6 @@
 import pytest
 from django.db.utils import IntegrityError
+from django.utils.text import slugify
 from faker import Faker
 from factory.django import DjangoModelFactory
 
@@ -76,6 +77,7 @@ def test_product_model_inheritance():
 def test_product_model_fields():
     """Test that Product model has all required fields."""
 
+    assert hasattr(Product, "slug")
     assert hasattr(Product, "code")
     assert hasattr(Product, "name")
     assert hasattr(Product, "brand")
@@ -96,12 +98,19 @@ def test_product_model_str(product: Product) -> None:
     assert product.name == str(product)
 
 
+def test_product_model_save(product: Product) -> None:
+    """Test that Product model save method works correctly."""
+
+    assert product.slug == slugify(product.name)
+
+
 def test_product_model_create(product_factory: DjangoModelFactory) -> None:
     """Test that Product model create method works correctly."""
 
-    product_factory.create()
+    product = product_factory.create()
 
     assert Product.objects.count() == 1
+    assert product.slug == slugify(product.name)
 
 
 def test_product_model_update(faker: Faker, product: Product) -> None:
@@ -112,6 +121,7 @@ def test_product_model_update(faker: Faker, product: Product) -> None:
     product.save()
 
     assert product.name == product_name
+    assert product.slug == slugify(product_name)
 
 
 def test_product_model_delete(product: Product):

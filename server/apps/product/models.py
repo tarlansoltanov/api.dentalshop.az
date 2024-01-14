@@ -1,10 +1,13 @@
 from django.db import models
+from django.utils.text import slugify
 
 from server.apps.core.models import CoreModel
 
 
 class Product(CoreModel):
     """Model definition for Product."""
+
+    slug = models.SlugField(max_length=255, unique=True)
 
     code = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -31,6 +34,11 @@ class Product(CoreModel):
     def __str__(self):
         """Unicode representation of Product."""
         return self.name
+
+    def save(self, *args, **kwargs):
+        """Save method for Brand."""
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
 
 class ProductImage(CoreModel):
