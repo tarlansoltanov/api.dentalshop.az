@@ -9,6 +9,7 @@ from rest_framework.test import APIClient
 from server.apps.account.models import User
 from server.apps.brand.tests.factories import BrandFactory
 from server.apps.category.tests.factories import CategoryFactory
+from server.apps.product.tests.factories import ProductNoteFactory
 
 
 @pytest.fixture(autouse=True)
@@ -56,3 +57,4 @@ def user(user_data: dict) -> User:
 # Register factories
 register(BrandFactory)
 register(CategoryFactory)
+register(ProductNoteFactory)
