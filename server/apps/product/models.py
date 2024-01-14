@@ -9,7 +9,7 @@ class Product(CoreModel):
 
     slug = models.SlugField(max_length=255, unique=True)
 
-    code = models.CharField(max_length=255)
+    code = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
 
     brand = models.ForeignKey("brand.Brand", related_name="products", on_delete=models.CASCADE)
@@ -25,7 +25,7 @@ class Product(CoreModel):
     main_note = models.TextField()
     description = models.TextField()
 
-    class Meta:
+    class Meta(CoreModel.Meta):
         """Meta definition for Product."""
 
         verbose_name = "Product"
@@ -47,7 +47,7 @@ class ProductImage(CoreModel):
     image = models.ImageField(upload_to="products")
     product = models.ForeignKey("product.Product", related_name="images", on_delete=models.CASCADE)
 
-    class Meta:
+    class Meta(CoreModel.Meta):
         """Meta definition for ProductImage."""
 
         verbose_name = "ProductImage"
@@ -63,7 +63,7 @@ class ProductNote(CoreModel):
 
     text = models.TextField()
 
-    class Meta:
+    class Meta(CoreModel.Meta):
         """Meta definition for ProductNote."""
 
         verbose_name = "ProductNote"
