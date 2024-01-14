@@ -41,7 +41,6 @@ class BrandSerializer(serializers.ModelSerializer):
 
     def get_photo_url(self, obj: Brand) -> str:
         """Get photo url with request."""
-        print(obj.photo)
 
         if not obj.photo.name:
             return ""
