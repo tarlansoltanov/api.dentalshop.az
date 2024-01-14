@@ -1,7 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 
-from server.apps.core.logic import permissions, responses
+from server.apps.core.logic import pagination, permissions, responses
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
 
@@ -14,6 +14,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = "slug"
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAdminUserOrReadOnly]
+    pagination_class = pagination.CustomPagination
 
     @swagger_auto_schema(
         responses={
