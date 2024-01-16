@@ -22,6 +22,7 @@ def test_brand_model_fields():
     assert hasattr(Brand, "photo")
     assert hasattr(Brand, "name")
     assert hasattr(Brand, "slug")
+    assert hasattr(Brand, "is_main")
 
 
 def test_brand_model_str(brand: Brand) -> None:

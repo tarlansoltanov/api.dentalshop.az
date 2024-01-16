@@ -1,5 +1,7 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from server.apps.brand.logic.serializers import BrandSerializer
 from server.apps.brand.models import Brand
@@ -23,6 +25,13 @@ class BrandViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         """Retrieve list of all brands."""
         return super().list(request, *args, **kwargs)
+
+    @action(detail=False, methods=["get"], url_name="main", url_path="main")
+    def main(self, request, *args, **kwargs):
+        """Retrieve main brands."""
+        brands = Brand.objects.filter(is_main=True).all()
+        serializer = self.get_serializer(brands, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         responses={

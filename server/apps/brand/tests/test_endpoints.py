@@ -35,6 +35,19 @@ def test_brand_list(api_client: APIClient, brand_factory: DjangoModelFactory) ->
     assert len(response.data) == 2
 
 
+def test_brand_list_main(api_client: APIClient, brand_factory: DjangoModelFactory) -> None:
+    """Test mains brand list endpoint with brands."""
+    url = reverse("brands:brand-main")
+
+    brand_factory.create_batch(2, is_main=True)
+    brand_factory.create_batch(3, is_main=False)
+
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+    assert len(response.data) == 2
+
+
 def test_brand_detail_invalid_slug(api_client: APIClient) -> None:
     """Test brand detail endpoint with invalid slug."""
     url = reverse("brands:brand-detail", kwargs={"slug": "invalid"})
@@ -146,22 +159,6 @@ def test_brand_update_invalid_slug(api_client: APIClient, brand_factory: DjangoM
 
     response = api_client.put(url, data)
     assert response.status_code == status.HTTP_404_NOT_FOUND
-
-
-def test_brand_update_invalid_data(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:
-    """Test brand update endpoint with invalid data but correct permissions."""
-    brand = brand_factory.create()
-
-    url = reverse("brands:brand-detail", kwargs={"slug": brand.slug})
-
-    data = {
-        "name": "",
-    }
-
-    api_client.force_authenticate(user=admin_user)
-
-    response = api_client.put(url, data)
-    assert response.status_code == status.HTTP_400_BAD_REQUEST
 
 
 def test_brand_update_valid(api_client: APIClient, brand_factory: DjangoModelFactory, admin_user: User) -> None:

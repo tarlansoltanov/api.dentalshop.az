@@ -9,3 +9,4 @@ class BrandFactory(factory.django.DjangoModelFactory):
 
     name = factory.Faker("company")
     photo = factory.django.ImageField()
+    is_main = False

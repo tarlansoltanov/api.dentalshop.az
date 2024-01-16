@@ -13,6 +13,7 @@ class BrandSerializer(serializers.ModelSerializer):
             "photo",
             "name",
             "slug",
+            "is_main",
             "created_at",
             "updated_at",
         ]
@@ -46,3 +47,17 @@ class BrandSerializer(serializers.ModelSerializer):
             return None
 
         return self.context["request"].build_absolute_uri(obj.photo.url)
+
+    def validate(self, attrs: dict) -> dict:
+        """Validate serializer data."""
+
+        if self.instance is None:
+            if attrs.get("is_main", False):
+                if attrs.get("photo", None) is None:
+                    raise serializers.ValidationError({"photo": "Photo field is required if is_main is true."})
+        else:
+            if attrs.get("is_main", False):
+                if attrs.get("photo", None) is None and not self.instance.photo.name:
+                    raise serializers.ValidationError({"photo": "Photo field is required if is_main is true."})
+
+        return attrs

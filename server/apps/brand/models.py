@@ -10,6 +10,7 @@ class Brand(CoreModel):
     photo = models.ImageField(upload_to="brands/", blank=True, null=True)
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True)
+    is_main = models.BooleanField(default=False)
 
     class Meta(CoreModel.Meta):
         """Meta definition for Brand."""
