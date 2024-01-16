@@ -16,7 +16,6 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         lookup_field = "slug"
         fields = [
-            "id",
             "name",
             "slug",
             "parent",
@@ -25,7 +24,6 @@ class CategorySerializer(serializers.ModelSerializer):
             "updated_at",
         ]
         read_only_fields = [
-            "id",
             "slug",
             "children",
             "created_at",

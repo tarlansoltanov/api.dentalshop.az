@@ -43,14 +43,6 @@ class BrandSerializer(serializers.ModelSerializer):
         """Get photo url with request."""
 
         if not obj.photo.name:
-            return ""
+            return None
 
         return self.context["request"].build_absolute_uri(obj.photo.url)
-
-    def validate_photo(self, photo: str) -> str:
-        """Validate photo."""
-
-        if photo is None and self.instance is None:
-            raise serializers.ValidationError({"photo": "This field is required."})
-
-        return photo
