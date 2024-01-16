@@ -20,7 +20,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         queryset = super().get_queryset()
 
         if self.action == "list":
-            queryset = queryset.filter(is_main=True)
+            queryset = queryset.filter(parent__isnull=True).prefetch_related("children__children")
 
         return queryset.prefetch_related("children").select_related("parent")
 

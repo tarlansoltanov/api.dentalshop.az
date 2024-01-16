@@ -1,8 +1,8 @@
 import pytest
-from django.db.utils import IntegrityError
 from django.utils.text import slugify
 from factory.django import DjangoModelFactory
 from faker import Faker
+from mptt.models import MPTTModel
 
 from server.apps.category.models import Category
 from server.apps.core.models import CoreModel
@@ -14,6 +14,7 @@ def test_category_model_inheritance() -> None:
     """Test that Category model inherits from CoreModel."""
 
     assert issubclass(Category, CoreModel)
+    assert issubclass(Category, MPTTModel)
 
 
 def test_category_model_fields() -> None:
@@ -21,6 +22,8 @@ def test_category_model_fields() -> None:
 
     assert hasattr(Category, "name")
     assert hasattr(Category, "slug")
+    assert hasattr(Category, "parent")
+    assert hasattr(Category, "children")
 
 
 def test_category_model_str(category: Category) -> None:
@@ -61,7 +64,7 @@ def test_category_model_update(faker: Faker, category: Category) -> None:
 def test_category_model_delete(category_factory: DjangoModelFactory) -> None:
     """Test that Category model delete method works correctly."""
 
-    category = category_factory.create(is_main=True)
+    category = category_factory.create(level=0)
 
     assert Category.objects.count() == 1
 
@@ -75,21 +78,11 @@ def test_category_model_delete_sub_with_main(
 ) -> None:
     """Test that Category model delete method works correctly with main category."""
 
-    category = category_factory.create(is_main=True)
-    category_factory.create(is_main=False, parent=category)
+    category = category_factory.create()
+    category_factory.create(parent=category)
 
     assert Category.objects.count() == 2
 
     category.delete()
 
     assert Category.objects.count() == 0
-
-
-def test_category_model_name_unique(category_factory: DjangoModelFactory) -> None:
-    """Test that Category model name field is unique."""
-
-    category_name = "Category"
-    category_factory.create(name=category_name)
-
-    with pytest.raises(IntegrityError):
-        category_factory.create(name=category_name)

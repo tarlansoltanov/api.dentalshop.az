@@ -19,7 +19,6 @@ class CategorySerializer(serializers.ModelSerializer):
             "id",
             "name",
             "slug",
-            "is_main",
             "parent",
             "children",
             "created_at",
@@ -49,22 +48,20 @@ class CategorySerializer(serializers.ModelSerializer):
 
         data = super().to_representation(instance)
 
-        if data["is_main"]:
+        if instance.parent is None:
             data.pop("parent", None)
-        else:
-            data.pop("children", None)
 
         return data
 
     def get_parent(self, obj: Category) -> dict:
         """Get parent category."""
-        if self.context.get("with_parent", True) and obj.is_main is False:
+        if self.context.get("with_parent", True) and obj.get_level() > 0:
             return CategorySerializer(obj.parent, context={"with_children": False, **self.context}).data
         return None
 
     def get_children(self, obj: Category) -> dict:
         """Get children categories."""
-        if self.context.get("with_children", True) and obj.is_main is True:
+        if self.context.get("with_children", True) and obj.get_level() < 2:
             return CategorySerializer(
                 obj.children.all(), many=True, context={"with_parent": False, **self.context}
             ).data

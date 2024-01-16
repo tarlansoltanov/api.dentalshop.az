@@ -24,7 +24,7 @@ def test_category_list(api_client: APIClient, category_factory: DjangoModelFacto
     """Test category list endpoint with categories."""
     url = reverse("categories:category-list")
 
-    category_factory.create_batch(2, is_main=True)
+    category_factory.create_batch(2)
 
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK
@@ -36,8 +36,8 @@ def test_category_list_with_children(api_client: APIClient, category_factory: Dj
     """Test category list endpoint with categories and children."""
     url = reverse("categories:category-list")
 
-    category = category_factory.create(is_main=True)
-    category_factory.create_batch(2, is_main=False, parent=category)
+    category = category_factory.create()
+    category_factory.create_batch(2, parent=category)
 
     response = api_client.get(url)
     assert response.status_code == status.HTTP_200_OK

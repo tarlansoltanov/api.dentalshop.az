@@ -35,3 +35,7 @@ else:
 # https://github.com/un1t/django-cleanup
 
 INSTALLED_APPS += ["django_cleanup.apps.CleanupConfig"]
+
+# django-mptt
+
+INSTALLED_APPS += ["mptt"]

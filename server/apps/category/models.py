@@ -1,22 +1,18 @@
+from random import randint
+
 from django.db import models
 from django.utils.text import slugify
+from mptt.models import MPTTModel, TreeForeignKey
 
 from server.apps.core.models import CoreModel
 
 
-class Category(CoreModel):
+class Category(MPTTModel, CoreModel):
     """Model definition for Category."""
 
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    is_main = models.BooleanField(default=True)
-    parent = models.ForeignKey(
-        "self",
-        on_delete=models.CASCADE,
-        related_name="children",
-        blank=True,
-        null=True,
-    )
+    parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
     class Meta(CoreModel.Meta):
         """Meta definition for Category."""
@@ -32,7 +28,7 @@ class Category(CoreModel):
         """Save method for Category."""
         self.slug = slugify(self.name)
 
-        if self.is_main:
-            self.parent = None
+        if Category.objects.filter(slug=self.slug).exists():
+            self.slug = f"{self.slug}-{randint(0, 1000)}"
 
         super().save(*args, **kwargs)
