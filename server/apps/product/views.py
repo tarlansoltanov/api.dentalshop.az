@@ -30,6 +30,17 @@ class ProductViewSet(viewsets.ModelViewSet):
     search_fields = ["name", "code", "category__name", "brand__name", "description"]
     ordering_fields = ["name", "price", "created_at", "discount"]
 
+    def get_queryset(self):
+        """Return queryset based on user type."""
+        queryset = super().get_queryset()
+
+        return (
+            queryset.select_related("category", "brand")
+            .prefetch_related("images", "notes")
+            .select_related("category__parent")
+            .select_related("category__parent__parent")
+        )
+
     @swagger_auto_schema(
         responses={
             status.HTTP_200_OK: ProductSerializer,
