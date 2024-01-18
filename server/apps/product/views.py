@@ -1,7 +1,9 @@
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import status, viewsets
+from rest_framework import filters, status, viewsets
 
 from server.apps.core.logic import pagination, permissions, responses
+from server.apps.product.logic.filters import PriceRangeAndDiscountFilter
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
 
@@ -14,7 +16,19 @@ class ProductViewSet(viewsets.ModelViewSet):
     lookup_field = "slug"
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAdminUserOrReadOnly]
+
     pagination_class = pagination.CustomPagination
+
+    filter_backends = [
+        DjangoFilterBackend,
+        PriceRangeAndDiscountFilter,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
+
+    filterset_fields = ["is_distributer", "in_stock"]
+    search_fields = ["name", "code", "category__name", "brand__name", "description"]
+    ordering_fields = ["name", "price", "created_at", "discount"]
 
     @swagger_auto_schema(
         responses={
