@@ -13,4 +13,4 @@ class CoreModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ("-updated_at",)
+        ordering = ("-updated_at", "-created_at")
