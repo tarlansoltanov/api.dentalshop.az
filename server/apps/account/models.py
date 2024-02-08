@@ -47,3 +47,20 @@ class Favorite(CoreModel):
     def __str__(self):
         """Unicode representation of Favorite."""
         return f"{self.user} - {self.product}"
+
+
+class Cart(CoreModel):
+    """Model definition for Cart."""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart")
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="cart")
+
+    class Meta(CoreModel.Meta):
+        """Meta definition for Cart."""
+
+        verbose_name = "Cart"
+        verbose_name_plural = "Cart"
+
+    def __str__(self):
+        """Unicode representation of Cart."""
+        return f"{self.user} - {self.product}"
