@@ -1,21 +1,23 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
 
+from server.apps.brand.logic.filters import BrandFilter
 from server.apps.brand.logic.serializers import BrandSerializer
 from server.apps.brand.models import Brand
-from server.apps.core.logic import permissions, responses
+from server.apps.core.logic import responses
 
 
 class BrandViewSet(viewsets.ModelViewSet):
     """Viewset for Brand model."""
 
-    model = Brand
     queryset = Brand.objects.all()
-    lookup_field = "slug"
     serializer_class = BrandSerializer
-    permission_classes = [permissions.IsAdminUserOrReadOnly]
+
+    lookup_field = "slug"
+
+    filterset_class = BrandFilter
+    search_fields = ["name"]
+    ordering_fields = ["name", "is_main"]
 
     @swagger_auto_schema(
         responses={
@@ -25,13 +27,6 @@ class BrandViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         """Retrieve list of all brands."""
         return super().list(request, *args, **kwargs)
-
-    @action(detail=False, methods=["get"], url_name="main", url_path="main")
-    def main(self, request, *args, **kwargs):
-        """Retrieve main brands."""
-        brands = Brand.objects.filter(is_main=True).all()
-        serializer = self.get_serializer(brands, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         responses={

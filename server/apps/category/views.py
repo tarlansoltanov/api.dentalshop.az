@@ -1,19 +1,23 @@
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 
+from server.apps.category.logic.filters import CategoryFilter
 from server.apps.category.logic.serializers import CategorySerializer
 from server.apps.category.models import Category
-from server.apps.core.logic import permissions, responses
+from server.apps.core.logic import responses
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """Viewset for Category model."""
 
-    model = Category
-    queryset = Category.objects
-    lookup_field = "slug"
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAdminUserOrReadOnly]
+
+    lookup_field = "slug"
+
+    filterset_class = CategoryFilter
+    search_fields = ["name"]
+    ordering_fields = ["name"]
 
     def get_queryset(self):
         """Override get_queryset method."""
