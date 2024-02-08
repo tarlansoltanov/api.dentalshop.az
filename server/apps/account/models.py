@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from server.apps.account.managers import CustomUserManager
+from server.apps.core.models import CoreModel
 
 
 class User(AbstractUser):
@@ -29,3 +30,20 @@ class User(AbstractUser):
     def __str__(self):
         """Unicode representation of User."""
         return f"{self.first_name} {self.last_name} - {self.phone}"
+
+
+class Favorite(CoreModel):
+    """Model definition for Favorite."""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="favorites")
+
+    class Meta(CoreModel.Meta):
+        """Meta definition for Favorite."""
+
+        verbose_name = "Favorite"
+        verbose_name_plural = "Favorites"
+
+    def __str__(self):
+        """Unicode representation of Favorite."""
+        return f"{self.user} - {self.product}"
