@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 
 from server.apps.core.models import CoreModel
+from server.apps.product.logic.queryset import ProductQuerySet
 
 
 class Product(CoreModel):
@@ -25,6 +26,8 @@ class Product(CoreModel):
     notes = models.ManyToManyField("product.ProductNote", related_name="products")
     main_note = models.TextField()
     description = models.TextField()
+
+    objects = ProductQuerySet.as_manager()
 
     class Meta(CoreModel.Meta):
         """Meta definition for Product."""

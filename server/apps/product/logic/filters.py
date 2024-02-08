@@ -37,8 +37,6 @@ class ProductFilter(filters.FilterSet):
     def filter_category(self, queryset, name, value):
         """Filter by category slug."""
 
-        result = queryset.filter(category__slug__iexact=value)
-        result = result.union(queryset.filter(category__parent__slug__iexact=value))
-        result = result.union(queryset.filter(category__parent__parent__slug__iexact=value))
+        result = queryset.filter_category(value)
 
         return result
