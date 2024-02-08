@@ -16,6 +16,7 @@ class ProductFilter(filters.FilterSet):
     max_price = filters.NumberFilter(field_name="price", lookup_expr="lte")
     discount = filters.BooleanFilter(field_name="discount", lookup_expr="gt")
 
+    is_new = filters.BooleanFilter(field_name="is_new")
     in_stock = filters.BooleanFilter(field_name="in_stock")
     is_distributer = filters.BooleanFilter(field_name="is_distributer")
 

@@ -73,6 +73,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "images",
             "price",
             "discount",
+            "is_new",
             "in_stock",
             "is_distributer",
             "notes",
