@@ -5,6 +5,7 @@ from server.apps.brand.models import Brand
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ("name", "slug", "created_at", "updated_at")
-    readonly_fields = ("slug", "created_at", "updated_at")
-    search_fields = ("name", "slug")
+    list_display = ("name_az", "name_ru", "slug", "updated_at", "created_at")
+    search_fields = ("name_az", "name_ru", "slug")
+
+    fieldsets = ((None, {"fields": ("photo", "name_az", "name_ru", "is_main")}),)

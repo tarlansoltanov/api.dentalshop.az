@@ -15,26 +15,50 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(ProductNote)
 class ProductNoteAdmin(admin.ModelAdmin):
-    list_display = ["text"]
-    search_fields = ["text"]
+    list_display = ["text_az", "text_ru"]
+    search_fields = ["text_az", "text_ru"]
+
+    fieldsets = ((None, {"fields": ("text_az", "text_ru")}),)
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductNoteInline, ProductImageInline]
-    list_display = ["name", "brand", "category", "price", "discount", "in_stock", "is_distributer"]
-    list_filter = ["brand", "category", "in_stock", "is_distributer"]
-    search_fields = ["name", "brand__name", "category__name", "code"]
-    autocomplete_fields = ["brand", "category"]
-    readonly_fields = ["slug"]
+    inlines = (ProductNoteInline, ProductImageInline)
+
+    list_display = (
+        "name_az",
+        "name_ru",
+        "brand",
+        "category",
+        "price",
+        "discount",
+        "is_new",
+        "in_stock",
+        "is_distributer",
+    )
+
+    list_filter = ("brand", "category", "is_new", "in_stock", "is_distributer")
+
+    search_fields = (
+        "name_az",
+        "name_ru",
+        "brand__name_az",
+        "brand__name_ru",
+        "category__name_az",
+        "category__name_ru",
+        "code",
+    )
+
+    autocomplete_fields = ("brand", "category")
+
     fieldsets = (
         (
             None,
             {
                 "fields": (
-                    "slug",
                     "code",
-                    "name",
+                    "name_az",
+                    "name_ru",
                     "brand",
                     "category",
                     "price",
@@ -45,5 +69,15 @@ class ProductAdmin(admin.ModelAdmin):
                 )
             },
         ),
-        ("Description", {"fields": ("main_note", "description")}),
+        (
+            "Description",
+            {
+                "fields": (
+                    "main_note_az",
+                    "main_note_ru",
+                    "description_az",
+                    "description_ru",
+                )
+            },
+        ),
     )
