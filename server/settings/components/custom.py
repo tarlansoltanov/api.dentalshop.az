@@ -3,6 +3,8 @@
 from server.settings.components import BASE_DIR
 from server.settings.components.common import INSTALLED_APPS
 
+# Application definition
+
 INSTALLED_APPS += [
     "server.apps.core",
     "server.apps.authentication",
@@ -10,6 +12,15 @@ INSTALLED_APPS += [
     "server.apps.brand",
     "server.apps.category",
     "server.apps.product",
+]
+
+# Modeltranslation
+# https://django-modeltranslation.readthedocs.io/en/latest/
+
+MODELTRANSLATION_TRANSLATION_FILES = [
+    "server.apps.brand.logic.translation",
+    "server.apps.category.logic.translation",
+    "server.apps.product.logic.translation",
 ]
 
 # Media files
