@@ -23,6 +23,7 @@ base_settings = (
     "components/healthcheck.py",  # Health checks.
     "components/cors.py",  # CORS configuration.
     "components/restframework.py",  # Django REST Framework.
+    "components/i18n.py",  # Internationalization.
     "components/custom.py",  # Custom Project Settings.
     f"environments/{ENV}.py",  # Environment settings.
 )

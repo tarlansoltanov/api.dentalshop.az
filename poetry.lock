@@ -245,6 +245,21 @@ django = ">=3.2"
 tests = ["coverage"]
 
 [[package]]
+name = "django-modeltranslation"
+version = "0.18.11"
+description = "Translates Django models using a registration approach."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-modeltranslation-0.18.11.tar.gz", hash = "sha256:a6e2c459e3b31852287d030bc6e29fa28576db97455dccd399fe08ac8e9223b9"},
+    {file = "django_modeltranslation-0.18.11-py3-none-any.whl", hash = "sha256:81b68e4dc806a3b779ac88babe1cbd99d5318d374a43b3737a65fb0f4c1cffe8"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+typing-extensions = "*"
+
+[[package]]
 name = "django-mptt"
 version = "0.15.0"
 description = "Utilities for implementing Modified Preorder Tree Traversal with your Django Models and working with trees of Model instances."
@@ -962,4 +977,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "dd99bbf773b49270a623db9cb43226457dadb5d98ae5c1be9bb0618d474d9884"
+content-hash = "84d250d6fee4d3601107014693a2041b8398f98c1ab980e0a502614234e74c15"
