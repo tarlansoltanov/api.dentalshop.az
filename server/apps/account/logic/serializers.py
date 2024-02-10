@@ -63,7 +63,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance: Favorite):
         """Return the product of the favorite item."""
-        return ProductSerializer(instance.product).data
+        return ProductSerializer(instance.product, context=self.context).data
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -87,4 +87,4 @@ class CartSerializer(serializers.ModelSerializer):
         return item
 
     def to_representation(self, instance: Cart):
-        return ProductSerializer(instance.product).data
+        return ProductSerializer(instance.product, self.context).data
