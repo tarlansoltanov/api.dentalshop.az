@@ -7,3 +7,19 @@ from server.apps.freezone.models import FreezoneItem
 class FreezoneItemAdmin(admin.ModelAdmin):
     list_display = ("title", "user", "price", "address")
     search_fields = ("title", "address")
+
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "title",
+                    "user",
+                    "image",
+                    "price",
+                    "address",
+                    "description",
+                )
+            },
+        ),
+    )
