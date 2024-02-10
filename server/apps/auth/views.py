@@ -1,5 +1,5 @@
 from drf_spectacular.utils import extend_schema, OpenApiResponse
-from rest_framework import generics, status
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
@@ -35,6 +35,7 @@ class RegisterView(generics.CreateAPIView):
     """
 
     serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
 
     @extend_schema(
         responses={
