@@ -1,66 +1,35 @@
 from rest_framework import serializers
 
 from server.apps.brand.logic.serializers import BrandSerializer
-from server.apps.brand.models import Brand
 from server.apps.category.logic.serializers import CategorySerializer
-from server.apps.category.models import Category
-from server.apps.product.models import Product, ProductImage, ProductNote
+from server.apps.product.models import Product, ProductNote
 
 
-class ProductNoteSerializer(serializers.ModelSerializer):
-    """Serializer for ProductNote model."""
+class ProductImageField(serializers.ImageField):
+    """Custom ImageField for ProductImageSerializer."""
 
-    class Meta:
-        """Meta class for ProductNoteSerializer."""
+    def to_representation(self, value):
+        """Override to_representation method."""
 
-        model = ProductNote
-        fields = [
-            "id",
-            "text",
-        ]
-        read_only_fields = [
-            "id",
-        ]
+        return {"id": value.id, "image": self.context["request"].build_absolute_uri(value.image.url)}
 
 
-class ProductImageSerializer(serializers.ModelSerializer):
-    """Serializer for ProductImage model."""
+class ProductNoteField(serializers.PrimaryKeyRelatedField):
+    """Custom PrimaryKeyRelatedField for ProductNoteSerializer."""
 
-    class Meta:
-        """Meta class for ProductImageSerializer."""
+    def to_representation(self, value):
+        """Override to_representation method."""
 
-        model = ProductImage
-        fields = [
-            "id",
-            "image",
-        ]
-        read_only_fields = [
-            "id",
-        ]
-
-    def get_image_urls(self, obj: ProductImage) -> str:
-        """Get image's url with request."""
-
-        if not obj.image.name:
-            return ""
-
-        return self.context["request"].build_absolute_uri(obj.image.url)
+        return {"id": value.id, "text": value.text}
 
 
 class ProductSerializer(serializers.ModelSerializer):
     """Serializer for Product model."""
 
-    category = serializers.SlugRelatedField(
-        slug_field="slug",
-        queryset=Category.objects.all(),
-    )
-
-    brand = serializers.SlugRelatedField(
-        slug_field="slug",
-        queryset=Brand.objects.all(),
-    )
-
-    notes = ProductNoteSerializer(many=True, read_only=True)
+    brand = BrandSerializer(read_only=True)
+    category = CategorySerializer(read_only=True, context={"with_children": False})
+    images = serializers.ListSerializer(child=ProductImageField())
+    notes = serializers.ListSerializer(child=ProductNoteField(queryset=ProductNote.objects.all()))
 
     class Meta:
         model = Product
@@ -95,13 +64,3 @@ class ProductSerializer(serializers.ModelSerializer):
         if self.instance is not None:
             for field in self.fields:
                 self.fields[field].required = False
-
-    def to_representation(self, instance: Product):
-        data = super().to_representation(instance)
-
-        data["category"] = CategorySerializer(instance.category, read_only=True, context={"with_children": False}).data
-        data["brand"] = BrandSerializer(instance.brand, read_only=True, context=self.context).data
-        data["notes"] = ProductNoteSerializer(instance.notes.all(), many=True, read_only=True).data
-        data["images"] = ProductImageSerializer(instance.images, many=True, read_only=True, context=self.context).data
-
-        return data

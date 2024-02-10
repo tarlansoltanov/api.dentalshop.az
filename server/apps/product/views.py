@@ -10,7 +10,7 @@ from server.apps.product.models import Product
 class ProductViewSet(viewsets.ModelViewSet):
     """Viewset for Product model."""
 
-    queryset = Product.objects.all()
+    queryset = Product.objects.none()
     serializer_class = ProductSerializer
 
     lookup_field = "slug"
@@ -20,12 +20,12 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ["name", "price", "created_at", "discount"]
 
     def get_queryset(self):
-        """Return queryset based on user type."""
-        queryset = super().get_queryset()
+        """Return queryset for Product model."""
 
         return (
-            queryset.select_related("category", "brand")
+            Product.objects.all()
             .prefetch_related("images", "notes")
+            .select_related("category", "brand")
             .select_related("category__parent")
             .select_related("category__parent__parent")
         )
