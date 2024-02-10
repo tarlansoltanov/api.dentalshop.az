@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from server.apps.authentication.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
+from server.apps.auth.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
 from server.apps.core.logic.responses import BAD_REQUEST, FORBIDDEN, UNAUTHORIZED
 
 

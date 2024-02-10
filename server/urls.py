@@ -17,7 +17,7 @@ urlpatterns = [
 
 # App URLs
 urlpatterns += [
-    path(f"{API_PREFIX}", include("server.apps.authentication.urls")),
+    path(f"{API_PREFIX}", include("server.apps.auth.urls")),
     path(f"{API_PREFIX}", include("server.apps.account.urls")),
     path(f"{API_PREFIX}", include("server.apps.brand.urls")),
     path(f"{API_PREFIX}", include("server.apps.category.urls")),

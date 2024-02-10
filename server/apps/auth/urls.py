@@ -1,13 +1,6 @@
 from django.urls import path
 
-from server.apps.authentication.views import (
-    AdminLoginView,
-    LoginView,
-    LogoutView,
-    RefreshView,
-    RegisterView,
-    VerifyView,
-)
+from server.apps.auth.views import AdminLoginView, LoginView, LogoutView, RefreshView, RegisterView, VerifyView
 
 app_name = "auth"
 
