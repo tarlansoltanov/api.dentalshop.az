@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 
 from server.apps.brand.logic.filters import BrandFilter
@@ -19,7 +19,7 @@ class BrandViewSet(viewsets.ModelViewSet):
     search_fields = ["name"]
     ordering_fields = ["name", "is_main"]
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: BrandSerializer,
         },
@@ -28,7 +28,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         """Retrieve list of all brands."""
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: BrandSerializer,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
@@ -38,7 +38,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         """Retrieve a brand by slug."""
         return super().retrieve(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_201_CREATED: BrandSerializer,
             status.HTTP_400_BAD_REQUEST: responses.BAD_REQUEST,
@@ -50,7 +50,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         """Create a new brand."""
         return super().create(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: BrandSerializer,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
@@ -62,7 +62,7 @@ class BrandViewSet(viewsets.ModelViewSet):
         """Update an existing brand by slug."""
         return super().update(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,

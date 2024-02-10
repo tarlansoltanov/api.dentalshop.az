@@ -10,7 +10,7 @@ INSTALLED_APPS += [
     "django_filters",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    "drf_yasg",
+    "drf_spectacular",
 ]
 
 # REST Framework
@@ -33,6 +33,7 @@ REST_FRAMEWORK = {
         "rest_framework.parsers.FormParser",
     ],
     "DEFAULT_PAGINATION_CLASS": "server.apps.core.logic.pagination.CustomPagination",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # Simple JWT settings
@@ -45,15 +46,12 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
 }
 
-# DRF YASG (Yet Another Swagger Generator)
-# https://drf-yasg.readthedocs.io/en/latest/
+# DRF Spectacular settings
+# https://drf-spectacular.readthedocs.io/en/latest/
 
-SWAGGER_SETTINGS = {
-    "SECURITY_DEFINITIONS": {
-        "Bearer": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header",
-        },
-    },
+SPECTACULAR_SETTINGS = {
+    "TITLE": "DentalShop API",
+    "DESCRIPTION": "API for DentalShop project",
+    "VERSION": "1.0.0",
+    "COMPONENT_SPLIT_REQUEST": True,
 }

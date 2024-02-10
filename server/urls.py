@@ -7,8 +7,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 from server.apps.core.constants import API_PREFIX
 
@@ -36,23 +35,12 @@ urlpatterns += [
     ),
 ]
 
-# DRF YASG (Yet Another Swagger Generator)
-SCHEMA_VIEW = get_schema_view(
-    openapi.Info(
-        title="DentalShop API",
-        default_version="v1",
-        description="API for DentalShop Project",
-        terms_of_service="https://www.google.com/policies/terms/",
-        license=openapi.License(name="BSD License"),
-    ),
-    permission_classes=[],  # Allow unrestricted access
-    public=True,
-)
+# DRF Spectacular
 
 urlpatterns += [
-    path(f"{API_PREFIX}swagger<format>/", SCHEMA_VIEW.without_ui(cache_timeout=0), name="schema-json"),
-    path(f"{API_PREFIX}swagger/", SCHEMA_VIEW.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-    path(f"{API_PREFIX}redoc/", SCHEMA_VIEW.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path(f"{API_PREFIX}schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(f"{API_PREFIX}swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="schema-swagger-ui"),
+    path(f"{API_PREFIX}redoc/", SpectacularRedocView.as_view(url_name="schema"), name="schema-redoc"),
     path(f"{API_PREFIX}", RedirectView.as_view(pattern_name="schema-swagger-ui", permanent=False)),
 ]
 

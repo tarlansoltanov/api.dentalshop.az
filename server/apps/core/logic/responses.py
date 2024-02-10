@@ -1,44 +1,23 @@
-from drf_yasg import openapi
+from drf_spectacular.utils import OpenApiResponse
 
-ERROR_SCHEMA = openapi.Schema(
-    type=openapi.TYPE_OBJECT,
-    properties={
-        "detail": openapi.Schema(
-            type=openapi.TYPE_STRING,
-            description="Error message",
-        ),
-        "code": openapi.Schema(
-            type=openapi.TYPE_STRING,
-            description="Error code",
-        ),
-    },
-)
+from server.apps.core.logic.serializers import BadRequestSerializer, ErrorSerializer
 
-BAD_REQUEST = openapi.Response(
+BAD_REQUEST = OpenApiResponse(
     description="The request data was invalid.",
-    schema=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "field_name": openapi.Schema(
-                type=openapi.TYPE_ARRAY,
-                items=openapi.Items(type=openapi.TYPE_STRING),
-                description="List of errors for the field.",
-            ),
-        },
-    ),
+    response=BadRequestSerializer,
 )
 
-UNAUTHORIZED = openapi.Response(
+UNAUTHORIZED = OpenApiResponse(
     description="Authentication failed. Check your credentials.",
-    schema=ERROR_SCHEMA,
+    response=ErrorSerializer,
 )
 
-FORBIDDEN = openapi.Response(
+FORBIDDEN = OpenApiResponse(
     description="You don't have permission to perform this action.",
-    schema=ERROR_SCHEMA,
+    response=ErrorSerializer,
 )
 
-NOT_FOUND = openapi.Response(
+NOT_FOUND = OpenApiResponse(
     description="The requested resource was not found.",
-    schema=ERROR_SCHEMA,
+    response=ErrorSerializer,
 )

@@ -1,4 +1,4 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import status, viewsets
 
 from server.apps.category.logic.filters import CategoryFilter
@@ -28,7 +28,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
         return queryset.prefetch_related("children").select_related("parent")
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: CategorySerializer,
         },
@@ -37,7 +37,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """Retrieve list of all categories."""
         return super().list(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: CategorySerializer,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
@@ -47,7 +47,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """Retrieve a category by slug."""
         return super().retrieve(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_201_CREATED: CategorySerializer,
             status.HTTP_400_BAD_REQUEST: responses.BAD_REQUEST,
@@ -59,7 +59,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """Create a new category."""
         return super().create(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: CategorySerializer,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
@@ -71,7 +71,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """Update an existing category by slug."""
         return super().update(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,

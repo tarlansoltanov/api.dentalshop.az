@@ -1,5 +1,4 @@
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
@@ -14,7 +13,7 @@ class AdminLoginView(TokenObtainPairView):
     token pair to prove the authentication of those credentials for admin.
     """
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: TokenPairSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -37,7 +36,7 @@ class RegisterView(generics.CreateAPIView):
 
     serializer_class = RegisterSerializer
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_201_CREATED: RegisterSerializer,
             status.HTTP_400_BAD_REQUEST: BAD_REQUEST,
@@ -53,7 +52,7 @@ class LoginView(TokenObtainPairView):
     token pair to prove the authentication of those credentials.
     """
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: TokenPairSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -69,7 +68,7 @@ class RefreshView(TokenRefreshView):
     token if the refresh token is valid.
     """
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: AccessTokenSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -85,9 +84,9 @@ class VerifyView(TokenVerifyView):
     information about a token's fitness for a particular use.
     """
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
-            status.HTTP_200_OK: openapi.Response(
+            status.HTTP_200_OK: OpenApiResponse(
                 description="Token is valid",
             ),
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -105,9 +104,9 @@ class LogoutView(TokenBlacklistView):
     token.
     """
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
-            status.HTTP_200_OK: openapi.Response(
+            status.HTTP_200_OK: OpenApiResponse(
                 description="Token is blacklisted",
             ),
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,

@@ -1,8 +1,9 @@
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
 from server.apps.account.logic.serializers import AccountSerializer, CartSerializer, FavoriteSerializer
+from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import UNAUTHORIZED
 from server.apps.product.logic.serializers import ProductSerializer
 
@@ -16,7 +17,7 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: AccountSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -26,7 +27,7 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
         """Retrieve account data of the authenticated user."""
         return super().get(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: AccountSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -36,7 +37,7 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
         """Update account data of the authenticated user."""
         return super().put(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -50,6 +51,7 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
 class FavoriteView(generics.ListCreateAPIView):
     """View for favorite management."""
 
+    queryset = Favorite.objects.none()
     serializer_class = FavoriteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -60,7 +62,7 @@ class FavoriteView(generics.ListCreateAPIView):
         """Return favorite products of the authenticated user."""
         return self.request.user.favorites.all()
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: ProductSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -70,7 +72,7 @@ class FavoriteView(generics.ListCreateAPIView):
         """Retrieve favorite products of the authenticated user."""
         return super().get(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_201_CREATED: FavoriteSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -80,12 +82,12 @@ class FavoriteView(generics.ListCreateAPIView):
         """Add a product to favorite products of authenticated user."""
         return super().post(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         },
-        request_body=FavoriteSerializer,
+        request=FavoriteSerializer,
     )
     def delete(self, request, *args, **kwargs):
         """Remove a product from favorite products of authenticated user by product slug."""
@@ -103,6 +105,7 @@ class FavoriteView(generics.ListCreateAPIView):
 class CartView(generics.ListCreateAPIView):
     """View for cart management."""
 
+    queryset = Cart.objects.none()
     serializer_class = CartSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -113,7 +116,7 @@ class CartView(generics.ListCreateAPIView):
         """Return products in cart of the authenticated user."""
         return self.request.user.cart.all()
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_200_OK: ProductSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -123,7 +126,7 @@ class CartView(generics.ListCreateAPIView):
         """Retrieve products in cart of the authenticated user."""
         return super().get(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_201_CREATED: CartSerializer,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
@@ -133,12 +136,12 @@ class CartView(generics.ListCreateAPIView):
         """Add a product to cart of authenticated user."""
         return super().post(request, *args, **kwargs)
 
-    @swagger_auto_schema(
+    @extend_schema(
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         },
-        request_body=CartSerializer,
+        request=CartSerializer,
     )
     def delete(self, request, *args, **kwargs):
         """Remove a product from cart of authenticated user by product slug."""
