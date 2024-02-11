@@ -22,6 +22,7 @@ class Product(CoreModel):
     is_new = models.BooleanField(default=False)
     in_stock = models.BooleanField(default=True)
     is_distributer = models.BooleanField(default=False)
+    is_recommended = models.BooleanField(default=False)
 
     notes = models.ManyToManyField("product.ProductNote", related_name="products")
     main_note = models.TextField()

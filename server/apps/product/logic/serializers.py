@@ -45,6 +45,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_new",
             "in_stock",
             "is_distributer",
+            "is_recommended",
             "notes",
             "main_note",
             "description",

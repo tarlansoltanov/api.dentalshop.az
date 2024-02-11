@@ -35,6 +35,7 @@ class ProductAdmin(admin.ModelAdmin):
         "is_new",
         "in_stock",
         "is_distributer",
+        "is_recommended",
     )
 
     list_filter = ("brand", "category", "is_new", "in_stock", "is_distributer")
@@ -66,6 +67,7 @@ class ProductAdmin(admin.ModelAdmin):
                     "is_new",
                     "in_stock",
                     "is_distributer",
+                    "is_recommended",
                 )
             },
         ),
