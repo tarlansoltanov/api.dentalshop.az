@@ -92,6 +92,9 @@ class FavoriteView(generics.ListCreateAPIView):
     def delete(self, request, *args, **kwargs):
         """Remove a product from favorite products of authenticated user by product slug."""
 
+        if "product" not in request.data:
+            return Response({"detail": "Product slug is required."}, status=status.HTTP_400_BAD_REQUEST)
+
         favorite = self.get_queryset().filter(product__slug=request.data["product"]).first()
 
         if not favorite:
@@ -145,6 +148,9 @@ class CartView(generics.ListCreateAPIView):
     )
     def delete(self, request, *args, **kwargs):
         """Remove a product from cart of authenticated user by product slug."""
+
+        if "product" not in request.data:
+            return Response({"detail": "Product slug is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         favorite = self.get_queryset().filter(product__slug=request.data["product"]).first()
 
