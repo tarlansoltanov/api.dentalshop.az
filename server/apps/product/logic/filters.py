@@ -21,6 +21,8 @@ class ProductFilter(filters.FilterSet):
     is_distributer = filters.BooleanFilter(field_name="is_distributer")
     is_recommended = filters.BooleanFilter(field_name="is_recommended")
 
+    only_stock = filters.BooleanFilter(method="filter_only_stock")
+
     class Meta:
         model = Product
         fields = [
@@ -42,3 +44,11 @@ class ProductFilter(filters.FilterSet):
         result = queryset.filter_category(value)
 
         return result
+
+    def filter_only_stock(self, queryset, name, value):
+        """Filter by in_stock."""
+
+        if value:
+            return queryset.filter(in_stock=True)
+
+        return queryset
