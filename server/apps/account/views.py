@@ -1,4 +1,4 @@
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
@@ -87,15 +87,17 @@ class FavoriteView(generics.ListCreateAPIView):
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         },
-        request=FavoriteSerializer,
+        parameters=[
+            OpenApiParameter(name="product", required=True, type=str, location=OpenApiParameter.QUERY),
+        ],
     )
     def delete(self, request, *args, **kwargs):
         """Remove a product from favorite products of authenticated user by product slug."""
 
-        if "product" not in request.data:
+        if "product" not in request.query_params:
             return Response({"detail": "Product slug is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        favorite = self.get_queryset().filter(product__slug=request.data["product"]).first()
+        favorite = self.get_queryset().filter(product__slug=request.query_params.get("product")).first()
 
         if not favorite:
             return Response({"detail": "Favorite not found."}, status=status.HTTP_404_NOT_FOUND)
@@ -144,19 +146,21 @@ class CartView(generics.ListCreateAPIView):
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
         },
-        request=CartSerializer,
+        parameters=[
+            OpenApiParameter(name="product", required=True, type=str, location=OpenApiParameter.QUERY),
+        ],
     )
     def delete(self, request, *args, **kwargs):
         """Remove a product from cart of authenticated user by product slug."""
 
-        if "product" not in request.data:
+        if "product" not in request.query_params:
             return Response({"detail": "Product slug is required."}, status=status.HTTP_400_BAD_REQUEST)
 
-        favorite = self.get_queryset().filter(product__slug=request.data["product"]).first()
+        cartItem = self.get_queryset().filter(product__slug=request.query_params.get("product")).first()
 
-        if not favorite:
+        if not cartItem:
             return Response({"detail": "Cart item not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        favorite.delete()
+        cartItem.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
