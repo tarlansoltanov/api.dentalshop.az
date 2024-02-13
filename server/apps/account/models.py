@@ -54,6 +54,7 @@ class Cart(CoreModel):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cart")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="cart")
+    quantity = models.PositiveIntegerField(default=0)
 
     class Meta(CoreModel.Meta):
         """Meta definition for Cart."""

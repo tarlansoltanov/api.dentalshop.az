@@ -84,7 +84,10 @@ class CartSerializer(serializers.ModelSerializer):
 
         item = Cart.objects.get_or_create(user=user, product=product)[0]
 
+        item.quantity += 1
+        item.save()
+
         return item
 
     def to_representation(self, instance: Cart):
-        return ProductSerializer(instance.product, self.context).data
+        return {**ProductSerializer(instance.product, context=self.context).data, "quantity": instance.quantity}
