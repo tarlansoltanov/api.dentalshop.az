@@ -55,10 +55,4 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "COMPONENT_SPLIT_REQUEST": True,
     "SERVE_INCLUDE_SCHEMA": True,
-    "SERVERS": [
-        {
-            "url": "http://138.197.183.157:8000/",
-            "description": "Development server",
-        },
-    ],
 }

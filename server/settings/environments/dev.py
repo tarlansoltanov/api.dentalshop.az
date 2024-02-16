@@ -2,8 +2,6 @@
 
 import socket
 
-from django.conf import settings
-
 from server.settings.components import config
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
 from server.settings.components.logging import LOGGING
@@ -36,12 +34,3 @@ INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.
 LOGGING["loggers"]["server"]["level"] = "DEBUG"
 LOGGING["loggers"]["server"]["handlers"] = ["console"]
 LOGGING["handlers"]["console"]["level"] = "DEBUG"
-
-# Django REST framework
-
-settings.SPECTACULAR_SETTINGS["SERVERS"] = [
-    {
-        "url": f"http://localhost:{config('PORT', default=8000, cast=int)}/",
-        "description": "Development server",
-    }
-]
