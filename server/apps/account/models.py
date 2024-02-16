@@ -14,6 +14,8 @@ class User(AbstractUser):
     email = None
     phone = models.CharField(max_length=11, unique=True)
     birth_date = models.DateField(null=True, blank=True)
+    code = models.CharField(max_length=255, null=True, blank=True)
+    discount = models.PositiveIntegerField(default=0)
 
     USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []

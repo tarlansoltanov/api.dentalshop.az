@@ -11,6 +11,7 @@ class CustomUserAdmin(UserAdmin):
     exclude = ("username", "email")
     fieldsets = (
         (None, {"fields": ("phone", "password")}),
+        ("discount", {"fields": ("discount", "code")}),
         (
             "Personal info",
             {
