@@ -6,8 +6,8 @@ from server.apps.core.models import CoreModel
 class PaymentType(models.IntegerChoices):
     """Choices for PaymentType."""
 
-    CASH = 1, "Cash"
-    CARD = 2, "Card"
+    CASH = 1, "Qapıda ödəniş"
+    CARD = 2, "Kartla ödəniş"
 
 
 class OrderStatus(models.IntegerChoices):
@@ -21,7 +21,7 @@ class OrderStatus(models.IntegerChoices):
 class Order(CoreModel):
     """Model definition for Order."""
 
-    user = models.ForeignKey("account.User", on_delete=models.CASCADE)
+    user = models.ForeignKey("account.User", on_delete=models.CASCADE, related_name="orders")
     products = models.ManyToManyField("product.Product", through="OrderProduct")
     discount = models.PositiveSmallIntegerField(default=0)
     payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)
@@ -42,7 +42,7 @@ class Order(CoreModel):
 class OrderProduct(CoreModel):
     """Model definition for OrderProduct."""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_products")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveSmallIntegerField(default=1)

@@ -2,9 +2,15 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
-from server.apps.account.logic.serializers import AccountSerializer, CartSerializer, FavoriteSerializer
+from server.apps.account.logic.serializers import (
+    AccountSerializer,
+    CartSerializer,
+    FavoriteSerializer,
+    OrderSerializer,
+)
 from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
+from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 
 
@@ -200,3 +206,35 @@ class CartView(generics.ListCreateAPIView):
             cartItem.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class OrderView(generics.ListCreateAPIView):
+    """View for order management."""
+
+    queryset = Order.objects.none()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return orders of the authenticated user."""
+        return self.request.user.orders.all()
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: OrderSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """Retrieve orders of the authenticated user."""
+        return super().get(request, *args, **kwargs)
+
+    @extend_schema(
+        responses={
+            status.HTTP_201_CREATED: CartSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """Add a order for authenticated user."""
+        return super().post(request, *args, **kwargs)
