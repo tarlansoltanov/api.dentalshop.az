@@ -98,6 +98,7 @@ class CartSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     """Serializer for Order model."""
 
+    code = serializers.CharField(write_only=True, required=False)
     products = OrderProductSerializer(source="order_products", many=True, read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
     payment_type = serializers.CharField(source="get_payment_type_display", read_only=True)
@@ -107,6 +108,7 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "products",
+            "code",
             "discount",
             "payment_type",
             "status",
@@ -116,6 +118,7 @@ class OrderSerializer(serializers.ModelSerializer):
         )
         read_only_fields = (
             "id",
+            "discount",
             "products",
             "status",
             "date",
@@ -138,7 +141,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
         user = self.context["request"].user
 
-        order = Order.objects.create(user=user, payment_type=1, discount=validated_data.get("discount", 0))
+        code = validated_data.pop("code", None)
+
+        discount = 0
+
+        if code == user.code:
+            discount = user.discount
+
+        order = Order.objects.create(user=user, payment_type=1, discount=discount)
 
         cart_items = Cart.objects.filter(user=user)
 
