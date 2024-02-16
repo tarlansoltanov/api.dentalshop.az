@@ -123,6 +123,16 @@ class OrderSerializer(serializers.ModelSerializer):
             "updated_at",
         )
 
+    def validate(self, data: dict):
+        """Validate if cart is not empty."""
+
+        user = self.context["request"].user
+
+        if user.cart.count() == 0:
+            raise serializers.ValidationError("Cart is empty")
+
+        return data
+
     def create(self, validated_data: dict):
         """Create an order for the authenticated user."""
 
