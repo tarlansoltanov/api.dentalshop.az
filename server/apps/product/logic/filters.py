@@ -6,6 +6,9 @@ from server.apps.product.models import Product
 class ProductFilter(filters.FilterSet):
     """Filter for Product model."""
 
+    name = filters.CharFilter(field_name="name", lookup_expr="icontains")
+    code = filters.CharFilter(field_name="code", lookup_expr="icontains")
+
     category = filters.CharFilter(method="filter_category")
     brand = filters.CharFilter(field_name="brand__slug", lookup_expr="iexact")
 
@@ -26,6 +29,8 @@ class ProductFilter(filters.FilterSet):
     class Meta:
         model = Product
         fields = [
+            "name",
+            "code",
             "category",
             "brand",
             "category_name",
