@@ -153,7 +153,9 @@ class OrderSerializer(serializers.ModelSerializer):
         cart_items = Cart.objects.filter(user=user)
 
         for item in cart_items:
-            order.order_products.create(product=item.product, price=item.product.price, quantity=item.quantity)
+            order.order_products.create(
+                product=item.product, price=item.product.price, discount=item.product.discount, quantity=item.quantity
+            )
             item.delete()
 
         return order

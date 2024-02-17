@@ -17,6 +17,7 @@ class OrderProductSerializer(serializers.ModelSerializer):
             "id",
             "product",
             "price",
+            "discount",
             "quantity",
             "created_at",
             "updated_at",

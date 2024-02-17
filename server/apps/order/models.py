@@ -45,6 +45,7 @@ class OrderProduct(CoreModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_products")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount = models.PositiveSmallIntegerField(default=0)
     quantity = models.PositiveSmallIntegerField(default=1)
 
     class Meta(CoreModel.Meta):
