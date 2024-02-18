@@ -72,22 +72,27 @@ class CartSerializer(serializers.ModelSerializer):
     """Serializer for Cart model."""
 
     product = serializers.SlugRelatedField(slug_field="slug", queryset=Product.objects.all())
+    quantity = serializers.IntegerField(default=1, min_value=0, max_value=1000)
 
     class Meta:
         """Meta class for CartSerializer."""
 
         model = Cart
-        fields = ("product",)
+        fields = ("product", "quantity")
 
     def create(self, validated_data: dict):
         """Create a cart item for the authenticated user."""
         user = self.context["request"].user
         product = validated_data["product"]
+        quantity = validated_data["quantity"]
 
         item = Cart.objects.get_or_create(user=user, product=product)[0]
 
-        item.quantity += 1
-        item.save()
+        if quantity == 0:
+            item.delete()
+        else:
+            item.quantity = quantity
+            item.save()
 
         return item
 

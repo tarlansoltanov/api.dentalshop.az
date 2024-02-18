@@ -199,11 +199,7 @@ class CartView(generics.ListCreateAPIView):
         if not cartItem:
             return Response({"detail": "Cart item not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        if cartItem.quantity > 1:
-            cartItem.quantity -= 1
-            cartItem.save()
-        else:
-            cartItem.delete()
+        cartItem.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
