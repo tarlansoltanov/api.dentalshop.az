@@ -2,6 +2,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, viewsets
 
 from server.apps.core.logic import responses
+from server.apps.freezone.logic.filters import FreezoneItemFilter
 from server.apps.freezone.logic.permissions import IsAdminOrOwner
 from server.apps.freezone.logic.serializers import FreezoneItemSerializer
 from server.apps.freezone.models import FreezoneItem
@@ -14,6 +15,8 @@ class FreezoneViewSet(viewsets.ModelViewSet):
     serializer_class = FreezoneItemSerializer
 
     lookup_field = "slug"
+
+    filterset_class = FreezoneItemFilter
 
     def get_permissions(self):
         """Return permissions for FreezoneItem model."""
