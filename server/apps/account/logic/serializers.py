@@ -112,6 +112,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "discount",
             "payment_type",
             "status",
+            "address",
             "date",
             "created_at",
             "updated_at",
