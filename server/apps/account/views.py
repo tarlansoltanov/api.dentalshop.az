@@ -234,3 +234,25 @@ class OrderView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         """Add a order for authenticated user."""
         return super().post(request, *args, **kwargs)
+
+
+class OrderDetailView(generics.RetrieveAPIView):
+    """View for order detail."""
+
+    queryset = Order.objects.none()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return orders of the authenticated user."""
+        return self.request.user.orders.all()
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: OrderSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """Retrieve order detail of the authenticated user."""
+        return super().get(request, *args, **kwargs)
