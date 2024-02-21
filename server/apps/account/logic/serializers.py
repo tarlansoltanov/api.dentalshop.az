@@ -148,13 +148,14 @@ class OrderSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
 
         code = validated_data.pop("code", None)
+        address = validated_data.get("address", None)
 
         discount = 0
 
         if code == user.code:
             discount = user.discount
 
-        order = Order.objects.create(user=user, payment_type=1, discount=discount)
+        order = Order.objects.create(user=user, payment_type=1, discount=discount, address=address)
 
         cart_items = Cart.objects.filter(user=user)
 
