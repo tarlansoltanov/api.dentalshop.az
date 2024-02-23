@@ -4,6 +4,14 @@ from django.utils.text import slugify
 from server.apps.core.models import CoreModel
 
 
+class FreeZoneStatus(models.IntegerChoices):
+    """Choices for FreezoneItem status."""
+
+    PENDING = 0, "Təsdiq gözləyir"
+    VERIFIED = 1, "Təsdiqlənib"
+    REJECTED = 2, "Rədd edilib"
+
+
 class FreezoneItem(CoreModel):
     """Model definition for FreezoneItem."""
 
@@ -14,6 +22,7 @@ class FreezoneItem(CoreModel):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     address = models.CharField(max_length=255, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    status = models.PositiveSmallIntegerField(choices=FreeZoneStatus.choices, default=FreeZoneStatus.PENDING)
 
     class Meta(CoreModel.Meta):
         """Meta definition for FreezoneItem."""

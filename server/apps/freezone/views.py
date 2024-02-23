@@ -5,7 +5,7 @@ from server.apps.core.logic import responses
 from server.apps.freezone.logic.filters import FreezoneItemFilter
 from server.apps.freezone.logic.permissions import IsAdminOrOwner
 from server.apps.freezone.logic.serializers import FreezoneItemSerializer
-from server.apps.freezone.models import FreezoneItem
+from server.apps.freezone.models import FreezoneItem, FreeZoneStatus
 
 
 class FreezoneViewSet(viewsets.ModelViewSet):
@@ -35,7 +35,7 @@ class FreezoneViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return queryset for FreezoneItem model."""
 
-        return FreezoneItem.objects.all().select_related("user")
+        return FreezoneItem.objects.filter(status=FreeZoneStatus.VERIFIED).select_related("user")
 
     @extend_schema(
         responses={

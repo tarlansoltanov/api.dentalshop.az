@@ -10,6 +10,8 @@ from server.apps.account.logic.serializers import (
 )
 from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
+from server.apps.freezone.logic.serializers import FreezoneItemSerializer
+from server.apps.freezone.models import FreezoneItem
 from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 
@@ -255,4 +257,26 @@ class OrderDetailView(generics.RetrieveAPIView):
     )
     def get(self, request, *args, **kwargs):
         """Retrieve order detail of the authenticated user."""
+        return super().get(request, *args, **kwargs)
+
+
+class FreeZoneView(generics.ListAPIView):
+    """View for free zone."""
+
+    queryset = FreezoneItem.objects.none()
+    serializer_class = FreezoneItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return free zone items."""
+        return FreezoneItem.objects.filter(user=self.request.user)
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: FreezoneItemSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """Retrieve free zone items of the authenticated user."""
         return super().get(request, *args, **kwargs)

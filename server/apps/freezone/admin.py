@@ -18,6 +18,7 @@ class FreezoneItemAdmin(admin.ModelAdmin):
                     "image",
                     "price",
                     "address",
+                    "status",
                     "description",
                 )
             },

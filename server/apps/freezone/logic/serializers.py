@@ -8,6 +8,7 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
     """Serializer definition for FreezoneItem model."""
 
     user = AccountSerializer(read_only=True)
+    status = serializers.CharField(source="get_status_display")
 
     class Meta:
         """Meta definition for FreezoneItemSerializer."""
@@ -21,11 +22,13 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
             "price",
             "address",
             "description",
+            "status",
             "created_at",
             "updated_at",
         ]
         read_only_fields = [
             "slug",
+            "status",
             "created_at",
             "updated_at",
         ]
