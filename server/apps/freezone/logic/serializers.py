@@ -33,6 +33,14 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
             "updated_at",
         ]
 
+    def __init__(self, *args, **kwargs):
+        """Initialize the serializer."""
+        super(FreezoneItemSerializer, self).__init__(*args, **kwargs)
+
+        if self.instance:
+            for field in self.fields:
+                self.fields[field].required = False
+
     def create(self, validated_data):
         """Create a new FreezoneItem instance."""
         user = self.context["request"].user
