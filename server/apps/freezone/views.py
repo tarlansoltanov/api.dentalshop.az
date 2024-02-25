@@ -35,7 +35,13 @@ class FreezoneViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Return queryset for FreezoneItem model."""
 
-        return FreezoneItem.objects.filter(status=FreeZoneStatus.VERIFIED).select_related("user")
+        if self.action in ["list", "retrieve"]:
+            return FreezoneItem.objects.filter(status=FreeZoneStatus.VERIFIED).select_related("user")
+
+        if self.action in ["update", "destroy"]:
+            return FreezoneItem.objects.filter(user=self.request.user)
+
+        return FreezoneItem.objects.none()
 
     @extend_schema(
         responses={
