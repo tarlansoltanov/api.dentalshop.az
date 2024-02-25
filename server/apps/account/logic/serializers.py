@@ -166,3 +166,17 @@ class OrderSerializer(serializers.ModelSerializer):
             item.delete()
 
         return order
+
+
+class DeviceTokenSerializer(serializers.Serializer):
+    """Serializer for device token."""
+
+    device_token = serializers.CharField(max_length=255)
+
+    def create(self, validated_data: dict):
+        """Create a device token for the authenticated user."""
+        user = self.context["request"].user
+        user.device_token = validated_data["device_token"]
+        user.save()
+
+        return user

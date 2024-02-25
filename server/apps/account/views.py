@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from server.apps.account.logic.serializers import (
     AccountSerializer,
     CartSerializer,
+    DeviceTokenSerializer,
     FavoriteSerializer,
     OrderSerializer,
 )
@@ -280,3 +281,20 @@ class FreeZoneView(generics.ListAPIView):
     def get(self, request, *args, **kwargs):
         """Retrieve free zone items of the authenticated user."""
         return super().get(request, *args, **kwargs)
+
+
+class DeviceTokenView(generics.CreateAPIView):
+    """View for device token management."""
+
+    serializer_class = DeviceTokenSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @extend_schema(
+        responses={
+            status.HTTP_201_CREATED: DeviceTokenSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """Add a device token for authenticated user."""
+        return super().post(request, *args, **kwargs)

@@ -4,6 +4,7 @@ from server.apps.account.views import (
     AccountDiscountView,
     AccountView,
     CartView,
+    DeviceTokenView,
     FavoriteView,
     FreeZoneView,
     OrderDetailView,
@@ -20,4 +21,5 @@ urlpatterns = [
     path(f"{app_name}/cart/", CartView.as_view(), name="cart"),
     path(f"{app_name}/orders/", OrderView.as_view(), name="order"),
     path(f"{app_name}/orders/<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
+    path(f"{app_name}/device-token/", DeviceTokenView.as_view(), name="device-token"),
 ]

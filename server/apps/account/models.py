@@ -16,6 +16,7 @@ class User(AbstractUser):
     birth_date = models.DateField(null=True, blank=True)
     code = models.CharField(max_length=255, null=True, blank=True)
     discount = models.PositiveIntegerField(default=0)
+    device_token = models.CharField(max_length=255, null=True, blank=True)
 
     USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []

@@ -19,6 +19,7 @@ class CustomUserAdmin(UserAdmin):
                     "first_name",
                     "last_name",
                     "birth_date",
+                    "device_token",
                 )
             },
         ),
