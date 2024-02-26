@@ -1,6 +1,6 @@
 import factory
 
-from server.apps.product.models import ProductNote, ProductImage, Product
+from server.apps.product.models import Product, ProductImage, ProductNote
 
 
 class ProductNoteFactory(factory.django.DjangoModelFactory):
@@ -32,12 +32,3 @@ class ProductFactory(factory.django.DjangoModelFactory):
     is_distributer = factory.Faker("pybool")
     main_note = factory.Faker("sentence")
     description = factory.Faker("paragraph")
-
-    @factory.post_generation
-    def notes(self, create, extracted, **kwargs):
-        if not create:
-            return
-
-        if extracted:
-            for note in extracted:
-                self.notes.add(note)

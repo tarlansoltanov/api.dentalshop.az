@@ -14,13 +14,15 @@ class ProductImageField(serializers.ImageField):
         return {"id": value.id, "image": self.context["request"].build_absolute_uri(value.image.url)}
 
 
-class ProductNoteField(serializers.PrimaryKeyRelatedField):
-    """Custom PrimaryKeyRelatedField for ProductNoteSerializer."""
+class ProductNoteSerializer(serializers.ModelSerializer):
+    """Serializer for ProductNote model."""
 
-    def to_representation(self, value):
-        """Override to_representation method."""
-
-        return {"id": value.id, "text": value.text}
+    class Meta:
+        model = ProductNote
+        fields = [
+            "id",
+            "text",
+        ]
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -29,7 +31,6 @@ class ProductSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
     category = CategorySerializer(read_only=True, context={"with_children": False})
     images = serializers.ListSerializer(child=ProductImageField())
-    notes = serializers.ListSerializer(child=ProductNoteField(queryset=ProductNote.objects.all()))
     is_favorite = serializers.SerializerMethodField()
 
     class Meta:
@@ -48,7 +49,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "is_favorite",
             "is_distributer",
             "is_recommended",
-            "notes",
             "main_note",
             "description",
             "created_at",

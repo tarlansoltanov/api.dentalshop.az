@@ -3,11 +3,6 @@ from django.contrib import admin
 from server.apps.product.models import Product, ProductImage, ProductNote
 
 
-class ProductNoteInline(admin.TabularInline):
-    model = ProductNote.products.through
-    extra = 1
-
-
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
@@ -15,6 +10,8 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(ProductNote)
 class ProductNoteAdmin(admin.ModelAdmin):
+    """Admin for ProductNote model."""
+
     list_display = ["text_az", "text_ru"]
     search_fields = ["text_az", "text_ru"]
 
@@ -23,7 +20,9 @@ class ProductNoteAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = (ProductNoteInline, ProductImageInline)
+    """Admin for Product model."""
+
+    inlines = (ProductImageInline,)
 
     list_display = (
         "name_az",
