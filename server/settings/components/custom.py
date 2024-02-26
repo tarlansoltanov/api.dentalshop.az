@@ -8,6 +8,7 @@ from server.settings.components.common import INSTALLED_APPS
 INSTALLED_APPS += [
     "server.apps.core",
     "server.apps.auth",
+    "server.apps.user",
     "server.apps.account",
     "server.apps.brand",
     "server.apps.category",
