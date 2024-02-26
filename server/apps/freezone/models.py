@@ -17,7 +17,7 @@ class FreezoneItem(CoreModel):
 
     title = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
-    user = models.ForeignKey("account.User", on_delete=models.CASCADE)
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="freezone_items")
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     address = models.CharField(max_length=255, blank=True, null=True)

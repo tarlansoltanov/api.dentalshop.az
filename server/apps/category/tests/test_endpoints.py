@@ -5,7 +5,7 @@ from factory.django import DjangoModelFactory
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from server.apps.account.models import User
+from server.apps.user.models import User
 
 pytestmark = pytest.mark.django_db
 

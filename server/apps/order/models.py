@@ -21,7 +21,7 @@ class OrderStatus(models.IntegerChoices):
 class Order(CoreModel):
     """Model definition for Order."""
 
-    user = models.ForeignKey("account.User", on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
     products = models.ManyToManyField("product.Product", through="OrderProduct")
     discount = models.PositiveSmallIntegerField(default=0)
     payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)

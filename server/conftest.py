@@ -6,10 +6,10 @@ from PIL import Image
 from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
-from server.apps.account.models import User
 from server.apps.brand.tests.factories import BrandFactory
 from server.apps.category.tests.factories import CategoryFactory
-from server.apps.product.tests.factories import ProductNoteFactory, ProductImageFactory, ProductFactory
+from server.apps.product.tests.factories import ProductFactory, ProductImageFactory, ProductNoteFactory
+from server.apps.user.models import User
 
 
 @pytest.fixture(autouse=True)

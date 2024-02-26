@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from server.apps.account.models import User
+from server.apps.user.models import User
 
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
+    """Custom Admin for User Model"""
+
     list_display = ("phone", "first_name", "last_name", "is_staff")
     ordering = ["-date_joined"]
     exclude = ("username", "email")

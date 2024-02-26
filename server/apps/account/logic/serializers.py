@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
-from server.apps.account.models import Cart, Favorite, User
+from server.apps.account.models import Cart, Favorite
 from server.apps.order.logic.serializers import OrderProductSerializer
 from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
+from server.apps.user.models import User
 
 
 class AccountSerializer(serializers.ModelSerializer):

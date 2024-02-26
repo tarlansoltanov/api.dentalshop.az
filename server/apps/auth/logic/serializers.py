@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from server.apps.account.models import User
+from server.apps.user.models import User
 
 
 class TokenPairSerializer(serializers.Serializer):
