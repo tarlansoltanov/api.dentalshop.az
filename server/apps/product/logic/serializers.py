@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from server.apps.brand.logic.serializers import BrandSerializer
@@ -71,6 +72,7 @@ class ProductSerializer(serializers.ModelSerializer):
             for field in self.fields:
                 self.fields[field].required = False
 
+    @extend_schema_field(serializers.BooleanField)
     def get_is_favorite(self, instance: Product):
         """Return True if the product is favorited by the authenticated user."""
         user = self.context["request"].user
