@@ -15,6 +15,7 @@ INSTALLED_APPS += [
     "server.apps.product",
     "server.apps.freezone",
     "server.apps.order",
+    "server.apps.banner",
 ]
 
 # Modeltranslation
