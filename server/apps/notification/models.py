@@ -35,7 +35,10 @@ class Notification(CoreModel):
         )
 
         if self.user is not None:
-            message.token = self.user.device_token
+            if self.user.device_token:
+                message.token = self.user.device_token
+            else:
+                return
         else:
             message.topic = "/topics/allUsers"
 

@@ -7,6 +7,7 @@ from server.apps.account.views import (
     DeviceTokenView,
     FavoriteView,
     FreeZoneView,
+    NotificationView,
     OrderDetailView,
     OrderView,
 )
@@ -22,4 +23,5 @@ urlpatterns = [
     path(f"{app_name}/orders/", OrderView.as_view(), name="order"),
     path(f"{app_name}/orders/<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
     path(f"{app_name}/device-token/", DeviceTokenView.as_view(), name="device-token"),
+    path(f"{app_name}/notifications/", NotificationView.as_view(), name="notifications"),
 ]

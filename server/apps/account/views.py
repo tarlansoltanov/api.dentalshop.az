@@ -13,6 +13,8 @@ from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
 from server.apps.freezone.logic.serializers import FreezoneItemSerializer
 from server.apps.freezone.models import FreezoneItem
+from server.apps.notification.logic.serializers import NotificationSerializer
+from server.apps.notification.models import Notification
 from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 
@@ -298,3 +300,28 @@ class DeviceTokenView(generics.CreateAPIView):
     def post(self, request, *args, **kwargs):
         """Add a device token for authenticated user."""
         return super().post(request, *args, **kwargs)
+
+
+class NotificationView(generics.ListAPIView):
+    """View for free zone."""
+
+    queryset = Notification.objects.none()
+    serializer_class = NotificationSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        """Return user's notifications."""
+
+        return Notification.objects.filter(user=self.request.user).union(
+            Notification.objects.filter(user__isnull=True)
+        )
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: NotificationSerializer,
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def get(self, request, *args, **kwargs):
+        """Retrieve free zone items of the authenticated user."""
+        return super().get(request, *args, **kwargs)
