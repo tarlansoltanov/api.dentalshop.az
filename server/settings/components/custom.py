@@ -1,6 +1,9 @@
 # Custom Project Settings
 
-from server.settings.components import BASE_DIR
+import firebase_admin
+from firebase_admin import credentials
+
+from server.settings.components import BASE_DIR, config
 from server.settings.components.common import INSTALLED_APPS
 
 # Application definition
@@ -38,3 +41,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Custom User Model
 
 AUTH_USER_MODEL = "user.User"
+
+# Firebase
+
+cred = credentials.Certificate(config("FIREBASE_CONFIG"))
+
+firebase = firebase_admin.initialize_app(cred)

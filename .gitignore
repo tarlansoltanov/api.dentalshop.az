@@ -136,3 +136,6 @@ backups/
 
 # Media files
 media/
+
+# Firebase Credentials
+config/firebaseConfig.json
