@@ -1,52 +1,30 @@
 from rest_framework import serializers
 
 from server.apps.brand.models import Brand
+from server.apps.core.logic.fields import ImageField
 
 
 class BrandSerializer(serializers.ModelSerializer):
     """Serializer for Brand model."""
 
+    photo = ImageField()
+
     class Meta:
         model = Brand
-        lookup_field = "slug"
-        fields = [
-            "photo",
-            "name",
+        fields = (
             "slug",
+            "name",
+            "photo",
             "is_main",
             "created_at",
             "updated_at",
-        ]
-        read_only_fields = [
+        )
+        read_only_fields = (
             "slug",
             "created_at",
             "updated_at",
-        ]
-
-    def __init__(self, *args, **kwargs):
-        """Override init method."""
-        super().__init__(*args, **kwargs)
-
-        if self.instance is not None:
-            for field in self.fields:
-                self.fields[field].required = False
-
-    def to_representation(self, instance: Brand) -> dict:
-        """Override to_representation method."""
-
-        data = super().to_representation(instance)
-
-        data["photo"] = self.get_photo_url(instance)
-
-        return data
-
-    def get_photo_url(self, obj: Brand) -> str:
-        """Get photo url with request."""
-
-        if not obj.photo.name:
-            return None
-
-        return self.context["request"].build_absolute_uri(obj.photo.url)
+        )
+        lookup_field = "slug"
 
     def validate(self, attrs: dict) -> dict:
         """Validate serializer data."""
