@@ -5,7 +5,29 @@ from server.apps.category.models import Category
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ("name_az", "name_ru", "slug", "parent", "updated_at", "created_at")
-    search_fields = ("name_az", "name_ru", "slug")
+    list_display = (
+        "slug",
+        "name_az",
+        "name_ru",
+        "parent",
+        "updated_at",
+        "created_at",
+    )
+    search_fields = (
+        "slug",
+        "name_az",
+        "name_ru",
+    )
 
-    fieldsets = ((None, {"fields": ("name_az", "name_ru", "parent")}),)
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "name_az",
+                    "name_ru",
+                    "parent",
+                )
+            },
+        ),
+    )

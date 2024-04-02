@@ -13,7 +13,7 @@ class OrderProductSerializer(serializers.ModelSerializer):
         """Meta definition for OrderProductSerializer."""
 
         model = OrderProduct
-        fields = [
+        fields = (
             "id",
             "product",
             "price",
@@ -21,4 +21,4 @@ class OrderProductSerializer(serializers.ModelSerializer):
             "quantity",
             "created_at",
             "updated_at",
-        ]
+        )

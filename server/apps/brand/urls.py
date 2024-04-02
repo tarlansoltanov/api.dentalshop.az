@@ -5,6 +5,6 @@ from server.apps.brand.views import BrandViewSet
 app_name = "brands"
 
 router = SimpleRouter(trailing_slash=True)
-router.register(app_name, BrandViewSet)
+router.register(f"{app_name}", BrandViewSet)
 
 urlpatterns = router.urls

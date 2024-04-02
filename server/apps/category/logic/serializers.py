@@ -15,20 +15,20 @@ class CategorySerializer(serializers.ModelSerializer):
 
         model = Category
         lookup_field = "slug"
-        fields = [
-            "name",
+        fields = (
             "slug",
+            "name",
             "parent",
             "children",
             "created_at",
             "updated_at",
-        ]
-        read_only_fields = [
+        )
+        read_only_fields = (
             "slug",
             "children",
             "created_at",
             "updated_at",
-        ]
+        )
 
     def __init__(self, instance: Category = None, data: dict = empty, **kwargs) -> None:
         """Override __init__ method."""

@@ -13,67 +13,77 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.none()
     serializer_class = ProductSerializer
 
+    filterset_class = ProductFilter
+    ordering_fields = ("__all__",)
+
     lookup_field = "slug"
 
-    filterset_class = ProductFilter
-    search_fields = ["name", "code", "category__name", "brand__name", "description"]
-    ordering_fields = ["name", "price", "created_at", "discount"]
+    verbose_name = "product"
+    verbose_name_plural = "products"
+
+    lookup_field = "slug"
 
     def get_queryset(self):
-        """Return queryset for Product model."""
-
-        return (
-            Product.objects.all()
-            .prefetch_related("images")
-            .select_related("category", "brand")
-            .select_related("category__parent")
-            .select_related("category__parent__parent")
-        )
+        """Get the queryset for ProductViewSet."""
+        return Product.objects.get_related()
 
     @extend_schema(
+        description=f"Retrieve list of all {verbose_name_plural}.",
         responses={
-            status.HTTP_200_OK: ProductSerializer,
+            status.HTTP_200_OK: serializer_class,
         },
     )
     def list(self, request, *args, **kwargs):
-        """Retrieve list of all products."""
         return super().list(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Retrieve a {verbose_name} by {lookup_field}.",
         responses={
-            status.HTTP_200_OK: ProductSerializer,
+            status.HTTP_200_OK: serializer_class,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
         },
     )
     def retrieve(self, request, *args, **kwargs):
-        """Retrieve a product by slug."""
         return super().retrieve(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Create a new {verbose_name}.",
         responses={
-            status.HTTP_201_CREATED: ProductSerializer,
+            status.HTTP_201_CREATED: serializer_class,
             status.HTTP_400_BAD_REQUEST: responses.BAD_REQUEST,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
             status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
         },
     )
     def create(self, request, *args, **kwargs):
-        """Create a new product."""
         return super().create(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Update an existing {verbose_name} by {lookup_field}.",
         responses={
-            status.HTTP_200_OK: ProductSerializer,
+            status.HTTP_200_OK: serializer_class,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
             status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
         },
     )
     def update(self, request, *args, **kwargs):
-        """Update an existing product by slug."""
         return super().update(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Partially update an existing {verbose_name} by {lookup_field}.",
+        responses={
+            status.HTTP_200_OK: serializer_class,
+            status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
+            status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
+        },
+    )
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+
+    @extend_schema(
+        description=f"Delete an existing {verbose_name} by {lookup_field}.",
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
@@ -81,66 +91,83 @@ class ProductViewSet(viewsets.ModelViewSet):
         },
     )
     def destroy(self, request, *args, **kwargs):
-        """Delete an existing product by slug."""
         return super().destroy(request, *args, **kwargs)
 
 
-class ProductNoteViewset(viewsets.ModelViewSet):
+class ProductNoteViewSet(viewsets.ModelViewSet):
     """Viewset for ProductNote model."""
 
     queryset = ProductNote.objects.none()
     serializer_class = ProductNoteSerializer
 
+    ordering_fields = ("__all__",)
+
+    verbose_name = "product note"
+    verbose_name_plural = "product notes"
+
     lookup_field = "id"
 
     def get_queryset(self):
-        """Return queryset for ProductNote model."""
+        """Get the queryset for ProductNoteViewSet."""
         return ProductNote.objects.all()
 
     @extend_schema(
+        description=f"Retrieve list of all {verbose_name_plural}.",
         responses={
-            status.HTTP_200_OK: ProductNoteSerializer,
+            status.HTTP_200_OK: serializer_class,
         },
     )
     def list(self, request, *args, **kwargs):
-        """Retrieve list of all product notes."""
         return super().list(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Retrieve a {verbose_name} by {lookup_field}.",
         responses={
-            status.HTTP_200_OK: ProductNoteSerializer,
+            status.HTTP_200_OK: serializer_class,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
         },
     )
     def retrieve(self, request, *args, **kwargs):
-        """Retrieve a product note by id."""
         return super().retrieve(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Create a new {verbose_name}.",
         responses={
-            status.HTTP_201_CREATED: ProductNoteSerializer,
+            status.HTTP_201_CREATED: serializer_class,
             status.HTTP_400_BAD_REQUEST: responses.BAD_REQUEST,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
             status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
         },
     )
     def create(self, request, *args, **kwargs):
-        """Create a new product note."""
         return super().create(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Update an existing {verbose_name} by {lookup_field}.",
         responses={
-            status.HTTP_200_OK: ProductNoteSerializer,
+            status.HTTP_200_OK: serializer_class,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
             status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
             status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
         },
     )
     def update(self, request, *args, **kwargs):
-        """Update an existing product note by id."""
         return super().update(request, *args, **kwargs)
 
     @extend_schema(
+        description=f"Partially update an existing {verbose_name} by {lookup_field}.",
+        responses={
+            status.HTTP_200_OK: serializer_class,
+            status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
+            status.HTTP_404_NOT_FOUND: responses.NOT_FOUND,
+        },
+    )
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+
+    @extend_schema(
+        description=f"Delete an existing {verbose_name} by {lookup_field}.",
         responses={
             status.HTTP_204_NO_CONTENT: None,
             status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
@@ -148,5 +175,4 @@ class ProductNoteViewset(viewsets.ModelViewSet):
         },
     )
     def destroy(self, request, *args, **kwargs):
-        """Delete an existing product note by id."""
         return super().destroy(request, *args, **kwargs)

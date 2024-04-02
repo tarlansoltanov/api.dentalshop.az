@@ -8,4 +8,7 @@ class CategoryTranslationOptions(TranslationOptions):
     """Translation options for Category model."""
 
     fields = ("name",)
-    required_languages = ("az", "ru")
+    required_languages = (
+        "az",
+        "ru",
+    )

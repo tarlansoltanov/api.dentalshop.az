@@ -12,8 +12,14 @@ class ProductImageInline(admin.TabularInline):
 class ProductNoteAdmin(admin.ModelAdmin):
     """Admin for ProductNote model."""
 
-    list_display = ["text_az", "text_ru"]
-    search_fields = ["text_az", "text_ru"]
+    list_display = (
+        "text_az",
+        "text_ru",
+    )
+    search_fields = (
+        "text_az",
+        "text_ru",
+    )
 
     fieldsets = ((None, {"fields": ("text_az", "text_ru")}),)
 
@@ -36,9 +42,13 @@ class ProductAdmin(admin.ModelAdmin):
         "is_distributer",
         "is_recommended",
     )
-
-    list_filter = ("brand", "category", "is_new", "in_stock", "is_distributer")
-
+    list_filter = (
+        "brand",
+        "category",
+        "is_new",
+        "in_stock",
+        "is_distributer",
+    )
     search_fields = (
         "name_az",
         "name_ru",

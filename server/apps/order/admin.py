@@ -12,5 +12,11 @@ class OrderProductInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     """Admin definition for Order."""
 
-    list_display = ("user", "status", "address", "date")
     inlines = (OrderProductInline,)
+
+    list_display = (
+        "user",
+        "status",
+        "address",
+        "date",
+    )
