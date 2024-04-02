@@ -31,6 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = (ProductImageInline,)
 
     list_display = (
+        "code",
         "name_az",
         "name_ru",
         "brand",
