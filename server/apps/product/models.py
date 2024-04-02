@@ -41,7 +41,7 @@ class Product(CoreModel):
 
     def save(self, *args, **kwargs):
         """Save method for Brand."""
-        self.slug = slugify(self.name)
+        self.slug = f"{slugify(self.name)}-{self.code}"
         return super().save(*args, **kwargs)
 
 
