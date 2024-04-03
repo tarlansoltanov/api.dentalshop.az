@@ -22,7 +22,6 @@ class ProductFilter(filters.FilterSet):
     is_new = filters.BooleanFilter(field_name="is_new")
     in_stock = filters.BooleanFilter(field_name="in_stock")
     is_distributer = filters.BooleanFilter(field_name="is_distributer")
-    is_recommended = filters.BooleanFilter(field_name="is_recommended")
 
     only_stock = filters.BooleanFilter(method="filter_only_stock")
 
@@ -40,7 +39,6 @@ class ProductFilter(filters.FilterSet):
             "discount",
             "in_stock",
             "is_distributer",
-            "is_recommended",
         ]
 
     def filter_category(self, queryset, name, value):

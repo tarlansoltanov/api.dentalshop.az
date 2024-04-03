@@ -41,7 +41,6 @@ class ProductAdmin(admin.ModelAdmin):
         "is_new",
         "in_stock",
         "is_distributer",
-        "is_recommended",
     )
     list_filter = (
         "brand",
@@ -77,7 +76,6 @@ class ProductAdmin(admin.ModelAdmin):
                     "is_new",
                     "in_stock",
                     "is_distributer",
-                    "is_recommended",
                 )
             },
         ),

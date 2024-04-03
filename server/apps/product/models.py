@@ -22,7 +22,6 @@ class Product(CoreModel):
     is_new = models.BooleanField(default=False)
     in_stock = models.BooleanField(default=True)
     is_distributer = models.BooleanField(default=False)
-    is_recommended = models.BooleanField(default=False)
 
     main_note = models.TextField()
     description = models.TextField()

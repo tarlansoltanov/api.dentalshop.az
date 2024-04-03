@@ -49,7 +49,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "in_stock",
             "is_favorite",
             "is_distributer",
-            "is_recommended",
             "main_note",
             "description",
             "created_at",
