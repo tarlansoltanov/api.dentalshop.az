@@ -30,6 +30,8 @@ class ProductAdmin(admin.ModelAdmin):
 
     inlines = (ProductImageInline,)
 
+    list_per_page = 20
+
     list_display = (
         "code",
         "name_az",
