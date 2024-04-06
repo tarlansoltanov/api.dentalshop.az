@@ -75,6 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
                     "category",
                     "price",
                     "discount",
+                    "discount_end_date",
                     "is_new",
                     "in_stock",
                     "is_distributer",

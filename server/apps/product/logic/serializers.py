@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -36,7 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = [
+        fields = (
             "slug",
             "code",
             "name",
@@ -45,6 +47,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "images",
             "price",
             "discount",
+            "discount_end_date",
             "is_new",
             "in_stock",
             "is_favorite",
@@ -53,12 +56,12 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "created_at",
             "updated_at",
-        ]
-        read_only_fields = [
+        )
+        read_only_fields = (
             "slug",
             "created_at",
             "updated_at",
-        ]
+        )
 
     def __init__(self, *args, **kwargs):
         """Override init method."""
@@ -67,9 +70,19 @@ class ProductSerializer(serializers.ModelSerializer):
         if self.context and self.context.get("request") and not self.context["request"].user.is_authenticated:
             self.fields.pop("is_favorite")
 
-        if self.instance is not None:
-            for field in self.fields:
-                self.fields[field].required = False
+    def to_representation(self, instance: Product):
+        """Override to_representation method."""
+        data = super().to_representation(instance)
+
+        if not instance.discount_end_date:
+            data.pop("discount_end_date")
+            data["discount"] = 0
+
+        if instance.discount_end_date and instance.discount_end_date < datetime.now().date():
+            data.pop("discount_end_date")
+            data["discount"] = 0
+
+        return data
 
     @extend_schema_field(serializers.BooleanField)
     def get_is_favorite(self, instance: Product):

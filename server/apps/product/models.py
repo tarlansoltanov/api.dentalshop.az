@@ -19,6 +19,8 @@ class Product(CoreModel):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     discount = models.PositiveIntegerField(default=0)
 
+    discount_end_date = models.DateField(null=True, blank=True)
+
     is_new = models.BooleanField(default=False)
     in_stock = models.BooleanField(default=True)
     is_distributer = models.BooleanField(default=False)

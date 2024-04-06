@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django_filters import rest_framework as filters
 
 from server.apps.product.models import Product
@@ -17,7 +18,7 @@ class ProductFilter(filters.FilterSet):
 
     min_price = filters.NumberFilter(field_name="price", lookup_expr="gte")
     max_price = filters.NumberFilter(field_name="price", lookup_expr="lte")
-    discount = filters.BooleanFilter(field_name="discount", lookup_expr="gt")
+    discount = filters.BooleanFilter(field_name="discount", method="filter_discount")
 
     is_new = filters.BooleanFilter(field_name="is_new")
     in_stock = filters.BooleanFilter(field_name="in_stock")
@@ -40,6 +41,14 @@ class ProductFilter(filters.FilterSet):
             "in_stock",
             "is_distributer",
         ]
+
+    def filter_discount(self, queryset, name, value):
+        """Filter if product has discount and end date is not passed."""
+
+        if value:
+            return queryset.filter(discount__gt=0).filter(discount_end_date__gte=timezone.now())
+
+        return queryset
 
     def filter_category(self, queryset, name, value):
         """Filter by category slug."""
