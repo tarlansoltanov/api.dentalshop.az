@@ -17,6 +17,7 @@ class Brand(CoreModel):
 
         verbose_name = "Brand"
         verbose_name_plural = "Brands"
+        ordering = ("name",)
 
     def __str__(self):
         """Unicode representation of Brand."""

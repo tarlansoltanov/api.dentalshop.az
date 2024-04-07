@@ -35,6 +35,7 @@ class Product(CoreModel):
 
         verbose_name = "Product"
         verbose_name_plural = "Products"
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Product."""
@@ -57,6 +58,7 @@ class ProductImage(CoreModel):
 
         verbose_name = "ProductImage"
         verbose_name_plural = "ProductImages"
+        ordering = ("created_at",)
 
     def __str__(self):
         """Unicode representation of ProductImage."""
