@@ -14,7 +14,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
     filterset_class = ProductFilter
-    ordering_fields = ("__all__",)
+    ordering_fields = "__all__"
 
     lookup_field = "slug"
 
