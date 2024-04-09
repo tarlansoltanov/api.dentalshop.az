@@ -41,14 +41,12 @@ class ProductAdmin(admin.ModelAdmin):
         "price",
         "discount",
         "is_new",
-        "in_stock",
         "is_distributer",
     )
     list_filter = (
         "brand",
         "category",
         "is_new",
-        "in_stock",
         "is_distributer",
     )
     search_fields = (
@@ -76,8 +74,8 @@ class ProductAdmin(admin.ModelAdmin):
                     "price",
                     "discount",
                     "discount_end_date",
+                    "quantity",
                     "is_new",
-                    "in_stock",
                     "is_distributer",
                 )
             },

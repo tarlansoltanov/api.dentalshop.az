@@ -87,6 +87,9 @@ class CartSerializer(serializers.ModelSerializer):
         product = validated_data["product"]
         quantity = validated_data["quantity"]
 
+        if quantity > product.quantity:
+            raise serializers.ValidationError("Məhsuldan stokda kifayət qədər mövcud deyil")
+
         item = Cart.objects.get_or_create(user=user, product=product)[0]
 
         if quantity == 0:
@@ -98,7 +101,10 @@ class CartSerializer(serializers.ModelSerializer):
         return item
 
     def to_representation(self, instance: Cart):
-        return {**ProductSerializer(instance.product, context=self.context).data, "quantity": instance.quantity}
+        return {
+            "product": ProductSerializer(instance.product, context=self.context).data,
+            "quantity": instance.quantity,
+        }
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -141,6 +147,14 @@ class OrderSerializer(serializers.ModelSerializer):
         if user.cart.count() == 0:
             raise serializers.ValidationError("Cart is empty")
 
+        cart_items = user.cart.all()
+
+        for item in cart_items:
+            if item.product.quantity < item.quantity:
+                raise serializers.ValidationError(
+                    f'"{item.product.name}" adlı məhsulundan stokda kifayət qədər mövcud deyil'
+                )
+
         return data
 
     def create(self, validated_data: dict):
@@ -164,6 +178,8 @@ class OrderSerializer(serializers.ModelSerializer):
             order.order_products.create(
                 product=item.product, price=item.product.price, discount=item.product.discount, quantity=item.quantity
             )
+            item.product.quantity -= item.quantity
+            item.product.save()
             item.delete()
 
         return order

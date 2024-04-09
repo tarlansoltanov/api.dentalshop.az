@@ -21,7 +21,6 @@ class ProductFilter(filters.FilterSet):
     discount = filters.BooleanFilter(field_name="discount", method="filter_discount")
 
     is_new = filters.BooleanFilter(field_name="is_new")
-    in_stock = filters.BooleanFilter(field_name="in_stock")
     is_distributer = filters.BooleanFilter(field_name="is_distributer")
 
     only_stock = filters.BooleanFilter(method="filter_only_stock")
@@ -38,8 +37,9 @@ class ProductFilter(filters.FilterSet):
             "min_price",
             "max_price",
             "discount",
-            "in_stock",
+            "is_new",
             "is_distributer",
+            "only_stock",
         ]
 
     def filter_discount(self, queryset, name, value):
@@ -61,6 +61,6 @@ class ProductFilter(filters.FilterSet):
         """Filter by in_stock."""
 
         if value:
-            return queryset.filter(in_stock=True)
+            return queryset.filter(quantity__gt=0)
 
         return queryset

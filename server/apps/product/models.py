@@ -21,8 +21,9 @@ class Product(CoreModel):
 
     discount_end_date = models.DateField(null=True, blank=True)
 
+    quantity = models.PositiveIntegerField(default=0)
+
     is_new = models.BooleanField(default=False)
-    in_stock = models.BooleanField(default=True)
     is_distributer = models.BooleanField(default=False)
 
     main_note = models.TextField()

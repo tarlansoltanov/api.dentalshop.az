@@ -1,5 +1,4 @@
-from datetime import datetime
-
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -48,8 +47,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "price",
             "discount",
             "discount_end_date",
+            "quantity",
             "is_new",
-            "in_stock",
             "is_favorite",
             "is_distributer",
             "main_note",
@@ -78,7 +77,7 @@ class ProductSerializer(serializers.ModelSerializer):
             data.pop("discount_end_date")
             data["discount"] = 0
 
-        if instance.discount_end_date and instance.discount_end_date < datetime.now().date():
+        if instance.discount_end_date and instance.discount_end_date < timezone.localtime(timezone.now()).date():
             data.pop("discount_end_date")
             data["discount"] = 0
 
