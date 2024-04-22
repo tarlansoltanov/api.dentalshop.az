@@ -2,10 +2,10 @@ from django.db import models
 from firebase_admin import messaging
 from firebase_admin._messaging_utils import Notification as FNotification
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
-class Notification(CoreModel):
+class Notification(TimeStampedModel):
     """Model definition for Notification."""
 
     title = models.CharField(max_length=255)
@@ -14,7 +14,7 @@ class Notification(CoreModel):
     message_id = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Notification."""
 
         verbose_name = "Notification"

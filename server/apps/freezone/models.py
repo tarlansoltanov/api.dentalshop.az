@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
 class FreeZoneStatus(models.IntegerChoices):
@@ -12,7 +12,7 @@ class FreeZoneStatus(models.IntegerChoices):
     REJECTED = 2, "Rədd edilib"
 
 
-class FreezoneItem(CoreModel):
+class FreezoneItem(TimeStampedModel):
     """Model definition for FreezoneItem."""
 
     title = models.CharField(max_length=255)
@@ -24,7 +24,7 @@ class FreezoneItem(CoreModel):
     description = models.TextField(blank=True, null=True)
     status = models.PositiveSmallIntegerField(choices=FreeZoneStatus.choices, default=FreeZoneStatus.PENDING)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for FreezoneItem."""
 
         verbose_name = "FreezoneItem"

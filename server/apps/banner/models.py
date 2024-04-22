@@ -1,15 +1,15 @@
 from django.db import models
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
-class Banner(CoreModel):
+class Banner(TimeStampedModel):
     """Model definition for Banner."""
 
     photo = models.ImageField(upload_to="banners/")
     text = models.CharField(max_length=255, blank=True, null=True)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Banner."""
 
         verbose_name = "Banner"

@@ -1,11 +1,11 @@
 from django.db import models
 from django.utils.text import slugify
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 from server.apps.product.logic.queryset import ProductQuerySet
 
 
-class Product(CoreModel):
+class Product(TimeStampedModel):
     """Model definition for Product."""
 
     slug = models.SlugField(max_length=255, unique=True)
@@ -31,7 +31,7 @@ class Product(CoreModel):
 
     objects = ProductQuerySet.as_manager()
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Product."""
 
         verbose_name = "Product"
@@ -48,13 +48,13 @@ class Product(CoreModel):
         return super().save(*args, **kwargs)
 
 
-class ProductImage(CoreModel):
+class ProductImage(TimeStampedModel):
     """Model definition for ProductImage."""
 
     image = models.ImageField(upload_to="products")
     product = models.ForeignKey("product.Product", related_name="images", on_delete=models.CASCADE)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for ProductImage."""
 
         verbose_name = "ProductImage"
@@ -66,12 +66,12 @@ class ProductImage(CoreModel):
         return self.image.name
 
 
-class ProductNote(CoreModel):
+class ProductNote(TimeStampedModel):
     """Model definition for ProductNote."""
 
     text = models.TextField()
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for ProductNote."""
 
         verbose_name = "ProductNote"

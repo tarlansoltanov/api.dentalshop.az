@@ -3,12 +3,8 @@ import tempfile
 import pytest
 from django.conf import LazySettings
 from PIL import Image
-from pytest_factoryboy import register
 from rest_framework.test import APIClient
 
-from server.apps.brand.tests.factories import BrandFactory
-from server.apps.category.tests.factories import CategoryFactory
-from server.apps.product.tests.factories import ProductFactory, ProductImageFactory, ProductNoteFactory
 from server.apps.user.models import User
 
 
@@ -52,11 +48,3 @@ def user_data() -> dict:
 def user(user_data: dict) -> User:
     user_data.pop("password_confirm")
     return User.objects.create_user(**user_data)
-
-
-# Register factories
-register(BrandFactory)
-register(CategoryFactory)
-register(ProductNoteFactory)
-register(ProductImageFactory)
-register(ProductFactory)

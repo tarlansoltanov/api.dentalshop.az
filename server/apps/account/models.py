@@ -1,15 +1,15 @@
 from django.db import models
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
-class Favorite(CoreModel):
+class Favorite(TimeStampedModel):
     """Model definition for Favorite."""
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="favorites")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="favorites")
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Favorite."""
 
         verbose_name = "Favorite"
@@ -20,14 +20,14 @@ class Favorite(CoreModel):
         return f"{self.user} - {self.product}"
 
 
-class Cart(CoreModel):
+class Cart(TimeStampedModel):
     """Model definition for Cart."""
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="cart")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="cart")
     quantity = models.PositiveIntegerField(default=0)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Cart."""
 
         verbose_name = "Cart"

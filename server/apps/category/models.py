@@ -4,17 +4,17 @@ from django.db import models
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
-class Category(MPTTModel, CoreModel):
+class Category(MPTTModel, TimeStampedModel):
     """Model definition for Category."""
 
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Category."""
 
         verbose_name = "Category"

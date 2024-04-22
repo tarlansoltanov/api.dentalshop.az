@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
-class Brand(CoreModel):
+class Brand(TimeStampedModel):
     """Model definition for Brand."""
 
     photo = models.ImageField(upload_to="brands/", blank=True, null=True)
@@ -12,7 +12,7 @@ class Brand(CoreModel):
     slug = models.SlugField(max_length=255, unique=True)
     is_main = models.BooleanField(default=False)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Brand."""
 
         verbose_name = "Brand"

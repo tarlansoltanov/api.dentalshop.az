@@ -1,6 +1,6 @@
 from django.db import models
 
-from server.apps.core.models import CoreModel
+from server.apps.core.models import TimeStampedModel
 
 
 class PaymentType(models.IntegerChoices):
@@ -18,7 +18,7 @@ class OrderStatus(models.IntegerChoices):
     COMPLETED = 3, "Çatdırıldı"
 
 
-class Order(CoreModel):
+class Order(TimeStampedModel):
     """Model definition for Order."""
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
@@ -29,7 +29,7 @@ class Order(CoreModel):
     address = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for Order."""
 
         verbose_name = "Order"
@@ -40,7 +40,7 @@ class Order(CoreModel):
         return f"{self.user} - {self.created_at}"
 
 
-class OrderProduct(CoreModel):
+class OrderProduct(TimeStampedModel):
     """Model definition for OrderProduct."""
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_products")
@@ -49,7 +49,7 @@ class OrderProduct(CoreModel):
     discount = models.PositiveSmallIntegerField(default=0)
     quantity = models.PositiveSmallIntegerField(default=1)
 
-    class Meta(CoreModel.Meta):
+    class Meta(TimeStampedModel.Meta):
         """Meta definition for OrderProduct."""
 
         verbose_name = "OrderProduct"
