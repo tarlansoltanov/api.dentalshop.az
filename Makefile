@@ -2,6 +2,11 @@
 
 .PHONY = help install install-pre-commit lint cp-env
 
+ifneq (,$(wildcard ./config/.env))
+    include config/.env
+    export
+endif
+
 help:
 	@echo "Please use 'make <target>' where <target> is one of"
 	@echo " ------------------- Setup commands ----------------------"
@@ -46,7 +51,7 @@ install:
 
 install-pre-commit:
 	@echo "SETUP: Installing pre-commit hooks..."
-	poetry run pre-commit uninstall; poetry run pre-commit install
+	poetry run pre-commit install
 
 lint:
 	@echo "SETUP: Linting code..."
@@ -105,8 +110,8 @@ test-app:
 # Docker commands
 .PHONY = docker-help build up down restart log
 
-dev = -f docker-compose.yml -f docker/docker-compose.dev.yml
-prod = -f docker-compose.yml -f docker/docker-compose.prod.yml
+dev = -f docker-compose.yml -f docker/docker-compose.dev.yml --env-file config/.env --project-name ${PROJECT_NAME}
+prod = -f docker-compose.yml -f docker/docker-compose.prod.yml --env-file config/.env --project-name ${PROJECT_NAME}
 
 ENV ?= local
 

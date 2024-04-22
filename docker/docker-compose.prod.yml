@@ -1,15 +1,14 @@
-version: "3.9"
-
 services:
   app:
-    image: api.dentalshop.az:prod
+    image: ${IMAGE_NAME}:prod
+    container_name: ${PROJECT_NAME}_app_prod
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
     restart: unless-stopped
     command: bash ./docker/app/gunicorn/start.sh
     ports:
-      - 8000:8000
+      - ${DJANGO_PORT}:${DJANGO_PORT}
     volumes:
       - ./staticfiles:/var/www/static:rw
       - ./media:/var/www/media:rw
@@ -28,7 +27,7 @@ services:
     healthcheck:
       test: |
         /usr/bin/test $$(
-          /usr/bin/curl --fail http://localhost:8000/health/?format=json
+          /usr/bin/curl --fail http://localhost:${DJANGO_PORT}/health/?format=json
           --write-out "%{http_code}" --silent --output /dev/null
         ) -eq 200
       interval: 10s
@@ -38,6 +37,7 @@ services:
 
   backup:
     image: backup
+    container_name: ${PROJECT_NAME}_backup
     build:
       context: .
       dockerfile: ./docker/backup/Dockerfile
