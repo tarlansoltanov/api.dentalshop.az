@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
-from server.apps.core.models import TimeStampedModel
+from server.apps.core.models import SlugModel, TimeStampedModel
 
 
 class FreeZoneStatus(models.IntegerChoices):
@@ -12,11 +12,10 @@ class FreeZoneStatus(models.IntegerChoices):
     REJECTED = 2, "Rədd edilib"
 
 
-class FreezoneItem(TimeStampedModel):
+class FreezoneItem(TimeStampedModel, SlugModel):
     """Model definition for FreezoneItem."""
 
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
     user = models.ForeignKey("user.User", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="freezone_items")
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -34,8 +33,6 @@ class FreezoneItem(TimeStampedModel):
         """Unicode representation of FreezoneItem."""
         return self.title
 
-    def save(self, *args, **kwargs):
-        """Override save method to generate slug from title."""
-
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+    def generate_slug(self):
+        """Generate slug for FreezoneItem."""
+        return slugify(self.title)

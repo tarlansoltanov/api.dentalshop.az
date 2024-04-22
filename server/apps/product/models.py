@@ -1,14 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
 
-from server.apps.core.models import TimeStampedModel
+from server.apps.core.models import SlugModel, TimeStampedModel
 from server.apps.product.logic.queryset import ProductQuerySet
 
 
-class Product(TimeStampedModel):
+class Product(TimeStampedModel, SlugModel):
     """Model definition for Product."""
-
-    slug = models.SlugField(max_length=255, unique=True)
 
     code = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
@@ -31,21 +29,20 @@ class Product(TimeStampedModel):
 
     objects = ProductQuerySet.as_manager()
 
-    class Meta(TimeStampedModel.Meta):
+    class Meta:
         """Meta definition for Product."""
 
         verbose_name = "Product"
         verbose_name_plural = "Products"
+
         ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Product."""
         return self.name
 
-    def save(self, *args, **kwargs):
-        """Save method for Brand."""
-        self.slug = f"{slugify(self.name)}-{self.code}"
-        return super().save(*args, **kwargs)
+    def generate_slug(self):
+        return slugify(f"{self.name}-{self.code}")
 
 
 class ProductImage(TimeStampedModel):
