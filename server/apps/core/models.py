@@ -1,5 +1,7 @@
 from django.db import models
 
+from server.apps.core.logic.managers import OrderingManager
+
 
 class TimeStampedModel(models.Model):
     """
@@ -40,7 +42,7 @@ class SlugModel(models.Model):
         raise NotImplementedError("Method 'generate_slug' must be implemented in a subclass.")
 
 
-class OrderableModel(models.Model):
+class OrderableModel(TimeStampedModel):
     """
     An abstract base class model that provides a ``position`` field.
     Ordering by ``position`` ascending by default.
@@ -48,6 +50,7 @@ class OrderableModel(models.Model):
 
     position = models.PositiveIntegerField(blank=True, null=True)
 
+    objects = OrderingManager()
+
     class Meta:
         abstract = True
-        ordering = (models.F("position").asc(nulls_last=True),)

@@ -61,6 +61,6 @@ class CategorySerializer(serializers.ModelSerializer):
         """Get children categories."""
         if self.context.get("with_children", True) and obj.get_level() < 2:
             return CategorySerializer(
-                obj.children.all(), many=True, context={"with_parent": False, **self.context}
+                obj.get_children(), many=True, context={"with_parent": False, **self.context}
             ).data
         return None

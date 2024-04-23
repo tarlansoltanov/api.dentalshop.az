@@ -5,16 +5,27 @@ from server.apps.category.models import Category
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    """Admin class for Category model."""
+
+    list_display_links = ("name_az", "name_ru")
+
     list_display = (
-        "slug",
+        "position",
         "name_az",
         "name_ru",
         "parent",
         "updated_at",
         "created_at",
     )
+
+    list_filter = ("parent",)
+
+    ordering = (
+        "-parent",
+        "position",
+    )
+
     search_fields = (
-        "slug",
         "name_az",
         "name_ru",
     )
@@ -24,6 +35,7 @@ class CategoryAdmin(admin.ModelAdmin):
             None,
             {
                 "fields": (
+                    "position",
                     "name_az",
                     "name_ru",
                     "parent",

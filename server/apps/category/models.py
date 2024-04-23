@@ -4,20 +4,22 @@ from django.db import models
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
-from server.apps.core.models import SlugModel, TimeStampedModel
+from server.apps.core.models import OrderableModel, SlugModel
 
 
-class Category(MPTTModel, TimeStampedModel, SlugModel):
+class Category(OrderableModel, SlugModel, MPTTModel):
     """Model definition for Category."""
 
     name = models.CharField(max_length=255)
     parent = TreeForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="children")
 
-    class Meta(TimeStampedModel.Meta):
+    class Meta:
         """Meta definition for Category."""
 
         verbose_name = "Category"
         verbose_name_plural = "Categories"
+
+        ordering = (models.F("position").asc(nulls_last=True), "-created_at")
 
     def __str__(self):
         """Unicode representation of Category."""
@@ -26,3 +28,7 @@ class Category(MPTTModel, TimeStampedModel, SlugModel):
     def generate_slug(self):
         """Generate slug for Category."""
         return slugify(f"{self.name}-{randint(0, 1000)}")
+
+    def get_children(self):
+        """Get children of the category."""
+        return self.children.all().order_by(*self._meta.ordering)
