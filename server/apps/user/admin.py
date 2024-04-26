@@ -9,6 +9,7 @@ class CustomUserAdmin(UserAdmin):
     """Custom Admin for User Model"""
 
     list_display = ("phone", "first_name", "last_name", "is_staff")
+    readonly_fields = ("otp_code", "otp_created_at", "otp_trans_id", "date_joined")
     ordering = ["-date_joined"]
     exclude = ("username", "email")
     fieldsets = (
@@ -34,6 +35,16 @@ class CustomUserAdmin(UserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
+                )
+            },
+        ),
+        (
+            "OTP",
+            {
+                "fields": (
+                    "otp_code",
+                    "otp_created_at",
+                    "otp_trans_id",
                 )
             },
         ),

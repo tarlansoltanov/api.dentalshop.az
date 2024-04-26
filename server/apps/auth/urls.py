@@ -1,6 +1,14 @@
 from django.urls import path
 
-from server.apps.auth.views import AdminLoginView, LoginView, LogoutView, RefreshView, RegisterView, VerifyView
+from server.apps.auth.views import (
+    AdminLoginView,
+    LoginView,
+    LogoutView,
+    RefreshView,
+    RegisterView,
+    SendOTPView,
+    VerifyView,
+)
 
 app_name = "auth"
 
@@ -11,4 +19,5 @@ urlpatterns = [
     path(f"{app_name}/logout/", LogoutView.as_view(), name="logout"),
     path(f"{app_name}/token/verify/", VerifyView.as_view(), name="token_verify"),
     path(f"{app_name}/token/refresh/", RefreshView.as_view(), name="token_refresh"),
+    path(f"{app_name}/otp/send/", SendOTPView.as_view(), name="otp_send"),
 ]

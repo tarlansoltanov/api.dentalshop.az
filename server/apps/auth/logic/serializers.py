@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from server.apps.auth.logic.utils import send_otp_code
 from server.apps.user.models import User
 
 
@@ -37,4 +38,21 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
+        return user
+
+
+class SendOTPCodeSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+
+    def validate_phone(self, value):
+        if not User.objects.filter(phone=value).exists():
+            raise serializers.ValidationError("User with this phone number does not exist.")
+
+        return value
+
+    def create(self, validated_data):
+        user = User.objects.get(phone=validated_data["phone"])
+
+        send_otp_code(user)
+
         return user

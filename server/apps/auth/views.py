@@ -3,7 +3,12 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenBlacklistView, TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from server.apps.auth.logic.serializers import AccessTokenSerializer, RegisterSerializer, TokenPairSerializer
+from server.apps.auth.logic.serializers import (
+    AccessTokenSerializer,
+    RegisterSerializer,
+    SendOTPCodeSerializer,
+    TokenPairSerializer,
+)
 from server.apps.core.logic.responses import BAD_REQUEST, FORBIDDEN, UNAUTHORIZED
 
 
@@ -115,3 +120,27 @@ class LogoutView(TokenBlacklistView):
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
+
+
+class SendOTPView(generics.GenericAPIView):
+    """
+    Takes a phone number and sends an OTP code to that phone number.
+    """
+
+    serializer_class = SendOTPCodeSerializer
+    permission_classes = [permissions.AllowAny]
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: OpenApiResponse(
+                description="OTP code sent",
+            ),
+            status.HTTP_400_BAD_REQUEST: BAD_REQUEST,
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"detail": "OTP code sent"}, status=status.HTTP_200_OK)

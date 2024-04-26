@@ -23,6 +23,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "is_active",
             "is_staff",
             "is_superuser",
+            "is_verified",
             "date_joined",
         )
         extra_kwargs = {
@@ -31,7 +32,7 @@ class AccountSerializer(serializers.ModelSerializer):
             "birth_date": {"required": False},
             "phone": {"required": False},
         }
-        read_only_fields = ("is_active", "phone", "is_staff", "is_superuser", "date_joined")
+        read_only_fields = ("is_active", "phone", "is_staff", "is_superuser", "is_verified", "date_joined")
 
     def update(self, instance: User, validated_data: dict):
         instance.first_name = validated_data.get("first_name", instance.first_name)
