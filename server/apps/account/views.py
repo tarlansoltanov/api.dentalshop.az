@@ -1,10 +1,11 @@
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 
 from server.apps.account.logic.serializers import (
     AccountSerializer,
     CartSerializer,
+    ChangePasswordSerializer,
     DeviceTokenSerializer,
     FavoriteSerializer,
     OrderSerializer,
@@ -57,6 +58,32 @@ class AccountView(generics.RetrieveUpdateDestroyAPIView):
     def delete(self, request, *args, **kwargs):
         """Delete account data of the authenticated user."""
         return super().delete(request, *args, **kwargs)
+
+
+class ChangePasswordView(generics.CreateAPIView):
+    """View for changing password."""
+
+    serializer_class = ChangePasswordSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: OpenApiResponse(
+                description="Password changed successfully.",
+            ),
+            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
+        },
+    )
+    def post(self, request, *args, **kwargs):
+        """Change password of the authenticated user."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"detail": "Password changed successfully."}, status=status.HTTP_200_OK)
 
 
 class AccountDiscountView(generics.RetrieveAPIView):

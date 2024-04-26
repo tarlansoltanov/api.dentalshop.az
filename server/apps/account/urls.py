@@ -4,6 +4,7 @@ from server.apps.account.views import (
     AccountDiscountView,
     AccountView,
     CartView,
+    ChangePasswordView,
     DeviceTokenView,
     FavoriteView,
     FreeZoneView,
@@ -16,6 +17,7 @@ app_name = "account"
 
 urlpatterns = [
     path(f"{app_name}/", AccountView.as_view(), name="account"),
+    path(f"{app_name}/change-password/", ChangePasswordView.as_view(), name="change-password"),
     path(f"{app_name}/discount/", AccountDiscountView.as_view(), name="discount"),
     path(f"{app_name}/freezone/", FreeZoneView.as_view(), name="freezone"),
     path(f"{app_name}/favorites/", FavoriteView.as_view(), name="favorites"),

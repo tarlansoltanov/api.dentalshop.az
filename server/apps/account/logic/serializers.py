@@ -45,6 +45,31 @@ class AccountSerializer(serializers.ModelSerializer):
         return instance
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    """Serializer for changing password."""
+
+    new_password = serializers.CharField()
+    new_password_confirm = serializers.CharField()
+
+    def validate(self, data: dict):
+        """Validate new password and new password confirm."""
+        new_password = data.get("new_password")
+        new_password_confirm = data.get("new_password_confirm")
+
+        if new_password != new_password_confirm:
+            raise serializers.ValidationError({"new_password_confirm": "Passwords mismatch."})
+
+        return data
+
+    def create(self, validated_data: dict):
+        """Change the password of the authenticated user."""
+        user = self.context["request"].user
+        user.set_password(validated_data["new_password"])
+        user.save()
+
+        return user
+
+
 class FavoriteSerializer(serializers.ModelSerializer):
     """Serializer for Favorite model."""
 
