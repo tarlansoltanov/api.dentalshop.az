@@ -25,6 +25,14 @@ class RegisterSerializer(serializers.ModelSerializer):
             "last_name": {"required": True},
         }
 
+    def validate_phone(self, value):
+        """Check if the phone number is according to the format."""
+
+        if not value.isdigit() or len(value) != 9:
+            raise serializers.ValidationError("Invalid phone number format. Format: 501234567")
+
+        return value
+
     def validate(self, attrs):
         password = attrs.get("password")
         password_confirm = attrs.get("password_confirm")
