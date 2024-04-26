@@ -3,6 +3,7 @@ from hashlib import md5
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.ssl_ import create_urllib3_context  # type: ignore
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from server.apps.user.models import User
 from server.settings.components import config
@@ -47,3 +48,13 @@ def send_otp_code(user: User) -> None:
 
     user.otp_trans_id = trans_id
     user.save()
+
+
+def get_token_pair(user: User) -> dict:
+    """Get token pair for user."""
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        "access": str(refresh.access_token),
+        "refresh": str(refresh),
+    }

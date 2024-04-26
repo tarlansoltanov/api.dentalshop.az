@@ -8,6 +8,7 @@ from server.apps.auth.logic.serializers import (
     RegisterSerializer,
     SendOTPCodeSerializer,
     TokenPairSerializer,
+    VerifyOTPCodeSerializer,
 )
 from server.apps.core.logic.responses import BAD_REQUEST, FORBIDDEN, UNAUTHORIZED
 
@@ -144,3 +145,25 @@ class SendOTPView(generics.GenericAPIView):
         serializer.save()
 
         return Response({"detail": "OTP code sent"}, status=status.HTTP_200_OK)
+
+
+class VerifyOTPView(generics.GenericAPIView):
+    """
+    Takes a phone number and an OTP code and verifies the OTP code.
+    """
+
+    serializer_class = VerifyOTPCodeSerializer
+    permission_classes = [permissions.AllowAny]
+
+    @extend_schema(
+        responses={
+            status.HTTP_200_OK: TokenPairSerializer,
+            status.HTTP_400_BAD_REQUEST: BAD_REQUEST,
+        }
+    )
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.instance, status=status.HTTP_200_OK)

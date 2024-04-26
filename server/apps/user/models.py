@@ -26,6 +26,7 @@ class User(AbstractUser):
     otp_code = models.CharField(max_length=6, null=True, blank=True)
     otp_trans_id = models.CharField(max_length=255, null=True, blank=True)
     otp_created_at = models.DateTimeField(null=True, blank=True)
+    otp_used_at = models.DateTimeField(null=True, blank=True)
 
     is_verified = models.BooleanField(default=False)
 
@@ -49,6 +50,7 @@ class User(AbstractUser):
         """Generate OTP code."""
         self.otp_code = random.randint(100000, 999999)
         self.otp_created_at = timezone.now()
+        self.otp_used_at = None
         self.save()
         return self.otp_code
 
@@ -59,6 +61,11 @@ class User(AbstractUser):
 
         if (timezone.now() - self.otp_created_at).seconds > 300:
             return False
+
+        if self.otp_used_at:
+            return False
+
+        self.otp_used_at = timezone.now()
 
         self.is_verified = True
         self.save()

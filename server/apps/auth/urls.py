@@ -7,6 +7,7 @@ from server.apps.auth.views import (
     RefreshView,
     RegisterView,
     SendOTPView,
+    VerifyOTPView,
     VerifyView,
 )
 
@@ -20,4 +21,5 @@ urlpatterns = [
     path(f"{app_name}/token/verify/", VerifyView.as_view(), name="token_verify"),
     path(f"{app_name}/token/refresh/", RefreshView.as_view(), name="token_refresh"),
     path(f"{app_name}/otp/send/", SendOTPView.as_view(), name="otp_send"),
+    path(f"{app_name}/otp/verify/", VerifyOTPView.as_view(), name="otp_verify"),
 ]

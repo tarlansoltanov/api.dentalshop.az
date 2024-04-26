@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from server.apps.auth.logic.utils import send_otp_code
+from server.apps.auth.logic.utils import get_token_pair, send_otp_code
 from server.apps.user.models import User
 
 
@@ -56,3 +56,24 @@ class SendOTPCodeSerializer(serializers.Serializer):
         send_otp_code(user)
 
         return user
+
+
+class VerifyOTPCodeSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    otp_code = serializers.CharField()
+
+    def validate(self, attrs):
+        phone = attrs.get("phone")
+        otp_code = attrs.get("otp_code")
+
+        user = User.objects.get(phone=phone)
+
+        if not user.verify_otp_code(otp_code):
+            raise serializers.ValidationError("Invalid OTP code.")
+
+        return attrs
+
+    def create(self, validated_data):
+        user = User.objects.get(phone=validated_data["phone"])
+
+        return get_token_pair(user)
