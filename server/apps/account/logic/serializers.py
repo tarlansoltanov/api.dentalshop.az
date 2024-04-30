@@ -140,6 +140,7 @@ class OrderSerializer(serializers.ModelSerializer):
     products = OrderProductSerializer(source="order_products", many=True, read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
     payment_type = serializers.CharField(source="get_payment_type_display", read_only=True)
+    note = serializers.CharField(required=False)
 
     class Meta:
         model = Order
@@ -151,6 +152,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "payment_type",
             "status",
             "address",
+            "note",
             "date",
             "created_at",
             "updated_at",
@@ -190,13 +192,14 @@ class OrderSerializer(serializers.ModelSerializer):
 
         code = validated_data.pop("code", None)
         address = validated_data.get("address", None)
+        note = validated_data.get("note", None)
 
         discount = 0
 
         if code == user.code:
             discount = user.discount
 
-        order = Order.objects.create(user=user, payment_type=1, discount=discount, address=address)
+        order = Order.objects.create(user=user, payment_type=1, discount=discount, address=address, note=note)
 
         cart_items = Cart.objects.filter(user=user)
 

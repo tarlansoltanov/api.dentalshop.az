@@ -27,6 +27,7 @@ class Order(TimeStampedModel):
     payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)
     status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
     address = models.TextField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
 
     class Meta(TimeStampedModel.Meta):
