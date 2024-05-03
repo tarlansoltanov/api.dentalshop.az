@@ -4,16 +4,8 @@ from rest_framework import serializers
 
 from server.apps.brand.logic.serializers import BrandSerializer
 from server.apps.category.logic.serializers import CategorySerializer
+from server.apps.core.logic.fields import MultipleImageField
 from server.apps.product.models import Product, ProductNote
-
-
-class ProductImageField(serializers.ImageField):
-    """Custom ImageField for ProductImageSerializer."""
-
-    def to_representation(self, value):
-        """Override to_representation method."""
-
-        return {"id": value.id, "image": self.context["request"].build_absolute_uri(value.image.url)}
 
 
 class ProductNoteSerializer(serializers.ModelSerializer):
@@ -32,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     brand = BrandSerializer(read_only=True)
     category = CategorySerializer(read_only=True, context={"with_children": False})
-    images = serializers.ListSerializer(child=ProductImageField())
+    images = MultipleImageField()
     is_favorite = serializers.SerializerMethodField()
 
     class Meta:

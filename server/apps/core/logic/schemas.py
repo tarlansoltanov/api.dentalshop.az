@@ -13,3 +13,22 @@ class ImageFieldSchema(OpenApiSerializerFieldExtension):
             return build_basic_type(OpenApiTypes.STR)
 
         return auto_schema._map_serializer_field(self.target, direction, bypass_extensions=True)
+
+
+class MultipleImageFieldSchema(OpenApiSerializerFieldExtension):
+    target_class = "server.apps.core.logic.fields.MultipleImageField"
+
+    def map_serializer_field(self, auto_schema: AutoSchema, direction: Direction):
+        if direction == "response":
+            return {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {"type": "integer"},
+                        "url": {"type": "string"},
+                    },
+                },
+            }
+
+        return auto_schema._map_serializer_field(self.target, direction, bypass_extensions=True)

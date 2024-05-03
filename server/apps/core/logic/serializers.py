@@ -12,3 +12,18 @@ class ErrorSerializer(serializers.Serializer):
 
     detail = serializers.CharField()
     code = serializers.CharField()
+
+
+class ImageSerializer(serializers.Serializer):
+    """Serializer for Image response."""
+
+    id = serializers.IntegerField()
+    image = serializers.ImageField()
+
+    def to_representation(self, instance):
+        """Converts the image field to a string."""
+        data = super().to_representation(instance)
+
+        data["image"] = self.context["request"].build_absolute_uri(instance.image.url) if instance.image.name else None
+
+        return data
