@@ -1,33 +1,24 @@
 from django.db import models
 
 from server.apps.core.models import TimeStampedModel
-
-
-class PaymentType(models.IntegerChoices):
-    """Choices for PaymentType."""
-
-    CASH = 1, "Qapıda ödəniş"
-    CARD = 2, "Kartla ödəniş"
-
-
-class OrderStatus(models.IntegerChoices):
-    """Choices for OrderStatus."""
-
-    PENDING = 1, "Hazırlanır"
-    ON_DELIVERY = 2, "Yolda"
-    COMPLETED = 3, "Çatdırıldı"
+from server.apps.order.logic.choices import OrderStatus, PaymentType
 
 
 class Order(TimeStampedModel):
     """Model definition for Order."""
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
+
     products = models.ManyToManyField("product.Product", through="OrderProduct")
     discount = models.PositiveSmallIntegerField(default=0)
+
     payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)
-    status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
+
     address = models.TextField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
+
+    status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
+
     date = models.DateField(auto_now_add=True)
 
     class Meta(TimeStampedModel.Meta):
