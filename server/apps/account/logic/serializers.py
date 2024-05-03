@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from server.apps.account.models import Cart, Favorite
-from server.apps.order.logic.serializers import OrderProductSerializer
+from server.apps.order.logic.serializers import OrderItemSerializer
 from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
@@ -137,7 +137,7 @@ class OrderSerializer(serializers.ModelSerializer):
     """Serializer for Order model."""
 
     code = serializers.CharField(write_only=True, required=False)
-    products = OrderProductSerializer(source="order_products", many=True, read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
     payment_type = serializers.CharField(source="get_payment_type_display", read_only=True)
     note = serializers.CharField(required=False)
@@ -146,16 +146,14 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = (
             "id",
-            "products",
             "code",
+            "items",
             "discount",
             "payment_type",
-            "status",
             "address",
             "note",
+            "status",
             "date",
-            "created_at",
-            "updated_at",
         )
         read_only_fields = (
             "id",
@@ -163,8 +161,6 @@ class OrderSerializer(serializers.ModelSerializer):
             "products",
             "status",
             "date",
-            "created_at",
-            "updated_at",
         )
 
     def validate(self, data: dict):
@@ -191,8 +187,8 @@ class OrderSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
 
         code = validated_data.pop("code", None)
-        address = validated_data.get("address", None)
-        note = validated_data.get("note", None)
+        address = validated_data.get("address", "")
+        note = validated_data.get("note", "")
 
         discount = 0
 
@@ -204,7 +200,7 @@ class OrderSerializer(serializers.ModelSerializer):
         cart_items = Cart.objects.filter(user=user)
 
         for item in cart_items:
-            order.order_products.create(
+            order.items.create(
                 product=item.product, price=item.product.price, discount=item.product.discount, quantity=item.quantity
             )
             item.product.quantity -= item.quantity

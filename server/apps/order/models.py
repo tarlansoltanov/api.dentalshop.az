@@ -9,19 +9,17 @@ class Order(TimeStampedModel):
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
 
-    products = models.ManyToManyField("product.Product", through="OrderProduct")
     discount = models.PositiveSmallIntegerField(default=0)
-
     payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)
 
-    address = models.TextField(null=True, blank=True)
-    note = models.TextField(null=True, blank=True)
+    address = models.TextField(blank=True)
+    note = models.TextField(blank=True)
 
     status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
 
     date = models.DateField(auto_now_add=True)
 
-    class Meta(TimeStampedModel.Meta):
+    class Meta:
         """Meta definition for Order."""
 
         verbose_name = "Order"
@@ -29,24 +27,26 @@ class Order(TimeStampedModel):
 
     def __str__(self):
         """Unicode representation of Order."""
-        return f"{self.user} - {self.created_at}"
+        return f"Order #{self.id}"
 
 
-class OrderProduct(TimeStampedModel):
-    """Model definition for OrderProduct."""
+class OrderItem(TimeStampedModel):
+    """Model definition for OrderItem."""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_products")
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="orders")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     discount = models.PositiveSmallIntegerField(default=0)
+
     quantity = models.PositiveSmallIntegerField(default=1)
 
     class Meta(TimeStampedModel.Meta):
-        """Meta definition for OrderProduct."""
+        """Meta definition for OrderItem."""
 
-        verbose_name = "OrderProduct"
-        verbose_name_plural = "OrderProducts"
+        verbose_name = "OrderItem"
+        verbose_name_plural = "OrderItems"
 
     def __str__(self):
-        """Unicode representation of OrderProduct."""
-        return f"{self.order} - {self.product}"
+        """Unicode representation of OrderItem."""
+        return f"Order #{self.id} - {self.product.name}"

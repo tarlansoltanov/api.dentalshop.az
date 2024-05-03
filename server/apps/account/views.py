@@ -245,7 +245,7 @@ class OrderView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         """Return orders of the authenticated user."""
-        return self.request.user.orders.all()
+        return self.request.user.orders.all().order_by("-updated_at")
 
     @extend_schema(
         responses={

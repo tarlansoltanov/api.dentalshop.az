@@ -1,18 +1,18 @@
 from rest_framework import serializers
 
-from server.apps.order.models import OrderProduct
+from server.apps.order.models import OrderItem
 from server.apps.product.logic.serializers import ProductSerializer
 
 
-class OrderProductSerializer(serializers.ModelSerializer):
-    """Serializer definition for OrderProduct model."""
+class OrderItemSerializer(serializers.ModelSerializer):
+    """Serializer definition for OrderItem model."""
 
     product = ProductSerializer()
 
     class Meta:
-        """Meta definition for OrderProductSerializer."""
+        """Meta definition for OrderItemSerializer."""
 
-        model = OrderProduct
+        model = OrderItem
         fields = (
             "id",
             "product",

@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from server.apps.order.models import Order, OrderProduct
+from server.apps.order.models import Order, OrderItem
 
 
-class OrderProductInline(admin.TabularInline):
-    model = OrderProduct
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
     extra = 1
 
 
@@ -12,7 +12,7 @@ class OrderProductInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     """Admin definition for Order."""
 
-    inlines = (OrderProductInline,)
+    inlines = (OrderItemInline,)
 
     list_display = (
         "user",
