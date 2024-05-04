@@ -50,3 +50,25 @@ class OrderItem(TimeStampedModel):
     def __str__(self):
         """Unicode representation of OrderItem."""
         return f"Order #{self.id} - {self.product.name}"
+
+
+class OrderPayment(TimeStampedModel):
+    """Model definition for OrderPayment."""
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payments")
+
+    bank_session_id = models.CharField(max_length=255, blank=True)
+    bank_order_id = models.CharField(max_length=255, blank=True)
+    installment = models.PositiveSmallIntegerField(default=1)
+
+    date = models.DateField(auto_now_add=True)
+
+    class Meta(TimeStampedModel.Meta):
+        """Meta definition for OrderPayment."""
+
+        verbose_name = "OrderPayment"
+        verbose_name_plural = "OrderPayments"
+
+    def __str__(self):
+        """Unicode representation of OrderPayment."""
+        return f"Payment #{self.id} for order #{self.order.id}"
