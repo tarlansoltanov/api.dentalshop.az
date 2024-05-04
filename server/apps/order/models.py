@@ -1,7 +1,8 @@
 from django.db import models
 
 from server.apps.core.models import TimeStampedModel
-from server.apps.order.logic.choices import OrderStatus, PaymentType
+from server.apps.order.logic.choices import OrderStatus, PaymentMethod
+from server.apps.order.logic.managers import OrderManager
 
 
 class Order(TimeStampedModel):
@@ -10,7 +11,7 @@ class Order(TimeStampedModel):
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
 
     discount = models.PositiveSmallIntegerField(default=0)
-    payment_type = models.PositiveSmallIntegerField(choices=PaymentType.choices)
+    payment_method = models.PositiveSmallIntegerField(choices=PaymentMethod.choices)
 
     address = models.TextField(blank=True)
     note = models.TextField(blank=True)
@@ -18,6 +19,8 @@ class Order(TimeStampedModel):
     status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
 
     date = models.DateField(auto_now_add=True)
+
+    objects = OrderManager()
 
     class Meta:
         """Meta definition for Order."""

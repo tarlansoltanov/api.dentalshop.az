@@ -24,6 +24,7 @@ urlpatterns += [
     path(f"{API_PREFIX}", include("server.apps.product.urls")),
     path(f"{API_PREFIX}", include("server.apps.freezone.urls")),
     path(f"{API_PREFIX}", include("server.apps.banner.urls")),
+    path(f"{API_PREFIX}", include("server.apps.order.urls")),
 ]
 
 # robots.txt
