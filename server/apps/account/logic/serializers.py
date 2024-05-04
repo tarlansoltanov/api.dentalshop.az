@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from server.apps.account.models import Cart, Favorite
-from server.apps.order.logic.serializers import OrderItemSerializer
 from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
@@ -133,35 +132,13 @@ class CartSerializer(serializers.ModelSerializer):
         }
 
 
-class OrderSerializer(serializers.ModelSerializer):
-    """Serializer for Order model."""
+class CheckoutSerializer(serializers.Serializer):
+    """Serializer for checkout process."""
 
     code = serializers.CharField(write_only=True, required=False)
-    items = OrderItemSerializer(many=True, read_only=True)
-    status = serializers.CharField(source="get_status_display", read_only=True)
-    payment_type = serializers.CharField(source="get_payment_type_display", read_only=True)
-    note = serializers.CharField(required=False)
-
-    class Meta:
-        model = Order
-        fields = (
-            "id",
-            "code",
-            "items",
-            "discount",
-            "payment_type",
-            "address",
-            "note",
-            "status",
-            "date",
-        )
-        read_only_fields = (
-            "id",
-            "discount",
-            "products",
-            "status",
-            "date",
-        )
+    payment_method = serializers.IntegerField(write_only=True)
+    address = serializers.CharField(write_only=True, required=False)
+    note = serializers.CharField(write_only=True, required=False)
 
     def validate(self, data: dict):
         """Validate if cart is not empty."""
@@ -169,33 +146,30 @@ class OrderSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
 
         if user.cart.count() == 0:
-            raise serializers.ValidationError("Cart is empty")
+            raise serializers.ValidationError("Səbət boşdur")
 
         cart_items = user.cart.all()
 
         for item in cart_items:
             if item.product.quantity < item.quantity:
                 raise serializers.ValidationError(
-                    f'"{item.product.name}" adlı məhsulundan stokda kifayət qədər mövcud deyil'
+                    f'"{item.product.name}" adlı məhsuldan stokda kifayət qədər mövcud deyil'
                 )
 
         return data
 
     def create(self, validated_data: dict):
         """Create an order for the authenticated user."""
-
         user = self.context["request"].user
 
         code = validated_data.pop("code", None)
-        address = validated_data.get("address", "")
-        note = validated_data.get("note", "")
 
         discount = 0
 
         if code == user.code:
             discount = user.discount
 
-        order = Order.objects.create(user=user, payment_type=1, discount=discount, address=address, note=note)
+        order = Order.objects.create(user=user, discount=discount, **validated_data)
 
         cart_items = Cart.objects.filter(user=user)
 

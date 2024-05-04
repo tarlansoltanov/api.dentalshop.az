@@ -12,7 +12,6 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     queryset = Order.objects.none()
     serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     filterset_class = OrderFilter
     ordering_fields = "__all__"
@@ -21,6 +20,13 @@ class OrderViewSet(viewsets.ModelViewSet):
     verbose_name_plural = "orders"
 
     lookup_field = "id"
+
+    def get_permissions(self):
+        """Get permissions for OrderViewSet."""
+        if self.action in ["list", "retrieve"]:
+            return [permissions.IsAuthenticated()]
+
+        return super().get_permissions()
 
     def get_queryset(self):
         """Get queryset for OrderViewSet."""

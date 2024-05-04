@@ -5,12 +5,11 @@ from server.apps.account.views import (
     AccountView,
     CartView,
     ChangePasswordView,
+    CheckoutView,
     DeviceTokenView,
     FavoriteView,
     FreeZoneView,
     NotificationView,
-    OrderDetailView,
-    OrderView,
 )
 
 app_name = "account"
@@ -22,8 +21,7 @@ urlpatterns = [
     path(f"{app_name}/freezone/", FreeZoneView.as_view(), name="freezone"),
     path(f"{app_name}/favorites/", FavoriteView.as_view(), name="favorites"),
     path(f"{app_name}/cart/", CartView.as_view(), name="cart"),
-    path(f"{app_name}/orders/", OrderView.as_view(), name="order"),
-    path(f"{app_name}/orders/<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
+    path(f"{app_name}/checkout/", CheckoutView.as_view(), name="checkout"),
     path(f"{app_name}/device-token/", DeviceTokenView.as_view(), name="device-token"),
     path(f"{app_name}/notifications/", NotificationView.as_view(), name="notifications"),
 ]

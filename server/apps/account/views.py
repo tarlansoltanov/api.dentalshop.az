@@ -6,9 +6,9 @@ from server.apps.account.logic.serializers import (
     AccountSerializer,
     CartSerializer,
     ChangePasswordSerializer,
+    CheckoutSerializer,
     DeviceTokenSerializer,
     FavoriteSerializer,
-    OrderSerializer,
 )
 from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
@@ -16,7 +16,6 @@ from server.apps.freezone.logic.serializers import FreezoneItemSerializer
 from server.apps.freezone.models import FreezoneItem
 from server.apps.notification.logic.serializers import NotificationSerializer
 from server.apps.notification.models import Notification
-from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 
 
@@ -125,8 +124,7 @@ class FavoriteView(generics.ListCreateAPIView):
     serializer_class = FavoriteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    search_fields = ["product__name"]
-    ordering_fields = ["product__name", "product__price"]
+    ordering_fields = "__all__"
 
     def get_queryset(self):
         """Return favorite products of the authenticated user."""
@@ -236,26 +234,11 @@ class CartView(generics.ListCreateAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class OrderView(generics.ListCreateAPIView):
-    """View for order management."""
+class CheckoutView(generics.CreateAPIView):
+    """View for checkout process."""
 
-    queryset = Order.objects.none()
-    serializer_class = OrderSerializer
+    serializer_class = CheckoutSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        """Return orders of the authenticated user."""
-        return self.request.user.orders.all().order_by("-updated_at")
-
-    @extend_schema(
-        responses={
-            status.HTTP_200_OK: OrderSerializer,
-            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
-        },
-    )
-    def get(self, request, *args, **kwargs):
-        """Retrieve orders of the authenticated user."""
-        return super().get(request, *args, **kwargs)
 
     @extend_schema(
         responses={
@@ -266,28 +249,6 @@ class OrderView(generics.ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         """Add a order for authenticated user."""
         return super().post(request, *args, **kwargs)
-
-
-class OrderDetailView(generics.RetrieveAPIView):
-    """View for order detail."""
-
-    queryset = Order.objects.none()
-    serializer_class = OrderSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        """Return orders of the authenticated user."""
-        return self.request.user.orders.all()
-
-    @extend_schema(
-        responses={
-            status.HTTP_200_OK: OrderSerializer,
-            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
-        },
-    )
-    def get(self, request, *args, **kwargs):
-        """Retrieve order detail of the authenticated user."""
-        return super().get(request, *args, **kwargs)
 
 
 class FreeZoneView(generics.ListAPIView):
