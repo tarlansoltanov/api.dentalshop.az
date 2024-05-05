@@ -1,9 +1,11 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from server.apps.core.logic import responses
 from server.apps.order.logic.filters import OrderFilter
-from server.apps.order.logic.serializers import OrderSerializer
+from server.apps.order.logic.serializers import CheckoutSerializer, OrderSerializer
 from server.apps.order.models import Order
 
 
@@ -23,7 +25,7 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         """Get permissions for OrderViewSet."""
-        if self.action in ["list", "retrieve"]:
+        if self.action in ["list", "retrieve", "checkout"]:
             return [permissions.IsAuthenticated()]
 
         return super().get_permissions()
@@ -34,6 +36,23 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Order.objects.all()
 
         return Order.objects.filter(user=self.request.user)
+
+    @extend_schema(
+        description="Checkout the cart.",
+        responses={
+            status.HTTP_200_OK: str,
+            status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
+        },
+    )
+    @action(detail=False, methods=["post"], serializer_class=CheckoutSerializer)
+    def checkout(self, request, *args, **kwargs):
+        """Checkout the cart."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.save()
+
+        return Response(data, status=status.HTTP_200_OK)
 
     @extend_schema(
         description=f"Retrieve list of all {verbose_name_plural}.",

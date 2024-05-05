@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from server.apps.account.models import Cart, Favorite
-from server.apps.order.models import Order
 from server.apps.product.logic.serializers import ProductSerializer
 from server.apps.product.models import Product
 from server.apps.user.models import User
@@ -130,58 +129,6 @@ class CartSerializer(serializers.ModelSerializer):
             "product": ProductSerializer(instance.product, context=self.context).data,
             "quantity": instance.quantity,
         }
-
-
-class CheckoutSerializer(serializers.Serializer):
-    """Serializer for checkout process."""
-
-    code = serializers.CharField(write_only=True, required=False)
-    payment_method = serializers.IntegerField(write_only=True)
-    address = serializers.CharField(write_only=True, required=False)
-    note = serializers.CharField(write_only=True, required=False)
-
-    def validate(self, data: dict):
-        """Validate if cart is not empty."""
-
-        user = self.context["request"].user
-
-        if user.cart.count() == 0:
-            raise serializers.ValidationError("Səbət boşdur")
-
-        cart_items = user.cart.all()
-
-        for item in cart_items:
-            if item.product.quantity < item.quantity:
-                raise serializers.ValidationError(
-                    f'"{item.product.name}" adlı məhsuldan stokda kifayət qədər mövcud deyil'
-                )
-
-        return data
-
-    def create(self, validated_data: dict):
-        """Create an order for the authenticated user."""
-        user = self.context["request"].user
-
-        code = validated_data.pop("code", None)
-
-        discount = 0
-
-        if code == user.code:
-            discount = user.discount
-
-        order = Order.objects.create(user=user, discount=discount, **validated_data)
-
-        cart_items = Cart.objects.filter(user=user)
-
-        for item in cart_items:
-            order.items.create(
-                product=item.product, price=item.product.price, discount=item.product.discount, quantity=item.quantity
-            )
-            item.product.quantity -= item.quantity
-            item.product.save()
-            item.delete()
-
-        return order
 
 
 class DeviceTokenSerializer(serializers.Serializer):

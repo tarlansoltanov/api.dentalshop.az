@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 
 from server.apps.core.models import SlugModel, TimeStampedModel
-from server.apps.freezone.logic.choices import FreeZoneStatus
+from server.apps.freezone.logic.constants import FreeZoneStatus
 
 
 class FreezoneItem(TimeStampedModel, SlugModel):

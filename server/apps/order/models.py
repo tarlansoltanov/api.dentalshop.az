@@ -1,7 +1,7 @@
 from django.db import models
 
 from server.apps.core.models import TimeStampedModel
-from server.apps.order.logic.choices import OrderStatus, PaymentMethod
+from server.apps.order.logic.constants import OrderPaymentStatus, OrderStatus, PaymentMethod
 from server.apps.order.logic.managers import OrderManager
 
 
@@ -16,7 +16,7 @@ class Order(TimeStampedModel):
     address = models.TextField(blank=True)
     note = models.TextField(blank=True)
 
-    status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.PENDING)
+    status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.NOT_PAID)
 
     date = models.DateField(auto_now_add=True)
 
@@ -31,6 +31,15 @@ class Order(TimeStampedModel):
     def __str__(self):
         """Unicode representation of Order."""
         return f"Order #{self.id}"
+
+    def get_total(self):
+        """Get total price of the order."""
+        total = 0
+
+        for item in self.items.all():
+            total += float(item.price) * (1 - item.discount / 100) * item.quantity
+
+        return float(total) * (1 - self.discount / 100)
 
 
 class OrderItem(TimeStampedModel):
@@ -62,7 +71,8 @@ class OrderPayment(TimeStampedModel):
 
     bank_session_id = models.CharField(max_length=255, blank=True)
     bank_order_id = models.CharField(max_length=255, blank=True)
-    installment = models.PositiveSmallIntegerField(default=1)
+    installments = models.PositiveSmallIntegerField(default=1)
+    status = models.PositiveSmallIntegerField(choices=OrderPaymentStatus.choices, default=OrderPaymentStatus.PENDING)
 
     date = models.DateField(auto_now_add=True)
 

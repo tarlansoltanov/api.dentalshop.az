@@ -32,7 +32,6 @@ def send_otp_code(user: User) -> None:
         "msisdn": f"994{user.phone}",
         "unicode": 0,
     }
-    print(data)
 
     with requests.Session() as session:
         session.mount("https://", CustomAdapter())
@@ -40,8 +39,6 @@ def send_otp_code(user: User) -> None:
         response.raise_for_status()
 
     trans_id = response.json()["transId"]
-
-    print(trans_id)
 
     if int(trans_id) < 0:
         raise ValueError(f"Something went wrong. Error code: {trans_id}")

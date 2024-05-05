@@ -6,7 +6,6 @@ from server.apps.account.logic.serializers import (
     AccountSerializer,
     CartSerializer,
     ChangePasswordSerializer,
-    CheckoutSerializer,
     DeviceTokenSerializer,
     FavoriteSerializer,
 )
@@ -232,23 +231,6 @@ class CartView(generics.ListCreateAPIView):
         cartItem.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class CheckoutView(generics.CreateAPIView):
-    """View for checkout process."""
-
-    serializer_class = CheckoutSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    @extend_schema(
-        responses={
-            status.HTTP_201_CREATED: CartSerializer,
-            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
-        },
-    )
-    def post(self, request, *args, **kwargs):
-        """Add a order for authenticated user."""
-        return super().post(request, *args, **kwargs)
 
 
 class FreeZoneView(generics.ListAPIView):
