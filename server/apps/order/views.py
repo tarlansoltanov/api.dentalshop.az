@@ -1,12 +1,15 @@
+from django.views.generic import RedirectView
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from server.apps.core.logic import responses
+from server.apps.order.logic.constants import OrderPaymentStatus, OrderStatus
 from server.apps.order.logic.filters import OrderFilter
-from server.apps.order.logic.serializers import CheckoutSerializer, OrderSerializer
-from server.apps.order.models import Order
+from server.apps.order.logic.serializers import CheckoutSerializer, OrderSerializer, PaymentSerializer
+from server.apps.order.logic.utils import format_xml_response
+from server.apps.order.models import Order, OrderPayment
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -53,6 +56,50 @@ class OrderViewSet(viewsets.ModelViewSet):
         data = serializer.save()
 
         return Response(data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        description="Pay for the order.",
+        responses={
+            status.HTTP_200_OK: str,
+            status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
+        },
+    )
+    @action(detail=True, methods=["post"], serializer_class=PaymentSerializer)
+    def pay(self, request, *args, **kwargs):
+        """Pay for the order."""
+        serializer = PaymentSerializer(data=request.data, context={"order": self.get_object(), "request": request})
+        serializer.is_valid(raise_exception=True)
+        data = serializer.save()
+
+        return Response(data, status=status.HTTP_200_OK)
+
+    @extend_schema(
+        description="Callback for payment.",
+        responses={
+            status.HTTP_200_OK: str,
+            status.HTTP_401_UNAUTHORIZED: responses.UNAUTHORIZED,
+            status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
+        },
+    )
+    @action(detail=False, methods=["post"], url_path="callback", permission_classes=[permissions.AllowAny])
+    def callback(self, request, *args, **kwargs):
+        """Callback for payment."""
+        response = format_xml_response(request.data.get("xmlmsg"))
+
+        # Get var from url path
+        if request.query_params.get("status") == "approved":
+            response = response["XMLOut"]
+
+        payment = OrderPayment.objects.filter(bank_order_id=response["Message"]["OrderID"]).first()
+        payment.status = OrderPaymentStatus[response["Message"]["OrderStatus"]]
+        payment.save()
+
+        if payment.status == OrderPaymentStatus.APPROVED:
+            payment.order.status = OrderStatus.PENDING
+            payment.order.save()
+
+        return RedirectView.as_view(url=f"https://dentalshop.az/account/orders/{payment.order.id}")(request)
 
     @extend_schema(
         description=f"Retrieve list of all {verbose_name_plural}.",

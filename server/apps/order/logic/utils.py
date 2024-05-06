@@ -17,9 +17,8 @@ def get_discount(code: str, user: User) -> int:
 
 
 def get_xml_request_order(
-    order_id: int,
-    amount: int,
     redirect_url: str,
+    amount: int,
     installments: int = 0,
     merchant: str = "E1000010",
     language: str = "AZ",
@@ -36,9 +35,9 @@ def get_xml_request_order(
                     "Amount": int(amount * 100),
                     "Currency": "944",
                     "Description": f"TAKSIT={installments}" if installments > 0 else "xxxxxxxx",
-                    "ApproveURL": f"{redirect_url}?order_id={order_id}&status=approved",
-                    "CancelURL": f"{redirect_url}?order_id={order_id}&status=canceled",
-                    "DeclineURL": f"{redirect_url}?order_id={order_id}&status=declined",
+                    "ApproveURL": f"{redirect_url}?status=approved",
+                    "CancelURL": f"{redirect_url}?status=canceled",
+                    "DeclineURL": f"{redirect_url}?status=declined",
                 },
             }
         }
@@ -51,7 +50,7 @@ def get_xml_request_order(
 
 def send_payment_order(url: str, order: Order, installments: int = 0) -> dict:
     """Send payment order to bank."""
-    xml = get_xml_request_order(order.pk, order.get_total(), url, installments)
+    xml = get_xml_request_order(url, order.get_total(), installments)
 
     response = requests.post(
         "https://tstpg.kapitalbank.az:5443/Exec",
@@ -64,3 +63,21 @@ def send_payment_order(url: str, order: Order, installments: int = 0) -> dict:
     data = xmltodict.parse(response.text)
 
     return data["TKKPG"]["Response"]["Order"]
+
+
+def get_payment_redirect_url(url: str, order: Order, installments: int) -> str:
+    """Get payment redirect URL."""
+    response = send_payment_order(url, order, installments)
+
+    order.payments.create(
+        bank_session_id=response["SessionID"],
+        bank_order_id=response["OrderID"],
+        installments=installments,
+    )
+
+    return f'{response["URL"]}?ORDERID={response["OrderID"]}&SESSIONID={response["SessionID"]}'
+
+
+def format_xml_response(data: str) -> dict:
+    """Format XML response."""
+    return xmltodict.parse(data)

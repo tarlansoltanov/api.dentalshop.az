@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from server.apps.order.logic.constants import OrderStatus, PaymentMethod
-from server.apps.order.logic.utils import get_discount, send_payment_order
+from server.apps.order.logic.utils import get_discount, get_payment_redirect_url
 from server.apps.order.models import Order, OrderItem
 from server.apps.product.logic.serializers import ProductSerializer
 
@@ -102,12 +102,26 @@ class CheckoutSerializer(serializers.Serializer):
             order.save()
             return "Sifarişiniz uğurla qeydə alındı"
 
-        response = send_payment_order(self.context["request"].build_absolute_uri(), order, installments)
+        base_url = self.context["request"].build_absolute_uri().replace("/checkout", "/callback")
+        payment_url = get_payment_redirect_url(base_url, order, installments)
 
-        order.payments.create(
-            bank_session_id=response["SessionID"],
-            bank_order_id=response["OrderID"],
-            installments=installments,
-        )
+        return payment_url
 
-        return f'{response["URL"]}?ORDERID={response["OrderID"]}&SESSIONID={response["SessionID"]}'
+
+class PaymentSerializer(serializers.Serializer):
+    """Serializer for payment process."""
+
+    installments = serializers.IntegerField(write_only=True, required=False, default=0)
+
+    def create(self, validated_data: dict) -> str:
+        """Create a payment for the authenticated user."""
+        order = self.context["order"]
+        installments = validated_data.get("installments", 0)
+
+        if order.status != OrderStatus.NOT_PAID:
+            raise serializers.ValidationError("Sifariş artıq ödənilib")
+
+        base_url = self.context["request"].build_absolute_uri().replace(f"/{order.id}/pay", "/callback")
+        payment_url = get_payment_redirect_url(base_url, order, installments)
+
+        return payment_url

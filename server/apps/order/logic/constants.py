@@ -21,7 +21,7 @@ class OrderStatus(models.IntegerChoices):
 class OrderPaymentStatus(models.IntegerChoices):
     """Choices for OrderPaymentStatus."""
 
-    PENDING = 0, "Gözləmədə"
+    ON_PAYMENT = 0, "Gözləmədə"
     APPROVED = 1, "Təsdiqlənib"
     DECLINED = 2, "Rədd edilib"
     CANCELED = 3, "Ləğv edilib"

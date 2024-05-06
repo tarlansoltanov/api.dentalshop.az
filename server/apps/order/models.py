@@ -72,8 +72,9 @@ class OrderPayment(TimeStampedModel):
     bank_session_id = models.CharField(max_length=255, blank=True)
     bank_order_id = models.CharField(max_length=255, blank=True)
     installments = models.PositiveSmallIntegerField(default=1)
-    status = models.PositiveSmallIntegerField(choices=OrderPaymentStatus.choices, default=OrderPaymentStatus.PENDING)
-
+    status = models.PositiveSmallIntegerField(
+        choices=OrderPaymentStatus.choices, default=OrderPaymentStatus.ON_PAYMENT
+    )
     date = models.DateField(auto_now_add=True)
 
     class Meta(TimeStampedModel.Meta):
