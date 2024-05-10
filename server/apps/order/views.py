@@ -87,8 +87,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         """Callback for payment."""
         response = format_xml_response(request.data.get("xmlmsg"))
 
-        # Get var from url path
-        if request.query_params.get("status") == "approved":
+        if request.query_params.get("status") in ["approved", "declined"]:
             response = response["XMLOut"]
 
         payment = OrderPayment.objects.filter(bank_order_id=response["Message"]["OrderID"]).first()
