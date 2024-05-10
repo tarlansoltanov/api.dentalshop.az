@@ -65,7 +65,12 @@ class OrderViewSet(viewsets.ModelViewSet):
             status.HTTP_403_FORBIDDEN: responses.FORBIDDEN,
         },
     )
-    @action(detail=True, methods=["post"], serializer_class=PaymentSerializer)
+    @action(
+        detail=True,
+        methods=["post"],
+        serializer_class=PaymentSerializer,
+        permission_classes=[permissions.IsAuthenticated],
+    )
     def pay(self, request, *args, **kwargs):
         """Pay for the order."""
         serializer = PaymentSerializer(data=request.data, context={"order": self.get_object(), "request": request})
@@ -98,7 +103,9 @@ class OrderViewSet(viewsets.ModelViewSet):
             payment.order.status = OrderStatus.PENDING
             payment.order.save()
 
-        return RedirectView.as_view(url=f"https://dentalshop.az/account/orders/{payment.order.id}")(request)
+        return RedirectView.as_view(
+            url=f'https://dentalshop.az/account/orders/{payment.order.id}?status={response["Message"]["OrderStatus"]}'
+        )(request)
 
     @extend_schema(
         description=f"Retrieve list of all {verbose_name_plural}.",
