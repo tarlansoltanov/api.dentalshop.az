@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
+      args:
+        - ENV=prod
     restart: unless-stopped
     command: bash ./docker/app/gunicorn/start.sh
     ports:
