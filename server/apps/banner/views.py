@@ -19,8 +19,6 @@ class BannerViewSet(viewsets.ModelViewSet):
     verbose_name = "banner"
     verbose_name_plural = "banners"
 
-    lookup_field = "slug"
-
     def get_queryset(self):
         """Get the queryset for BannerViewSet."""
         return Banner.objects.all()

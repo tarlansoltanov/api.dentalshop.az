@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/app/Dockerfile
       args:
-        - ENV=prod
+        - DJANGO_ENV=prod
     restart: unless-stopped
     command: bash ./docker/app/gunicorn/start.sh
     ports:

@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/app/Dockerfile
       args:
-        - ENV=dev
+        - DJANGO_ENV=dev
     restart: unless-stopped
     command: python -Wd manage.py runserver 0.0.0.0:${DJANGO_PORT}
     ports:
