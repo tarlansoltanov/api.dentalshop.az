@@ -14,7 +14,7 @@ class BannerViewSet(viewsets.ModelViewSet):
 
     ordering_fields = ("__all__",)
 
-    lookup_field = "slug"
+    lookup_field = "id"
 
     verbose_name = "banner"
     verbose_name_plural = "banners"
