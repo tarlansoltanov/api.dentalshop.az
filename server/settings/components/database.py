@@ -36,6 +36,11 @@ else:
 
 INSTALLED_APPS += ["django_cleanup.apps.CleanupConfig"]
 
+# django-solo
+# https://github.com/lazybird/django-solo
+
+INSTALLED_APPS += ["solo"]
+
 # django-mptt
 
 INSTALLED_APPS += ["mptt"]
