@@ -10,6 +10,7 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = ("phone", "first_name", "last_name", "is_staff")
     readonly_fields = ("otp_code", "otp_created_at", "otp_trans_id", "date_joined")
+    search_fields = ("phone", "first_name", "last_name")
     ordering = ["-date_joined"]
     exclude = ("username", "email")
     fieldsets = (
