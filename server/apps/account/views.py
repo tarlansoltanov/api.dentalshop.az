@@ -10,7 +10,7 @@ from server.apps.account.logic.serializers import (
     FavoriteSerializer,
 )
 from server.apps.account.models import Cart, Favorite
-from server.apps.core.logic.responses import BAD_REQUEST, UNAUTHORIZED
+from server.apps.core.logic.responses import UNAUTHORIZED
 from server.apps.freezone.logic.serializers import FreezoneItemSerializer
 from server.apps.freezone.models import FreezoneItem
 from server.apps.notification.logic.serializers import NotificationSerializer
@@ -82,38 +82,6 @@ class ChangePasswordView(generics.CreateAPIView):
         serializer.save()
 
         return Response({"detail": "Password changed successfully."}, status=status.HTTP_200_OK)
-
-
-class AccountDiscountView(generics.RetrieveAPIView):
-    """Retrieve discount of the authenticated user."""
-
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-
-    @extend_schema(
-        responses={
-            status.HTTP_200_OK: int,
-            status.HTTP_400_BAD_REQUEST: BAD_REQUEST,
-            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
-        },
-        parameters=[
-            OpenApiParameter(name="code", required=True, type=str, location=OpenApiParameter.QUERY),
-        ],
-    )
-    def get(self, request, *args, **kwargs):
-        """Retrieve discount of the authenticated user with code."""
-
-        if "code" not in request.query_params:
-            return Response({"detail": "Code is required."}, status=status.HTTP_400_BAD_REQUEST)
-
-        code = request.query_params.get("code")
-
-        if code != self.request.user.code:
-            return Response({"detail": "Code is invalid."}, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(self.request.user.discount, status=status.HTTP_200_OK)
 
 
 class FavoriteView(generics.ListCreateAPIView):
