@@ -18,3 +18,18 @@ class Promo(TimeStampedModel):
     def __str__(self):
         """Unicode representation of Promo."""
         return f"{self.code} - {self.discount}%"
+
+
+class PromoUsage(TimeStampedModel):
+    """Model definition for PromoUsage."""
+
+    promo = models.ForeignKey("Promo", on_delete=models.CASCADE, related_name="usages")
+    order = models.ForeignKey("order.Order", on_delete=models.CASCADE, related_name="promo_usages")
+
+    class Meta:
+        verbose_name = "PromoUsage"
+        verbose_name_plural = "PromoUsages"
+
+    def __str__(self):
+        """Unicode representation of PromoUsage."""
+        return f"{self.promo.code} - {self.user.username}"
