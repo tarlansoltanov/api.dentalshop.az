@@ -21,6 +21,7 @@ INSTALLED_APPS += [
     "server.apps.order",
     "server.apps.banner",
     "server.apps.notification",
+    "server.apps.promo",
 ]
 
 # Modeltranslation
