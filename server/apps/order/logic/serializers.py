@@ -82,10 +82,14 @@ class CheckoutSerializer(serializers.Serializer):
         """Create an order for the authenticated user."""
         user = self.context["request"].user
 
-        discount = get_discount(validated_data.pop("code", None), user)
+        code = validated_data.pop("code", None)
+
         installments = validated_data.pop("installments", 0)
 
-        order = Order.objects.create(user=user, discount=discount, **validated_data)
+        order = Order.objects.create(user=user, **validated_data)
+
+        if code:
+            get_discount(code, order)
 
         cart_items = user.cart.all().select_related("product")
 
@@ -101,11 +105,12 @@ class CheckoutSerializer(serializers.Serializer):
             order.status = OrderStatus.PENDING
             order.save()
             return "Sifarişiniz uğurla qeydə alındı"
-
-        base_url = self.context["request"].build_absolute_uri().replace("/checkout", "/callback")
-        payment_url = get_payment_redirect_url(base_url, order, installments)
-
-        return payment_url
+        elif order.payment_method == PaymentMethod.CARD:
+            base_url = self.context["request"].build_absolute_uri().replace("/checkout", "/callback")
+            payment_url = get_payment_redirect_url(base_url, order, installments)
+            return payment_url
+        else:
+            raise serializers.ValidationError("Ödəmə üsulu seçilməyib")
 
 
 class PaymentSerializer(serializers.Serializer):

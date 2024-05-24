@@ -2,18 +2,22 @@ import requests
 import xmltodict
 
 from server.apps.order.models import Order
-from server.apps.user.models import User
+from server.apps.promo.models import Promo
 from server.settings.components import config
 
 
-def get_discount(code: str, user: User) -> int:
+def get_discount(code: str, order: Order) -> None:
     """Get discount for user."""
-    discount = 0
+    if code == order.user.code:
+        order.discount = order.user.discount
+    else:
+        promo = Promo.objects.filter(code=code).first()
 
-    if code == user.code:
-        discount = user.discount
+        if promo and promo.is_valid() and not promo.is_used(order.user):
+            order.discount = promo.discount
+            promo.usages.create(order=order)
 
-    return discount
+    order.save()
 
 
 def get_xml_request_order(
