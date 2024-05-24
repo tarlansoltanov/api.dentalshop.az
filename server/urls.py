@@ -18,14 +18,15 @@ urlpatterns = [
 # App URLs
 urlpatterns += [
     path(f"{API_PREFIX}", include("server.apps.auth.urls")),
-    path(f"{API_PREFIX}", include("server.apps.account.urls")),
     path(f"{API_PREFIX}", include("server.apps.brand.urls")),
-    path(f"{API_PREFIX}", include("server.apps.category.urls")),
-    path(f"{API_PREFIX}", include("server.apps.product.urls")),
-    path(f"{API_PREFIX}", include("server.apps.freezone.urls")),
-    path(f"{API_PREFIX}", include("server.apps.banner.urls")),
     path(f"{API_PREFIX}", include("server.apps.order.urls")),
+    path(f"{API_PREFIX}", include("server.apps.promo.urls")),
     path(f"{API_PREFIX}", include("server.apps.config.urls")),
+    path(f"{API_PREFIX}", include("server.apps.banner.urls")),
+    path(f"{API_PREFIX}", include("server.apps.product.urls")),
+    path(f"{API_PREFIX}", include("server.apps.account.urls")),
+    path(f"{API_PREFIX}", include("server.apps.category.urls")),
+    path(f"{API_PREFIX}", include("server.apps.freezone.urls")),
 ]
 
 # robots.txt
