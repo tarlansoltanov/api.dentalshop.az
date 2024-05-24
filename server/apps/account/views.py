@@ -11,8 +11,6 @@ from server.apps.account.logic.serializers import (
 )
 from server.apps.account.models import Cart, Favorite
 from server.apps.core.logic.responses import UNAUTHORIZED
-from server.apps.freezone.logic.serializers import FreezoneItemSerializer
-from server.apps.freezone.models import FreezoneItem
 from server.apps.notification.logic.serializers import NotificationSerializer
 from server.apps.notification.models import Notification
 from server.apps.product.logic.serializers import ProductSerializer
@@ -149,8 +147,7 @@ class CartView(generics.ListCreateAPIView):
     serializer_class = CartSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    search_fields = ["product__name"]
-    ordering_fields = ["product__name", "product__price"]
+    pagination_class = None
 
     def get_queryset(self):
         """Return products in cart of the authenticated user."""
@@ -199,28 +196,6 @@ class CartView(generics.ListCreateAPIView):
         cartItem.delete()
 
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-class FreeZoneView(generics.ListAPIView):
-    """View for free zone."""
-
-    queryset = FreezoneItem.objects.none()
-    serializer_class = FreezoneItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        """Return free zone items."""
-        return FreezoneItem.objects.filter(user=self.request.user)
-
-    @extend_schema(
-        responses={
-            status.HTTP_200_OK: FreezoneItemSerializer,
-            status.HTTP_401_UNAUTHORIZED: UNAUTHORIZED,
-        },
-    )
-    def get(self, request, *args, **kwargs):
-        """Retrieve free zone items of the authenticated user."""
-        return super().get(request, *args, **kwargs)
 
 
 class DeviceTokenView(generics.CreateAPIView):
