@@ -3,6 +3,7 @@ from firebase_admin import messaging
 from firebase_admin._messaging_utils import Notification as FNotification
 
 from server.apps.core.models import TimeStampedModel
+from server.apps.notification.logic.managers import NotificationManager
 
 
 class Notification(TimeStampedModel):
@@ -13,6 +14,8 @@ class Notification(TimeStampedModel):
     user = models.ForeignKey("user.User", blank=True, null=True, on_delete=models.SET_NULL)
     message_id = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
+
+    objects = NotificationManager()
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for Notification."""
