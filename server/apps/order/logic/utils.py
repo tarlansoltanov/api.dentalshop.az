@@ -1,5 +1,7 @@
 import requests
 import xmltodict
+from django.conf import settings
+from django.core.mail import send_mail
 
 from server.apps.order.models import Order
 from server.apps.promo.models import Promo
@@ -85,3 +87,20 @@ def get_payment_redirect_url(url: str, order: Order, installments: int) -> str:
 def format_xml_response(data: str) -> dict:
     """Format XML response."""
     return xmltodict.parse(data)
+
+
+def send_new_order_email(order: Order):
+    """Send email notification to the admin about new order."""
+
+    subject = f"Yeni Satış №{order.id}"
+    body = f"Yeni satış №{order.id} yaradıldı."
+
+    body += "\n\nMəhsullar:"
+    for item in order.items.all():
+        body += f"\n{item.product.name} - {item.quantity} ədəd"
+
+    body += f"\n\nToplam: {order.get_total()} AZN"
+
+    recipients = ["info@dentalshop.az"]
+
+    send_mail(subject=subject, message=body, from_email=settings.EMAIL_HOST_USER, recipient_list=recipients)

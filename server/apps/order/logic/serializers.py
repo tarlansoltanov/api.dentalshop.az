@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from server.apps.order.logic.constants import OrderStatus, PaymentMethod
-from server.apps.order.logic.utils import get_discount, get_payment_redirect_url
+from server.apps.order.logic.utils import get_discount, get_payment_redirect_url, send_new_order_email
 from server.apps.order.models import Order, OrderItem
 from server.apps.product.logic.serializers import ProductSerializer
 
@@ -101,10 +101,12 @@ class CheckoutSerializer(serializers.Serializer):
             item.product.save()
             item.delete()
 
+        send_new_order_email(order)
+
         if order.payment_method == PaymentMethod.CASH:
             order.status = OrderStatus.PENDING
             order.save()
-            return "Sifarişiniz uğurla qeydə alındı"
+            return order.id
         elif order.payment_method == PaymentMethod.CARD:
             base_url = self.context["request"].build_absolute_uri().replace("/checkout", "/callback")
             payment_url = get_payment_redirect_url(base_url, order, installments)
