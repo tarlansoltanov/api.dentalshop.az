@@ -6,6 +6,7 @@ class PaymentMethod(models.IntegerChoices):
 
     CASH = 1, "Qapıda ödəniş"
     CARD = 2, "Kartla ödəniş"
+    DEBT = 3, "Borclu ödəniş"
 
 
 class OrderStatus(models.IntegerChoices):
