@@ -1,4 +1,3 @@
-from django.utils import timezone
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
@@ -23,6 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """Serializer for Product model."""
 
     brand = BrandSerializer(read_only=True)
+    discount = serializers.SerializerMethodField()
     category = CategorySerializer(read_only=True, context={"with_children": False})
     images = MultipleImageField()
     is_favorite = serializers.SerializerMethodField()
@@ -40,6 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "discount",
             "discount_end_date",
             "quantity",
+            "is_promo",
             "is_new",
             "is_favorite",
             "is_distributer",
@@ -61,19 +62,9 @@ class ProductSerializer(serializers.ModelSerializer):
         if self.context and self.context.get("request") and not self.context["request"].user.is_authenticated:
             self.fields.pop("is_favorite")
 
-    def to_representation(self, instance: Product):
-        """Override to_representation method."""
-        data = super().to_representation(instance)
-
-        if not instance.discount_end_date:
-            data.pop("discount_end_date")
-            data["discount"] = 0
-
-        if instance.discount_end_date and instance.discount_end_date < timezone.localtime(timezone.now()).date():
-            data.pop("discount_end_date")
-            data["discount"] = 0
-
-        return data
+    def get_discount(self, instance: Product) -> int:
+        """Get discount for product."""
+        return instance.get_discount()
 
     @extend_schema_field(serializers.BooleanField)
     def get_is_favorite(self, instance: Product):

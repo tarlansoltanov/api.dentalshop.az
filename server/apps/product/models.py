@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.text import slugify
 
 from server.apps.core.models import SlugModel, TimeStampedModel
@@ -20,6 +21,8 @@ class Product(TimeStampedModel, SlugModel):
     discount_end_date = models.DateField(null=True, blank=True)
 
     quantity = models.PositiveIntegerField(default=0)
+
+    is_promo = models.BooleanField(default=True)
 
     is_new = models.BooleanField(default=False)
     is_distributer = models.BooleanField(default=False)
@@ -43,6 +46,20 @@ class Product(TimeStampedModel, SlugModel):
 
     def generate_slug(self):
         return slugify(f"{self.name}-{self.code}")
+
+    def get_discount(self):
+        """Get discount for product."""
+        if not self.discount:
+            return 0
+
+        if self.discount_end_date and self.discount_end_date < timezone.localtime(timezone.now()).date():
+            return 0
+
+        return self.discount
+
+    def can_do_promo(self):
+        """Check if product can do promo."""
+        return self.is_promo and self.get_discount() == 0
 
 
 class ProductImage(TimeStampedModel):

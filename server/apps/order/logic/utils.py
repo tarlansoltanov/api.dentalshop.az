@@ -8,18 +8,21 @@ from server.apps.promo.models import Promo
 from server.settings.components import config
 
 
-def get_discount(code: str, order: Order) -> None:
+def get_discount(code: str, order: Order) -> int:
     """Get discount for user."""
+    if not code:
+        return 0
+
     if code == order.user.code:
-        order.discount = order.user.discount
-    else:
-        promo = Promo.objects.filter(code=code).first()
+        return order.user.discount
 
-        if promo and promo.is_valid() and not promo.is_used(order.user):
-            order.discount = promo.discount
-            promo.usages.create(order=order)
+    promo = Promo.objects.filter(code=code).first()
 
-    order.save()
+    if not promo or not promo.is_valid() or promo.is_used(order.user):
+        return 0
+
+    promo.usages.create(order=order)
+    return promo.discount
 
 
 def get_xml_request_order(

@@ -36,7 +36,6 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "items",
-            "discount",
             "payment_method",
             "address",
             "note",
@@ -88,14 +87,14 @@ class CheckoutSerializer(serializers.Serializer):
 
         order = Order.objects.create(user=user, **validated_data)
 
-        if code:
-            get_discount(code, order)
+        main_discount = get_discount(code, order)
 
         cart_items = user.cart.all().select_related("product")
 
         for item in cart_items:
+            discount = main_discount if item.product.can_do_promo() else item.product.get_discount()
             order.items.create(
-                product=item.product, price=item.product.price, discount=item.product.discount, quantity=item.quantity
+                product=item.product, price=item.product.price, discount=discount, quantity=item.quantity
             )
             item.product.quantity -= item.quantity
             item.product.save()
@@ -111,8 +110,6 @@ class CheckoutSerializer(serializers.Serializer):
             base_url = self.context["request"].build_absolute_uri().replace("/checkout", "/callback")
             payment_url = get_payment_redirect_url(base_url, order, installments)
             return payment_url
-        else:
-            raise serializers.ValidationError("Ödəmə üsulu seçilməyib")
 
 
 class PaymentSerializer(serializers.Serializer):

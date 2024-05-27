@@ -10,7 +10,6 @@ class Order(TimeStampedModel):
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
 
-    discount = models.PositiveSmallIntegerField(default=0)
     payment_method = models.PositiveSmallIntegerField(choices=PaymentMethod.choices)
 
     address = models.TextField(blank=True)
@@ -34,12 +33,7 @@ class Order(TimeStampedModel):
 
     def get_total(self):
         """Get total price of the order."""
-        total = 0
-
-        for item in self.items.all():
-            total += float(item.price) * (1 - item.discount / 100) * item.quantity
-
-        return float(total) * (1 - self.discount / 100)
+        return sum([float(item.price) * (1 - item.discount / 100) * item.quantity for item in self.items.all()])
 
 
 class OrderItem(TimeStampedModel):
