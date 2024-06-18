@@ -44,13 +44,46 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
             for field in self.fields:
                 self.fields[field].required = False
 
-    def validate_title(self, value):
+    def validate(self, data: dict) -> dict:
+        """Validate the serializer data."""
+        images = data.get("images", [])
+
+        if len(images) > 5:
+            raise serializers.ValidationError({"images": "Ən çox 5 şəkil yükləyə bilərsiniz!"})
+        if len(images) < 1:
+            raise serializers.ValidationError({"images": "Ən azı 1 şəkil yükləməlisiniz!"})
+
+        return data
+
+    def validate_title(self, value: str) -> str:
         """Validate title field."""
-        if FreezoneItem.objects.filter(title=value).exists():
+        if FreezoneItem.objects.filter(title=value).exists() and (not self.instance or self.instance.title != value):
             raise serializers.ValidationError("Bu başlıqda elan artıq mövcuddur!")
+
         return value
 
     def create(self, validated_data):
         """Create a new FreezoneItem instance."""
         user = self.context["request"].user
-        return FreezoneItem.objects.create(user=user, **validated_data)
+        images = validated_data.pop("images")
+        item = FreezoneItem.objects.create(user=user, **validated_data)
+
+        for image in images:
+            item.images.create(image=image)
+
+        return item
+
+    def update(self, instance, validated_data):
+        """Update the FreezoneItem instance."""
+        images = validated_data.pop("images", [])
+        instance = super().update(instance, validated_data)
+
+        if not images:
+            return instance
+
+        instance.images.all().delete()
+
+        for image in images:
+            instance.images.create(image=image)
+
+        return instance

@@ -17,6 +17,6 @@ class FreezoneItemFilter(filters.FilterSet):
     def filter_by_user(self, queryset, name, value):
         """Filter queryset by user."""
         if value and self.request.user.is_authenticated:
-            return queryset.filter(user=self.request.user)
+            return FreezoneItem.objects.filter(user=self.request.user)
 
         return queryset
