@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from server.apps.account.logic.serializers import AccountSerializer
-from server.apps.core.logic.fields import ImageField
+from server.apps.core.logic.fields import MultipleImageField
 from server.apps.freezone.models import FreezoneItem
 
 
@@ -11,7 +11,7 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
     user = AccountSerializer(read_only=True)
     status = serializers.CharField(source="get_status_display", read_only=True)
 
-    image = ImageField()
+    images = MultipleImageField()
 
     class Meta:
         """Meta definition for FreezoneItemSerializer."""
@@ -22,7 +22,7 @@ class FreezoneItemSerializer(serializers.ModelSerializer):
             "slug",
             "title",
             "user",
-            "image",
+            "images",
             "price",
             "address",
             "description",

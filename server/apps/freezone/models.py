@@ -9,7 +9,6 @@ class FreezoneItem(TimeStampedModel, SlugModel):
     """Model definition for FreezoneItem."""
 
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="freezone_items")
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     user = models.ForeignKey("user.User", on_delete=models.CASCADE)
@@ -32,3 +31,16 @@ class FreezoneItem(TimeStampedModel, SlugModel):
     def generate_slug(self):
         """Generate slug for FreezoneItem."""
         return slugify(self.title)
+
+
+class FreezoneItemImage(TimeStampedModel):
+    """Model definition for FreezoneItemImage."""
+
+    image = models.ImageField(upload_to="freezone/")
+    freezone_item = models.ForeignKey(FreezoneItem, on_delete=models.CASCADE, related_name="images")
+
+    class Meta(TimeStampedModel.Meta):
+        """Meta definition for FreezoneItemImage."""
+
+        verbose_name = "Freezone Item Image"
+        verbose_name_plural = "Freezone Item Images"
