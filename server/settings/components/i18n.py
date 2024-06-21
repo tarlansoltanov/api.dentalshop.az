@@ -1,5 +1,3 @@
-from django.utils.translation import gettext_lazy as _
-
 from server.settings.components import BASE_DIR
 from server.settings.components.common import INSTALLED_APPS, MIDDLEWARE
 
@@ -11,8 +9,8 @@ MIDDLEWARE.insert(2, "django.middleware.locale.LocaleMiddleware")
 LANGUAGE_CODE = "az"
 
 LANGUAGES = (
-    ("az", _("Azerbaijani")),
-    ("ru", _("Russian")),
+    ("az", "Azərbaycanca"),
+    ("ru", "Русский"),
 )
 
 TIME_ZONE = "Asia/Baku"

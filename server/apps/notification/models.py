@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from firebase_admin import messaging
 from firebase_admin._messaging_utils import Notification as FNotification
 
@@ -9,19 +10,19 @@ from server.apps.notification.logic.managers import NotificationManager
 class Notification(TimeStampedModel):
     """Model definition for Notification."""
 
-    title = models.CharField(max_length=255)
-    body = models.CharField(max_length=255)
-    user = models.ForeignKey("user.User", blank=True, null=True, on_delete=models.SET_NULL)
-    message_id = models.CharField(max_length=255, blank=True, null=True)
-    date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(verbose_name=_("Title"), max_length=255)
+    body = models.CharField(verbose_name=_("Body"), max_length=255)
+    user = models.ForeignKey("user.User", verbose_name=_("User"), blank=True, null=True, on_delete=models.SET_NULL)
+    message_id = models.CharField(verbose_name=_("Message ID"), max_length=255, blank=True, null=True)
+    date = models.DateTimeField(verbose_name=_("Date"), auto_now_add=True)
 
     objects = NotificationManager()
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for Notification."""
 
-        verbose_name = "Notification"
-        verbose_name_plural = "Notifications"
+        verbose_name = _("Notification")
+        verbose_name_plural = _("Notifications")
 
     def __str__(self):
         """Unicode representation of Notification."""

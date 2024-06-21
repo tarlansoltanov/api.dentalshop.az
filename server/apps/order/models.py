@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from server.apps.core.models import TimeStampedModel
 from server.apps.order.logic.constants import OrderPaymentStatus, OrderStatus, PaymentMethod
@@ -8,28 +9,30 @@ from server.apps.order.logic.managers import OrderManager
 class Order(TimeStampedModel):
     """Model definition for Order."""
 
-    user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="orders")
+    user = models.ForeignKey("user.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name="orders")
 
-    payment_method = models.PositiveSmallIntegerField(choices=PaymentMethod.choices)
+    payment_method = models.PositiveSmallIntegerField(verbose_name=_("Payment Method"), choices=PaymentMethod.choices)
 
-    address = models.TextField(blank=True)
-    note = models.TextField(blank=True)
+    address = models.TextField(verbose_name=_("Address"), blank=True)
+    note = models.TextField(verbose_name=_("Note"), blank=True)
 
-    status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.NOT_PAID)
+    status = models.PositiveSmallIntegerField(
+        verbose_name=_("Status"), choices=OrderStatus.choices, default=OrderStatus.NOT_PAID
+    )
 
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(verbose_name=_("Date"), auto_now_add=True)
 
     objects = OrderManager()
 
     class Meta:
         """Meta definition for Order."""
 
-        verbose_name = "Order"
-        verbose_name_plural = "Orders"
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")
 
     def __str__(self):
         """Unicode representation of Order."""
-        return f"Order #{self.id}"
+        return f'{_("Order")} #{self.id}'
 
     def get_total(self):
         """Get total price of the order."""
@@ -39,19 +42,21 @@ class Order(TimeStampedModel):
 class OrderItem(TimeStampedModel):
     """Model definition for OrderItem."""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    order = models.ForeignKey(Order, verbose_name=_("Order"), on_delete=models.CASCADE, related_name="items")
 
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="orders")
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    discount = models.PositiveSmallIntegerField(default=0)
+    product = models.ForeignKey(
+        "product.Product", verbose_name=_("Product"), on_delete=models.CASCADE, related_name="orders"
+    )
+    price = models.DecimalField(verbose_name=_("Price"), max_digits=10, decimal_places=2, default=0.00)
+    discount = models.PositiveSmallIntegerField(verbose_name=_("Discount"), default=0)
 
-    quantity = models.PositiveSmallIntegerField(default=1)
+    quantity = models.PositiveSmallIntegerField(verbose_name=_("Quantity"), default=1)
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for OrderItem."""
 
-        verbose_name = "OrderItem"
-        verbose_name_plural = "OrderItems"
+        verbose_name = _("Order Item")
+        verbose_name_plural = _("Order Items")
 
     def __str__(self):
         """Unicode representation of OrderItem."""
@@ -61,22 +66,22 @@ class OrderItem(TimeStampedModel):
 class OrderPayment(TimeStampedModel):
     """Model definition for OrderPayment."""
 
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payments")
+    order = models.ForeignKey(Order, verbose_name=_("Order"), on_delete=models.CASCADE, related_name="payments")
 
-    bank_session_id = models.CharField(max_length=255, blank=True)
-    bank_order_id = models.CharField(max_length=255, blank=True)
-    installments = models.PositiveSmallIntegerField(default=1)
+    bank_session_id = models.CharField(verbose_name=_("Bank Session ID"), max_length=255, blank=True)
+    bank_order_id = models.CharField(verbose_name=_("Bank Order ID"), max_length=255, blank=True)
+    installments = models.PositiveSmallIntegerField(verbose_name=_("Installments"), default=1)
     status = models.PositiveSmallIntegerField(
-        choices=OrderPaymentStatus.choices, default=OrderPaymentStatus.ON_PAYMENT
+        verbose_name=_("Status"), choices=OrderPaymentStatus.choices, default=OrderPaymentStatus.ON_PAYMENT
     )
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(verbose_name=_("Date"), auto_now_add=True)
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for OrderPayment."""
 
-        verbose_name = "OrderPayment"
-        verbose_name_plural = "OrderPayments"
+        verbose_name = _("Order Payment")
+        verbose_name_plural = _("Order Payments")
 
     def __str__(self):
         """Unicode representation of OrderPayment."""
-        return f"Payment #{self.id} for order #{self.order.id}"
+        return f"{_('Payment')} #{self.id} - {_('Order')} #{self.order.id}"

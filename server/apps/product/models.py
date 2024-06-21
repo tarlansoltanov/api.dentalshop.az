@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from server.apps.core.models import SlugModel, TimeStampedModel
 from server.apps.product.logic.queryset import ProductQuerySet
@@ -9,34 +10,38 @@ from server.apps.product.logic.queryset import ProductQuerySet
 class Product(TimeStampedModel, SlugModel):
     """Model definition for Product."""
 
-    code = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
+    code = models.CharField(verbose_name=_("Code"), max_length=255, unique=True)
+    name = models.CharField(verbose_name=_("Name"), max_length=255)
 
-    brand = models.ForeignKey("brand.Brand", related_name="products", on_delete=models.CASCADE)
-    category = models.ForeignKey("category.Category", related_name="products", on_delete=models.CASCADE)
+    brand = models.ForeignKey(
+        to="brand.Brand", verbose_name=_("Brand"), related_name="products", on_delete=models.CASCADE
+    )
+    category = models.ForeignKey(
+        to="category.Category", verbose_name=_("Category"), related_name="products", on_delete=models.CASCADE
+    )
 
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    discount = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(verbose_name=_("Price"), max_digits=10, decimal_places=2, default=0)
+    discount = models.PositiveIntegerField(verbose_name=_("Discount"), default=0)
 
-    discount_end_date = models.DateField(null=True, blank=True)
+    discount_end_date = models.DateField(verbose_name=_("Discount End Date"), null=True, blank=True)
 
-    quantity = models.PositiveIntegerField(default=0)
+    quantity = models.PositiveIntegerField(verbose_name=_("Quantity"), default=0)
 
-    is_promo = models.BooleanField(default=True)
+    is_promo = models.BooleanField(verbose_name=_("Is Promo"), default=True)
 
-    is_new = models.BooleanField(default=False)
-    is_distributer = models.BooleanField(default=False)
+    is_new = models.BooleanField(verbose_name=_("Is New"), default=False)
+    is_distributer = models.BooleanField(verbose_name=_("Is Distributer"), default=False)
 
-    main_note = models.TextField()
-    description = models.TextField()
+    main_note = models.TextField(verbose_name=_("Main Note"), blank=True, null=True)
+    description = models.TextField(verbose_name=_("Description"))
 
     objects = ProductQuerySet.as_manager()
 
     class Meta:
         """Meta definition for Product."""
 
-        verbose_name = "Product"
-        verbose_name_plural = "Products"
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
 
         ordering = ("-created_at",)
 
@@ -65,14 +70,16 @@ class Product(TimeStampedModel, SlugModel):
 class ProductImage(TimeStampedModel):
     """Model definition for ProductImage."""
 
-    image = models.ImageField(upload_to="products")
-    product = models.ForeignKey("product.Product", related_name="images", on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name=_("Image"), upload_to="products")
+    product = models.ForeignKey(
+        to="product.Product", verbose_name=_("Product"), related_name="images", on_delete=models.CASCADE
+    )
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for ProductImage."""
 
-        verbose_name = "ProductImage"
-        verbose_name_plural = "ProductImages"
+        verbose_name = _("Product Image")
+        verbose_name_plural = _("Product Images")
         ordering = ("created_at",)
 
     def __str__(self):
@@ -83,13 +90,13 @@ class ProductImage(TimeStampedModel):
 class ProductNote(TimeStampedModel):
     """Model definition for ProductNote."""
 
-    text = models.TextField()
+    text = models.TextField(verbose_name=_("Text"))
 
     class Meta(TimeStampedModel.Meta):
         """Meta definition for ProductNote."""
 
-        verbose_name = "ProductNote"
-        verbose_name_plural = "ProductNotes"
+        verbose_name = _("Product Note")
+        verbose_name_plural = _("Product Notes")
 
     def __str__(self):
         """Unicode representation of ProductNote."""

@@ -1,0 +1,316 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-21 15:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\server\apps\banner\apps.py:8 .\server\apps\banner\models.py:16
+msgid "Banner"
+msgstr "Slayd"
+
+#: .\server\apps\banner\models.py:10 .\server\apps\brand\models.py:12
+msgid "Photo"
+msgstr "Şəkil"
+
+#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:93
+msgid "Text"
+msgstr "Mətn"
+
+#: .\server\apps\banner\models.py:17
+msgid "Banners"
+msgstr "Slaydlar"
+
+#: .\server\apps\brand\apps.py:8 .\server\apps\brand\models.py:18
+#: .\server\apps\product\models.py:17
+msgid "Brand"
+msgstr "Marka"
+
+#: .\server\apps\brand\models.py:11 .\server\apps\category\models.py:14
+#: .\server\apps\product\models.py:14
+msgid "Name"
+msgstr "Ad"
+
+#: .\server\apps\brand\models.py:13
+msgid "Is Main"
+msgstr "Əsasdır"
+
+#: .\server\apps\brand\models.py:19
+msgid "Brands"
+msgstr "Markalar"
+
+#: .\server\apps\category\apps.py:8 .\server\apps\category\models.py:22
+#: .\server\apps\product\models.py:20
+msgid "Category"
+msgstr "Kateqoriya"
+
+#: .\server\apps\category\models.py:16
+msgid "Parent"
+msgstr "Əsas"
+
+#: .\server\apps\category\models.py:23
+msgid "Categories"
+msgstr "Kateqoriyalar"
+
+#: .\server\apps\config\apps.py:9
+msgid "Configuration"
+msgstr "Konfiqurasiya"
+
+#: .\server\apps\config\models.py:16
+msgid "App Version Configuration"
+msgstr "Proqram Versiyası Konfiqurasiyası"
+
+#: .\server\apps\freezone\apps.py:8
+msgid "Freezone"
+msgstr "Azad Zona"
+
+#: .\server\apps\freezone\models.py:12 .\server\apps\notification\models.py:13
+msgid "Title"
+msgstr "Başlıq"
+
+#: .\server\apps\freezone\models.py:13 .\server\apps\order\models.py:50
+#: .\server\apps\product\models.py:23
+msgid "Price"
+msgstr "Qiymət"
+
+#: .\server\apps\freezone\models.py:15 .\server\apps\notification\models.py:15
+#: .\server\apps\order\models.py:12 .\server\apps\user\apps.py:8
+#: .\server\apps\user\models.py:42
+msgid "User"
+msgstr "İstifadəçi"
+
+#: .\server\apps\freezone\models.py:17 .\server\apps\order\models.py:16
+msgid "Address"
+msgstr "Adres"
+
+#: .\server\apps\freezone\models.py:18 .\server\apps\product\models.py:36
+msgid "Description"
+msgstr "Təsvir"
+
+#: .\server\apps\freezone\models.py:21 .\server\apps\order\models.py:20
+#: .\server\apps\order\models.py:75
+msgid "Status"
+msgstr "Status"
+
+#: .\server\apps\freezone\models.py:27 .\server\apps\freezone\models.py:44
+msgid "Freezone Item"
+msgstr "Azad Zona Elanı"
+
+#: .\server\apps\freezone\models.py:28
+msgid "Freezone Items"
+msgstr "Azad Zona Elanları"
+
+#: .\server\apps\freezone\models.py:42 .\server\apps\product\models.py:73
+msgid "Image"
+msgstr "Şəkil"
+
+#: .\server\apps\freezone\models.py:50
+msgid "Freezone Item Image"
+msgstr "Azad Zona Elanı Şəkli"
+
+#: .\server\apps\freezone\models.py:51
+msgid "Freezone Item Images"
+msgstr "Azad Zona Elanı Şəkilləri"
+
+#: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:24
+msgid "Notification"
+msgstr "Bildiriş"
+
+#: .\server\apps\notification\models.py:14
+msgid "Body"
+msgstr "Məzmun"
+
+#: .\server\apps\notification\models.py:16
+msgid "Message ID"
+msgstr "Mesaj ID"
+
+#: .\server\apps\notification\models.py:17 .\server\apps\order\models.py:23
+#: .\server\apps\order\models.py:77
+msgid "Date"
+msgstr "Tarix"
+
+#: .\server\apps\notification\models.py:25
+msgid "Notifications"
+msgstr "Bildirişlər"
+
+#: .\server\apps\order\apps.py:8 .\server\apps\order\models.py:30
+#: .\server\apps\order\models.py:45 .\server\apps\order\models.py:69
+#: .\server\apps\promo\models.py:38
+msgid "Order"
+msgstr "Sifariş"
+
+#: .\server\apps\order\models.py:14
+msgid "Payment Method"
+msgstr "Ödəniş Metodu"
+
+#: .\server\apps\order\models.py:17
+msgid "Note"
+msgstr "Qeyd"
+
+#: .\server\apps\order\models.py:31
+msgid "Orders"
+msgstr "Sifarişlər"
+
+#: .\server\apps\order\models.py:48 .\server\apps\product\apps.py:8
+#: .\server\apps\product\models.py:43 .\server\apps\product\models.py:75
+msgid "Product"
+msgstr "Məhsul"
+
+#: .\server\apps\order\models.py:51 .\server\apps\product\models.py:24
+#: .\server\apps\promo\models.py:12 .\server\apps\user\models.py:24
+msgid "Discount"
+msgstr "Endirim"
+
+#: .\server\apps\order\models.py:53 .\server\apps\product\models.py:28
+msgid "Quantity"
+msgstr "Miqdar"
+
+#: .\server\apps\order\models.py:58
+msgid "Order Item"
+msgstr "Sifariş Məhsulu"
+
+#: .\server\apps\order\models.py:59
+msgid "Order Items"
+msgstr "Sifariş Məhsulları"
+
+#: .\server\apps\order\models.py:71
+msgid "Bank Session ID"
+msgstr "Bank Sessiya ID"
+
+#: .\server\apps\order\models.py:72
+msgid "Bank Order ID"
+msgstr "Bank Sifariş ID"
+
+#: .\server\apps\order\models.py:73
+msgid "Installments"
+msgstr "Taksit"
+
+#: .\server\apps\order\models.py:82
+msgid "Order Payment"
+msgstr "Sifariş Ödənişi"
+
+#: .\server\apps\order\models.py:83
+msgid "Order Payments"
+msgstr "Sifariş Ödənişləri"
+
+#: .\server\apps\product\models.py:13 .\server\apps\promo\models.py:11
+msgid "Code"
+msgstr "Kod"
+
+#: .\server\apps\product\models.py:26
+msgid "Discount End Date"
+msgstr "Endirim Bitmə Tarixi"
+
+#: .\server\apps\product\models.py:30
+msgid "Is Promo"
+msgstr "Promosiya olunurmu"
+
+#: .\server\apps\product\models.py:32
+msgid "Is New"
+msgstr "Yenidirmi"
+
+#: .\server\apps\product\models.py:33
+msgid "Is Distributer"
+msgstr "Distribütörmü"
+
+#: .\server\apps\product\models.py:35
+msgid "Main Note"
+msgstr "Əsas Qeyd"
+
+#: .\server\apps\product\models.py:44
+msgid "Products"
+msgstr "Məhsullar"
+
+#: .\server\apps\product\models.py:81
+msgid "Product Image"
+msgstr "Məhsul Şəkli"
+
+#: .\server\apps\product\models.py:82
+msgid "Product Images"
+msgstr "Məhsul Şəkilləri"
+
+#: .\server\apps\product\models.py:98
+msgid "Product Note"
+msgstr "Məhsul Qeydi"
+
+#: .\server\apps\product\models.py:99
+msgid "Product Notes"
+msgstr "Məhsul Qeydləri"
+
+#: .\server\apps\promo\apps.py:8 .\server\apps\promo\models.py:17
+#: .\server\apps\promo\models.py:36
+msgid "Promo"
+msgstr "Promo"
+
+#: .\server\apps\promo\models.py:13
+msgid "Start Date"
+msgstr "Başlama Tarixi"
+
+#: .\server\apps\promo\models.py:14
+msgid "End Date"
+msgstr "Bitmə Tarixi"
+
+#: .\server\apps\promo\models.py:18
+msgid "Promos"
+msgstr "Promolar"
+
+#: .\server\apps\promo\models.py:42
+msgid "Promo Usage"
+msgstr "Promo İstifadəsi"
+
+#: .\server\apps\promo\models.py:43
+msgid "Promo Usages"
+msgstr "Promo İstifadələri"
+
+#: .\server\apps\user\models.py:19
+msgid "Phone"
+msgstr "Telefon"
+
+#: .\server\apps\user\models.py:21
+msgid "Birth Date"
+msgstr "Doğum Tarixi"
+
+#: .\server\apps\user\models.py:23
+msgid "Discount Code"
+msgstr "Endirim Kodu"
+
+#: .\server\apps\user\models.py:25
+msgid "Device Token"
+msgstr "Cihaz Tokeni"
+
+#: .\server\apps\user\models.py:27
+msgid "OTP Code"
+msgstr "OTP Kodu"
+
+#: .\server\apps\user\models.py:28
+msgid "OTP Transaction ID"
+msgstr "OTP Tranzaksiya ID"
+
+#: .\server\apps\user\models.py:29
+msgid "OTP Created at"
+msgstr "OTP Yaradıldı"
+
+#: .\server\apps\user\models.py:30
+msgid "OTP Used at"
+msgstr "OTP İstifadə edildi"
+
+#: .\server\apps\user\models.py:32
+msgid "Is Verified"
+msgstr "Təsdiq olunub"
+
+#: .\server\apps\user\models.py:43
+msgid "Users"
+msgstr "İstifadəçilər"
