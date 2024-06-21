@@ -86,6 +86,14 @@ shell:
 	@echo "DJANGO: Running Django shell..."
 	$(RUN) shell
 
+makemessages:
+	@echo "DJANGO: Making Django messages..."
+	$(RUN) makemessages -l az -l en -l ru
+
+compilemessages:
+	@echo "DJANGO: Compiling Django messages..."
+	$(RUN) compilemessages --ignore site-packages
+
 # Testing commands
 .PHONY = test test-cov test-v
 

@@ -13,7 +13,7 @@ python manage.py migrate --noinput
 # Compile translations if any
 if [ -d "locale" ]; then
     echo "Compile translations"
-    python manage.py compilemessages
+    python manage.py compilemessages --ignore site-packages
 fi
 
 exec $cmd
