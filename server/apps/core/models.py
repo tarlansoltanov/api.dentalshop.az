@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from server.apps.core.logic.managers import OrderingManager
 
@@ -10,8 +11,8 @@ class TimeStampedModel(models.Model):
     Ordering by ``updated_at`` descending by default.
     """
 
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
+    created_at = models.DateTimeField(verbose_name=_("Created at"), auto_now_add=True)
 
     class Meta:
         abstract = True
@@ -23,7 +24,7 @@ class SlugModel(models.Model):
     An abstract base class model that provides a ``slug`` field.
     """
 
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(verbose_name=_("Slug"), max_length=255, unique=True)
 
     class Meta:
         abstract = True
@@ -48,7 +49,7 @@ class OrderableModel(TimeStampedModel):
     Ordering by ``position`` ascending by default.
     """
 
-    position = models.PositiveIntegerField(blank=True, null=True)
+    position = models.PositiveIntegerField(verbose_name=_("Position"), default=0, blank=False, null=False)
 
     objects = OrderingManager()
 

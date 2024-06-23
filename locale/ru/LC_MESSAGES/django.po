@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-21 15:57+0200\n"
+"POT-Creation-Date: 2024-06-23 19:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,59 +75,80 @@ msgstr "Конфигурация"
 msgid "App Version Configuration"
 msgstr "Конфигурация версии приложения"
 
+#: .\server\apps\core\models.py:12
+msgid "Updated at"
+msgstr "Обновлено в"
+
+#: .\server\apps\core\models.py:13
+msgid "Created at"
+msgstr "Создано в"
+
+#: .\server\apps\core\models.py:24
+msgid "Slug"
+msgstr "Слаг"
+
+#: .\server\apps\core\models.py:49
+msgid "Position"
+msgstr "Позиция"
+
+#: .\server\apps\core\models.py:61 .\server\apps\product\models.py:73
+msgid "Image"
+msgstr "Изображение"
+
+#: .\server\apps\freezone\admin.py:78 .\server\apps\freezone\models.py:22
+#: .\server\apps\order\models.py:20 .\server\apps\order\models.py:75
+msgid "Status"
+msgstr "Статус"
+
+#: .\server\apps\freezone\admin.py:82 .\server\apps\order\models.py:23
+#: .\server\apps\order\models.py:77
+msgid "Date"
+msgstr "Дата"
+
 #: .\server\apps\freezone\apps.py:8
 msgid "Freezone"
 msgstr "Фри зона"
 
-#: .\server\apps\freezone\models.py:12 .\server\apps\notification\models.py:13
+#: .\server\apps\freezone\models.py:13 .\server\apps\notification\models.py:13
 msgid "Title"
 msgstr "Заголовок"
 
-#: .\server\apps\freezone\models.py:13 .\server\apps\order\models.py:50
+#: .\server\apps\freezone\models.py:14 .\server\apps\order\models.py:50
 #: .\server\apps\product\models.py:23
 msgid "Price"
 msgstr "Цена"
 
-#: .\server\apps\freezone\models.py:15 .\server\apps\notification\models.py:15
+#: .\server\apps\freezone\models.py:16 .\server\apps\notification\models.py:15
 #: .\server\apps\order\models.py:12 .\server\apps\user\apps.py:8
 #: .\server\apps\user\models.py:42
 msgid "User"
 msgstr "Пользователь"
 
-#: .\server\apps\freezone\models.py:17 .\server\apps\order\models.py:16
+#: .\server\apps\freezone\models.py:18 .\server\apps\order\models.py:16
 msgid "Address"
 msgstr "Адрес"
 
-#: .\server\apps\freezone\models.py:18 .\server\apps\product\models.py:36
+#: .\server\apps\freezone\models.py:19 .\server\apps\product\models.py:36
 msgid "Description"
 msgstr "Описание"
 
-#: .\server\apps\freezone\models.py:21 .\server\apps\order\models.py:20
-#: .\server\apps\order\models.py:75
-msgid "Status"
-msgstr "Статус"
-
-#: .\server\apps\freezone\models.py:27 .\server\apps\freezone\models.py:44
+#: .\server\apps\freezone\models.py:26 .\server\apps\freezone\models.py:44
 msgid "Freezone Item"
 msgstr "Элемент фри зоны"
 
-#: .\server\apps\freezone\models.py:28
+#: .\server\apps\freezone\models.py:27
 msgid "Freezone Items"
 msgstr "Элементы фри зоны"
 
-#: .\server\apps\freezone\models.py:42 .\server\apps\product\models.py:73
-msgid "Image"
-msgstr "Изображение"
-
-#: .\server\apps\freezone\models.py:50
+#: .\server\apps\freezone\models.py:48
 msgid "Freezone Item Image"
 msgstr "Изображение элемента фри зоны"
 
-#: .\server\apps\freezone\models.py:51
+#: .\server\apps\freezone\models.py:49
 msgid "Freezone Item Images"
 msgstr "Изображения элементов фри зоны"
 
-#: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:24
+#: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:23
 msgid "Notification"
 msgstr "Уведомление"
 
@@ -139,12 +160,7 @@ msgstr "Тело"
 msgid "Message ID"
 msgstr "ID сообщения"
 
-#: .\server\apps\notification\models.py:17 .\server\apps\order\models.py:23
-#: .\server\apps\order\models.py:77
-msgid "Date"
-msgstr "Дата"
-
-#: .\server\apps\notification\models.py:25
+#: .\server\apps\notification\models.py:24
 msgid "Notifications"
 msgstr "Уведомления"
 
