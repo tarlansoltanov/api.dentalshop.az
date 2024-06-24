@@ -1,14 +1,11 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.core.logic.managers import OrderingManager
-
 
 class TimeStampedModel(models.Model):
     """
     An abstract base class model that provides self-updating
     ``created_at`` and ``updated_at`` fields.
-    Ordering by ``updated_at`` descending by default.
     """
 
     updated_at = models.DateTimeField(verbose_name=_("Updated at"), auto_now=True)
@@ -16,12 +13,12 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ("-updated_at", "-created_at")
 
 
-class SlugModel(models.Model):
+class SlugModel(TimeStampedModel):
     """
     An abstract base class model that provides a ``slug`` field.
+    The timestamp fields for tracking the creation and update time are also included.
     """
 
     slug = models.SlugField(verbose_name=_("Slug"), max_length=255, unique=True)
@@ -43,15 +40,13 @@ class SlugModel(models.Model):
         raise NotImplementedError("Method 'generate_slug' must be implemented in a subclass.")
 
 
-class OrderableModel(TimeStampedModel):
+class SortableModel(TimeStampedModel):
     """
     An abstract base class model that provides a ``position`` field.
-    Ordering by ``position`` ascending by default.
+    The timestamp fields for tracking the creation and update time are also included.
     """
 
     position = models.PositiveIntegerField(verbose_name=_("Position"), default=0, blank=False, null=False)
-
-    objects = OrderingManager()
 
     class Meta:
         abstract = True

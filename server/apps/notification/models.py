@@ -18,11 +18,11 @@ class Notification(TimeStampedModel):
 
     objects = NotificationManager()
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for Notification."""
-
+    class Meta:
         verbose_name = _("Notification")
         verbose_name_plural = _("Notifications")
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Notification."""

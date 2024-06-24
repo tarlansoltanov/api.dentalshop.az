@@ -6,7 +6,7 @@ from server.apps.core.models import SlugModel, TimeStampedModel
 from server.apps.freezone.logic.constants import FreeZoneStatus
 
 
-class FreezoneItem(TimeStampedModel, SlugModel):
+class FreezoneItem(SlugModel):
     """Model definition for FreezoneItem."""
 
     title = models.CharField(verbose_name=_("Title"), max_length=255)
@@ -21,11 +21,11 @@ class FreezoneItem(TimeStampedModel, SlugModel):
         verbose_name=_("Status"), choices=FreeZoneStatus.choices, default=FreeZoneStatus.PENDING
     )
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for FreezoneItem."""
-
+    class Meta:
         verbose_name = _("Freezone Item")
         verbose_name_plural = _("Freezone Items")
+
+        ordering = ("-updated_at",)
 
     def __str__(self):
         """Unicode representation of FreezoneItem."""
@@ -44,8 +44,8 @@ class FreezoneItemImage(TimeStampedModel):
         FreezoneItem, verbose_name=_("Freezone Item"), on_delete=models.CASCADE, related_name="images"
     )
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for FreezoneItemImage."""
-
+    class Meta:
         verbose_name = _("Freezone Item Image")
         verbose_name_plural = _("Freezone Item Images")
+
+        ordering = ("-created_at",)

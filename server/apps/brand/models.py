@@ -2,10 +2,10 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.core.models import SlugModel, TimeStampedModel
+from server.apps.core.models import SlugModel
 
 
-class Brand(TimeStampedModel, SlugModel):
+class Brand(SlugModel):
     """Model definition for Brand."""
 
     name = models.CharField(verbose_name=_("Name"), max_length=255, unique=True)
@@ -13,8 +13,6 @@ class Brand(TimeStampedModel, SlugModel):
     is_main = models.BooleanField(verbose_name=_("Is Main"), default=False)
 
     class Meta:
-        """Meta definition for Brand."""
-
         verbose_name = _("Brand")
         verbose_name_plural = _("Brands")
 

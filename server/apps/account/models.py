@@ -9,11 +9,11 @@ class Favorite(TimeStampedModel):
     user = models.ForeignKey("user.User", on_delete=models.CASCADE, related_name="favorites")
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="favorites")
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for Favorite."""
-
+    class Meta:
         verbose_name = "Favorite"
         verbose_name_plural = "Favorites"
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Favorite."""
@@ -27,11 +27,11 @@ class Cart(TimeStampedModel):
     product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="cart")
     quantity = models.PositiveIntegerField(default=0)
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for Cart."""
-
+    class Meta:
         verbose_name = "Cart"
         verbose_name_plural = "Cart"
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Cart."""

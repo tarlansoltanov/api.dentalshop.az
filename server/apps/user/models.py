@@ -37,8 +37,6 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     class Meta:
-        """Meta definition for User model."""
-
         verbose_name = _("User")
         verbose_name_plural = _("Users")
 

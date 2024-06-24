@@ -25,10 +25,10 @@ class Order(TimeStampedModel):
     objects = OrderManager()
 
     class Meta:
-        """Meta definition for Order."""
-
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Order."""
@@ -52,15 +52,15 @@ class OrderItem(TimeStampedModel):
 
     quantity = models.PositiveSmallIntegerField(verbose_name=_("Quantity"), default=1)
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for OrderItem."""
-
+    class Meta:
         verbose_name = _("Order Item")
         verbose_name_plural = _("Order Items")
 
+        ordering = ("-created_at",)
+
     def __str__(self):
         """Unicode representation of OrderItem."""
-        return f"Order #{self.id} - {self.product.name}"
+        return f'{_("Order")} #{self.id} - {self.product.name}'
 
 
 class OrderPayment(TimeStampedModel):
@@ -76,11 +76,11 @@ class OrderPayment(TimeStampedModel):
     )
     date = models.DateField(verbose_name=_("Date"), auto_now_add=True)
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for OrderPayment."""
-
+    class Meta:
         verbose_name = _("Order Payment")
         verbose_name_plural = _("Order Payments")
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of OrderPayment."""

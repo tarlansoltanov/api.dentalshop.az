@@ -17,6 +17,8 @@ class Promo(TimeStampedModel):
         verbose_name = _("Promo")
         verbose_name_plural = _("Promos")
 
+        ordering = ("-created_at",)
+
     def __str__(self):
         """Unicode representation of Promo."""
         return f"{self.code} - {self.discount}%"
@@ -41,6 +43,8 @@ class PromoUsage(TimeStampedModel):
     class Meta:
         verbose_name = _("Promo Usage")
         verbose_name_plural = _("Promo Usages")
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of PromoUsage."""

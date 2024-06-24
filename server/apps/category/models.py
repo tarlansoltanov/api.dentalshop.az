@@ -5,10 +5,10 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
-from server.apps.core.models import OrderableModel, SlugModel
+from server.apps.core.models import SlugModel, SortableModel
 
 
-class Category(OrderableModel, SlugModel, MPTTModel):
+class Category(SortableModel, SlugModel, MPTTModel):
     """Model definition for Category."""
 
     name = models.CharField(verbose_name=_("Name"), max_length=255)
@@ -17,8 +17,6 @@ class Category(OrderableModel, SlugModel, MPTTModel):
     )
 
     class Meta:
-        """Meta definition for Category."""
-
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
 

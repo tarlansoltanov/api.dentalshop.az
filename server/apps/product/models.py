@@ -7,7 +7,7 @@ from server.apps.core.models import SlugModel, TimeStampedModel
 from server.apps.product.logic.queryset import ProductQuerySet
 
 
-class Product(TimeStampedModel, SlugModel):
+class Product(SlugModel):
     """Model definition for Product."""
 
     code = models.CharField(verbose_name=_("Code"), max_length=255, unique=True)
@@ -38,8 +38,6 @@ class Product(TimeStampedModel, SlugModel):
     objects = ProductQuerySet.as_manager()
 
     class Meta:
-        """Meta definition for Product."""
-
         verbose_name = _("Product")
         verbose_name_plural = _("Products")
 
@@ -75,11 +73,10 @@ class ProductImage(TimeStampedModel):
         to="product.Product", verbose_name=_("Product"), related_name="images", on_delete=models.CASCADE
     )
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for ProductImage."""
-
+    class Meta:
         verbose_name = _("Product Image")
         verbose_name_plural = _("Product Images")
+
         ordering = ("created_at",)
 
     def __str__(self):
@@ -92,11 +89,11 @@ class ProductNote(TimeStampedModel):
 
     text = models.TextField(verbose_name=_("Text"))
 
-    class Meta(TimeStampedModel.Meta):
-        """Meta definition for ProductNote."""
-
+    class Meta:
         verbose_name = _("Product Note")
         verbose_name_plural = _("Product Notes")
+
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of ProductNote."""
