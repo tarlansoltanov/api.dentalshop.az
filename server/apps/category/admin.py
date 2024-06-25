@@ -1,45 +1,41 @@
 from django.contrib import admin
+from mptt.admin import DraggableMPTTAdmin
 
 from server.apps.category.models import Category
+from server.apps.core.admin import ModelAdmin
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    """Admin class for Category model."""
-
-    list_display_links = ("name_az", "name_ru")
+class CategoryAdmin(DraggableMPTTAdmin, ModelAdmin):
+    """Category Model admin configuration."""
 
     list_display = (
-        "position",
-        "name_az",
-        "name_ru",
-        "parent",
-        "updated_at",
-        "created_at",
+        "tree_actions",
+        "indented_title",
     )
 
-    list_filter = ("parent",)
-
-    ordering = (
-        "-parent",
-        "position",
-    )
+    list_display_links = ("indented_title",)
 
     search_fields = (
+        "slug",
         "name_az",
+        "name_en",
         "name_ru",
     )
+
+    mptt_level_indent = 20
+
+    autocomplete_fields = ("parent",)
 
     fieldsets = (
         (
             None,
             {
                 "fields": (
-                    "position",
                     "name_az",
                     "name_ru",
                     "parent",
-                )
+                ),
             },
         ),
     )

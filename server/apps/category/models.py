@@ -5,10 +5,10 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from mptt.models import MPTTModel, TreeForeignKey
 
-from server.apps.core.models import SlugModel, SortableModel
+from server.apps.core.models import SlugModel
 
 
-class Category(SortableModel, SlugModel, MPTTModel):
+class Category(SlugModel, MPTTModel):
     """Model definition for Category."""
 
     name = models.CharField(verbose_name=_("Name"), max_length=255)
@@ -19,8 +19,6 @@ class Category(SortableModel, SlugModel, MPTTModel):
     class Meta:
         verbose_name = _("Category")
         verbose_name_plural = _("Categories")
-
-        ordering = (models.F("position").asc(nulls_last=True), "-created_at")
 
     def __str__(self):
         """Unicode representation of Category."""
