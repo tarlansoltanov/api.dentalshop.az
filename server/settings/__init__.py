@@ -25,6 +25,7 @@ base_settings = (
     "components/restframework.py",  # Django REST Framework.
     "components/i18n.py",  # Internationalization.
     "components/mailer.py",  # Mail settings.
+    "components/admin.py",  # Django Admin settings.
     "components/custom.py",  # Custom Project Settings.
     f"environments/{ENV}.py",  # Environment settings.
 )
