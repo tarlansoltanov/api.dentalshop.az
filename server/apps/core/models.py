@@ -50,3 +50,46 @@ class SortableModel(TimeStampedModel):
 
     class Meta:
         abstract = True
+
+
+class ImageModel(models.Model):
+    """
+    An abstract base class model that provides an ``image`` field,
+    a ``position`` field, timestamp fields and a method to display image preview.
+    """
+
+    image = models.ImageField(verbose_name=_("Image"))
+
+    class Meta:
+        abstract = True
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initialize the model instance.
+        """
+        self._meta.get_field("image").upload_to = self.get_upload_path()
+        super().__init__(*args, **kwargs)
+
+    def get_upload_path(self):
+        """
+        Return the upload path for the image.
+        """
+        return "items/"
+
+
+class ChildImageModel(ImageModel, SortableModel):
+    """
+    An abstract base class model that provides an ``image`` field,
+    a ``position`` field, timestamp fields and a method to display image preview.
+    """
+
+    image = models.ImageField(verbose_name=_("Image"))
+
+    class Meta:
+        abstract = True
+
+    def __str__(self):
+        """
+        Return the string representation of the model instance.
+        """
+        return self.image.name

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-23 19:14+0200\n"
+"POT-Creation-Date: 2024-06-24 23:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\server\apps\banner\apps.py:8 .\server\apps\banner\models.py:16
+#: .\server\apps\banner\apps.py:8 .\server\apps\banner\models.py:14
 msgid "Banner"
 msgstr "Slayd"
 
@@ -26,15 +26,15 @@ msgstr "Slayd"
 msgid "Photo"
 msgstr "Şəkil"
 
-#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:93
+#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:90
 msgid "Text"
 msgstr "Mətn"
 
-#: .\server\apps\banner\models.py:17
+#: .\server\apps\banner\models.py:15
 msgid "Banners"
 msgstr "Slaydlar"
 
-#: .\server\apps\brand\apps.py:8 .\server\apps\brand\models.py:18
+#: .\server\apps\brand\apps.py:8 .\server\apps\brand\models.py:16
 #: .\server\apps\product\models.py:17
 msgid "Brand"
 msgstr "Marka"
@@ -48,11 +48,11 @@ msgstr "Ad"
 msgid "Is Main"
 msgstr "Əsasdır"
 
-#: .\server\apps\brand\models.py:19
+#: .\server\apps\brand\models.py:17
 msgid "Brands"
 msgstr "Markalar"
 
-#: .\server\apps\category\apps.py:8 .\server\apps\category\models.py:22
+#: .\server\apps\category\apps.py:8 .\server\apps\category\models.py:20
 #: .\server\apps\product\models.py:20
 msgid "Category"
 msgstr "Kateqoriya"
@@ -61,7 +61,7 @@ msgstr "Kateqoriya"
 msgid "Parent"
 msgstr "Əsas"
 
-#: .\server\apps\category\models.py:23
+#: .\server\apps\category\models.py:21
 msgid "Categories"
 msgstr "Kateqoriyalar"
 
@@ -73,11 +73,28 @@ msgstr "Konfiqurasiya"
 msgid "App Version Configuration"
 msgstr "Proqram Versiyası Konfiqurasiyası"
 
-#: .\server\apps\core\models.py:12
+#: .\server\apps\core\admin.py:60 .\server\apps\notification\models.py:17
+#: .\server\apps\order\models.py:23 .\server\apps\order\models.py:77
+msgid "Date"
+msgstr "Tarix"
+
+#: .\server\apps\core\admin.py:82
+msgid "Operations"
+msgstr "Əməliyyatlar"
+
+#: .\server\apps\core\admin.py:100
+msgid "No image"
+msgstr "Şəkil yoxdur"
+
+#: .\server\apps\core\admin.py:106
+msgid "Preview"
+msgstr "Önizləmə"
+
+#: .\server\apps\core\models.py:11
 msgid "Updated at"
 msgstr "Yeniləndi"
 
-#: .\server\apps\core\models.py:13
+#: .\server\apps\core\models.py:12
 msgid "Created at"
 msgstr "Yaradıldı"
 
@@ -89,52 +106,48 @@ msgstr "Slug"
 msgid "Position"
 msgstr "Sıralama"
 
-#: .\server\apps\core\models.py:61 .\server\apps\product\models.py:73
+#: .\server\apps\core\models.py:62 .\server\apps\core\models.py:87
+#: .\server\apps\freezone\models.py:42 .\server\apps\product\models.py:71
 msgid "Image"
 msgstr "Şəkil"
-
-#: .\server\apps\freezone\admin.py:78 .\server\apps\freezone\models.py:22
-#: .\server\apps\order\models.py:20 .\server\apps\order\models.py:75
-msgid "Status"
-msgstr "Status"
-
-#: .\server\apps\freezone\admin.py:82 .\server\apps\order\models.py:23
-#: .\server\apps\order\models.py:77
-msgid "Date"
-msgstr "Tarix"
 
 #: .\server\apps\freezone\apps.py:8
 msgid "Freezone"
 msgstr "Azad Zona"
 
-#: .\server\apps\freezone\models.py:13 .\server\apps\notification\models.py:13
+#: .\server\apps\freezone\models.py:12 .\server\apps\notification\models.py:13
 msgid "Title"
 msgstr "Başlıq"
 
-#: .\server\apps\freezone\models.py:14 .\server\apps\order\models.py:50
+#: .\server\apps\freezone\models.py:13 .\server\apps\order\models.py:50
 #: .\server\apps\product\models.py:23
 msgid "Price"
 msgstr "Qiymət"
 
-#: .\server\apps\freezone\models.py:16 .\server\apps\notification\models.py:15
+#: .\server\apps\freezone\models.py:15 .\server\apps\notification\models.py:15
 #: .\server\apps\order\models.py:12 .\server\apps\user\apps.py:8
-#: .\server\apps\user\models.py:42
+#: .\server\apps\user\models.py:40
 msgid "User"
 msgstr "İstifadəçi"
 
-#: .\server\apps\freezone\models.py:18 .\server\apps\order\models.py:16
+#: .\server\apps\freezone\models.py:17 .\server\apps\order\models.py:16
 msgid "Address"
 msgstr "Adres"
 
-#: .\server\apps\freezone\models.py:19 .\server\apps\product\models.py:36
+#: .\server\apps\freezone\models.py:18 .\server\apps\product\models.py:36
 msgid "Description"
 msgstr "Təsvir"
 
-#: .\server\apps\freezone\models.py:26 .\server\apps\freezone\models.py:44
+#: .\server\apps\freezone\models.py:21 .\server\apps\order\models.py:20
+#: .\server\apps\order\models.py:75
+msgid "Status"
+msgstr "Status"
+
+#: .\server\apps\freezone\models.py:25 .\server\apps\freezone\models.py:44
 msgid "Freezone Item"
 msgstr "Azad Zona Elanı"
 
-#: .\server\apps\freezone\models.py:27
+#: .\server\apps\freezone\models.py:26
 msgid "Freezone Items"
 msgstr "Azad Zona Elanları"
 
@@ -146,7 +159,7 @@ msgstr "Azad Zona Elanı Şəkli"
 msgid "Freezone Item Images"
 msgstr "Azad Zona Elanı Şəkilləri"
 
-#: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:23
+#: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:22
 msgid "Notification"
 msgstr "Bildiriş"
 
@@ -158,13 +171,13 @@ msgstr "Məzmun"
 msgid "Message ID"
 msgstr "Mesaj ID"
 
-#: .\server\apps\notification\models.py:24
+#: .\server\apps\notification\models.py:23
 msgid "Notifications"
 msgstr "Bildirişlər"
 
-#: .\server\apps\order\apps.py:8 .\server\apps\order\models.py:30
+#: .\server\apps\order\apps.py:8 .\server\apps\order\models.py:28
 #: .\server\apps\order\models.py:45 .\server\apps\order\models.py:69
-#: .\server\apps\promo\models.py:38
+#: .\server\apps\promo\models.py:40
 msgid "Order"
 msgstr "Sifariş"
 
@@ -176,12 +189,12 @@ msgstr "Ödəniş Metodu"
 msgid "Note"
 msgstr "Qeyd"
 
-#: .\server\apps\order\models.py:31
+#: .\server\apps\order\models.py:29
 msgid "Orders"
 msgstr "Sifarişlər"
 
 #: .\server\apps\order\models.py:48 .\server\apps\product\apps.py:8
-#: .\server\apps\product\models.py:43 .\server\apps\product\models.py:75
+#: .\server\apps\product\models.py:41 .\server\apps\product\models.py:73
 msgid "Product"
 msgstr "Məhsul"
 
@@ -194,11 +207,11 @@ msgstr "Endirim"
 msgid "Quantity"
 msgstr "Miqdar"
 
-#: .\server\apps\order\models.py:58
+#: .\server\apps\order\models.py:56
 msgid "Order Item"
 msgstr "Sifariş Məhsulu"
 
-#: .\server\apps\order\models.py:59
+#: .\server\apps\order\models.py:57
 msgid "Order Items"
 msgstr "Sifariş Məhsulları"
 
@@ -214,11 +227,11 @@ msgstr "Bank Sifariş ID"
 msgid "Installments"
 msgstr "Taksit"
 
-#: .\server\apps\order\models.py:82
+#: .\server\apps\order\models.py:80
 msgid "Order Payment"
 msgstr "Sifariş Ödənişi"
 
-#: .\server\apps\order\models.py:83
+#: .\server\apps\order\models.py:81
 msgid "Order Payments"
 msgstr "Sifariş Ödənişləri"
 
@@ -246,28 +259,28 @@ msgstr "Distribütörmü"
 msgid "Main Note"
 msgstr "Əsas Qeyd"
 
-#: .\server\apps\product\models.py:44
+#: .\server\apps\product\models.py:42
 msgid "Products"
 msgstr "Məhsullar"
 
-#: .\server\apps\product\models.py:81
+#: .\server\apps\product\models.py:77
 msgid "Product Image"
 msgstr "Məhsul Şəkli"
 
-#: .\server\apps\product\models.py:82
+#: .\server\apps\product\models.py:78
 msgid "Product Images"
 msgstr "Məhsul Şəkilləri"
 
-#: .\server\apps\product\models.py:98
+#: .\server\apps\product\models.py:93
 msgid "Product Note"
 msgstr "Məhsul Qeydi"
 
-#: .\server\apps\product\models.py:99
+#: .\server\apps\product\models.py:94
 msgid "Product Notes"
 msgstr "Məhsul Qeydləri"
 
 #: .\server\apps\promo\apps.py:8 .\server\apps\promo\models.py:17
-#: .\server\apps\promo\models.py:36
+#: .\server\apps\promo\models.py:38
 msgid "Promo"
 msgstr "Promo"
 
@@ -283,11 +296,11 @@ msgstr "Bitmə Tarixi"
 msgid "Promos"
 msgstr "Promolar"
 
-#: .\server\apps\promo\models.py:42
+#: .\server\apps\promo\models.py:44
 msgid "Promo Usage"
 msgstr "Promo İstifadəsi"
 
-#: .\server\apps\promo\models.py:43
+#: .\server\apps\promo\models.py:45
 msgid "Promo Usages"
 msgstr "Promo İstifadələri"
 
@@ -327,6 +340,6 @@ msgstr "OTP İstifadə edildi"
 msgid "Is Verified"
 msgstr "Təsdiq olunub"
 
-#: .\server\apps\user\models.py:43
+#: .\server\apps\user\models.py:41
 msgid "Users"
 msgstr "İstifadəçilər"

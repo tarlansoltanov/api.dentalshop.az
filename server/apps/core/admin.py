@@ -1,4 +1,7 @@
+from adminsortable2.admin import SortableAdminMixin as _SortableAdminMixin
+from adminsortable2.admin import SortableStackedInline
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from server.apps.core.constants import API_PREFIX
@@ -17,3 +20,117 @@ admin.site.index_title = f'{PROJECT_NAME} {_("Site administration")}'
 
 # URL for the "View site" link at the top of each admin page.
 admin.site.site_url = f"/{API_PREFIX}"
+
+
+class ModelAdmin(admin.ModelAdmin):
+    """Model admin class template."""
+
+    list_per_page = 20
+
+    def get_list_display(self, request):
+        """
+        Append the ``updated_at`` and ``created_at`` fields to the ``list_display`` attribute.
+        """
+        return super().get_list_display(request) + ("updated_at", "created_at", "operations")
+
+    def get_list_filter(self, request):
+        """
+        Append the ``created_at`` fields to the ``list_filter`` attribute.
+        """
+        return super().get_list_filter(request) + ("created_at",)
+
+    def get_readonly_fields(self, request, obj):
+        """
+        Append the ``updated_at`` and ``created_at`` fields to the ``readonly_fields`` attribute.
+        """
+        if obj:
+            return super().get_readonly_fields(request, obj) + ("updated_at", "created_at")
+
+        return super().get_readonly_fields(request, obj)
+
+    def get_fieldsets(self, request, obj):
+        """
+        Append the ``updated_at`` and ``created_at`` fields to the ``fieldsets`` attribute.
+        """
+        fieldsets = list(super().get_fieldsets(request, obj))
+
+        if obj:
+            fieldsets.append(
+                (
+                    _("Date"),
+                    {
+                        "fields": (
+                            "updated_at",
+                            "created_at",
+                        ),
+                        "classes": ("collapse",),
+                    },
+                )
+            )
+
+        return fieldsets
+
+    def operations(self, obj):
+        """Display edit and delete buttons."""
+        btns = [
+            f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/change/" class="button">{_("Change")}</a>',  # noqa: E501
+            f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/delete/" class="button">{_("Delete")}</a>',  # noqa: E501
+        ]
+
+        return mark_safe(f'<div class="submit-row" style="display: flex; gap: 10px;">{" ".join(btns)}</div>')
+
+    operations.short_description = _("Operations")
+
+
+class ImageAdminMixin:
+    """Image model admin class template mixin."""
+
+    image_field_name = "image"
+
+    preview_attrs = {
+        "width": "100px",
+        "height": "100px",
+    }
+
+    def get_readonly_fields(self, request, obj):
+        """
+        Append the ``preview`` field to the ``readonly_fields`` attribute.
+        """
+        return super().get_readonly_fields(request, obj) + ("preview",)
+
+    def preview(self, obj):
+        """Display image preview."""
+        image = getattr(obj, self.image_field_name)
+
+        if not image:
+            return _("No image")
+
+        return mark_safe(
+            f'<img src="{image.url}" style="{"; ".join([f"{k}: {v}" for k, v in self.preview_attrs.items()])}">'
+        )
+
+    preview.short_description = _("Preview")
+
+
+class SortableAdminMixin(_SortableAdminMixin):
+    """Sortable model admin class template."""
+
+    def get_list_display(self, request):
+        """
+        Append the ``position`` field to the ``list_display`` attribute.
+        """
+        return super().get_list_display(request)
+
+
+class ImageInlineAdmin(SortableStackedInline, ImageAdminMixin):
+    """Image inline admin class template."""
+
+    min_num = 1
+    extra = 0
+
+    fields = (
+        "image",
+        "preview",
+    )
+
+    readonly_fields = ("preview",)
