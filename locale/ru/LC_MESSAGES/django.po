@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-24 23:22+0200\n"
+"POT-Creation-Date: 2024-06-25 19:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,11 +84,11 @@ msgstr "Дата"
 msgid "Operations"
 msgstr "Операции"
 
-#: .\server\apps\core\admin.py:100
+#: .\server\apps\core\admin.py:106
 msgid "No image"
 msgstr "Изображение не найдено"
 
-#: .\server\apps\core\admin.py:106
+#: .\server\apps\core\admin.py:112
 msgid "Preview"
 msgstr "Предпросмотр"
 
@@ -108,7 +108,7 @@ msgstr "Слаг"
 msgid "Position"
 msgstr "Позиция"
 
-#: .\server\apps\core\models.py:62 .\server\apps\core\models.py:87
+#: .\server\apps\core\models.py:61 .\server\apps\core\models.py:86
 #: .\server\apps\freezone\models.py:42 .\server\apps\product\models.py:71
 msgid "Image"
 msgstr "Изображение"
@@ -127,8 +127,8 @@ msgid "Price"
 msgstr "Цена"
 
 #: .\server\apps\freezone\models.py:15 .\server\apps\notification\models.py:15
-#: .\server\apps\order\models.py:12 .\server\apps\user\apps.py:8
-#: .\server\apps\user\models.py:40
+#: .\server\apps\order\models.py:12 .\server\apps\promo\admin.py:29
+#: .\server\apps\user\apps.py:8 .\server\apps\user\models.py:40
 msgid "User"
 msgstr "Пользователь"
 
@@ -280,6 +280,10 @@ msgstr "Заметка продукта"
 #: .\server\apps\product\models.py:94
 msgid "Product Notes"
 msgstr "Заметки продукта"
+
+#: .\server\apps\promo\admin.py:34
+msgid "Usage Date"
+msgstr "Дата использования"
 
 #: .\server\apps\promo\apps.py:8 .\server\apps\promo\models.py:17
 #: .\server\apps\promo\models.py:38
