@@ -14,7 +14,6 @@ class Notification(TimeStampedModel):
     body = models.CharField(verbose_name=_("Body"), max_length=255)
     user = models.ForeignKey("user.User", verbose_name=_("User"), blank=True, null=True, on_delete=models.SET_NULL)
     message_id = models.CharField(verbose_name=_("Message ID"), max_length=255, blank=True, null=True)
-    date = models.DateTimeField(verbose_name=_("Date"), auto_now_add=True)
 
     objects = NotificationManager()
 

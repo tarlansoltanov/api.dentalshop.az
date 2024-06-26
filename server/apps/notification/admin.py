@@ -1,26 +1,28 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 
+from server.apps.core.admin import ModelAdmin
 from server.apps.notification.models import Notification
 
 
 @admin.register(Notification)
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = (
-        "title",
-        "body",
-        "user",
-        "date",
-        "updated_at",
-        "created_at",
-    )
-    list_filter = (
-        "date",
-        "user",
-    )
+class NotificationAdmin(ModelAdmin):
+    """Notification admin."""
+
+    list_display = ("title", "body", "to")
+
+    def to(self, obj):
+        return _("All Users") if obj.user is None else obj.user
+
+    to.short_description = _("To")
+
     search_fields = (
         "title",
         "body",
+        "user__username",
     )
+
+    autocomplete_fields = ("user",)
 
     fieldsets = (
         (
@@ -34,3 +36,7 @@ class NotificationAdmin(admin.ModelAdmin):
             },
         ),
     )
+
+    def has_change_permission(self, request, obj=None):
+        """Disable change permission."""
+        return False

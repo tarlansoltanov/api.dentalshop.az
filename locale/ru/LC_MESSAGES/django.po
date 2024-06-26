@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-25 19:33+0200\n"
+"POT-Creation-Date: 2024-06-25 20:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,20 +75,20 @@ msgstr "Конфигурация"
 msgid "App Version Configuration"
 msgstr "Конфигурация версии приложения"
 
-#: .\server\apps\core\admin.py:60 .\server\apps\notification\models.py:17
+#: .\server\apps\core\admin.py:67 .\server\apps\notification\models.py:17
 #: .\server\apps\order\models.py:23 .\server\apps\order\models.py:77
 msgid "Date"
 msgstr "Дата"
 
-#: .\server\apps\core\admin.py:82
+#: .\server\apps\core\admin.py:98
 msgid "Operations"
 msgstr "Операции"
 
-#: .\server\apps\core\admin.py:106
+#: .\server\apps\core\admin.py:122
 msgid "No image"
 msgstr "Изображение не найдено"
 
-#: .\server\apps\core\admin.py:112
+#: .\server\apps\core\admin.py:128
 msgid "Preview"
 msgstr "Предпросмотр"
 
@@ -160,6 +160,14 @@ msgstr "Изображение элемента фри зоны"
 #: .\server\apps\freezone\models.py:49
 msgid "Freezone Item Images"
 msgstr "Изображения элементов фри зоны"
+
+#: .\server\apps\notification\admin.py:15
+msgid "All Users"
+msgstr "Все пользователи"
+
+#: .\server\apps\notification\admin.py:17
+msgid "To"
+msgstr "Кому"
 
 #: .\server\apps\notification\apps.py:8 .\server\apps\notification\models.py:22
 msgid "Notification"
