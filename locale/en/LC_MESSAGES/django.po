@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 16:55+0200\n"
+"POT-Creation-Date: 2024-06-26 18:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Slide"
 msgid "Photo"
 msgstr "Photo"
 
-#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:90
+#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:93
 msgid "Text"
 msgstr "Text"
 
@@ -73,8 +73,7 @@ msgstr "Configuration"
 msgid "App Version Configuration"
 msgstr "App Version Configuration"
 
-#: .\server\apps\core\admin.py:67 .\server\apps\order\models.py:23
-#: .\server\apps\order\models.py:77
+#: .\server\apps\core\admin.py:67 .\server\apps\order\models.py:79
 msgid "Date"
 msgstr "Date"
 
@@ -91,7 +90,7 @@ msgid "Preview"
 msgstr "Preview"
 
 #: .\server\apps\core\admin.py:147 .\server\apps\core\models.py:61
-#: .\server\apps\core\models.py:86 .\server\apps\product\models.py:71
+#: .\server\apps\core\models.py:86
 msgid "Image"
 msgstr "Image"
 
@@ -116,7 +115,8 @@ msgid "Position"
 msgstr "Position"
 
 #: .\server\apps\freezone\admin.py:65 .\server\apps\freezone\models.py:21
-#: .\server\apps\order\models.py:20 .\server\apps\order\models.py:75
+#: .\server\apps\order\admin.py:135 .\server\apps\order\models.py:20
+#: .\server\apps\order\models.py:77
 msgid "Status"
 msgstr "Status"
 
@@ -128,8 +128,8 @@ msgstr "Free Zone"
 msgid "Title"
 msgstr "Title"
 
-#: .\server\apps\freezone\models.py:13 .\server\apps\order\models.py:50
-#: .\server\apps\product\models.py:23
+#: .\server\apps\freezone\models.py:13 .\server\apps\order\admin.py:27
+#: .\server\apps\order\models.py:48 .\server\apps\product\models.py:23
 msgid "Price"
 msgstr "Price"
 
@@ -143,7 +143,8 @@ msgstr "User"
 msgid "Address"
 msgstr "Address"
 
-#: .\server\apps\freezone\models.py:18 .\server\apps\product\models.py:36
+#: .\server\apps\freezone\models.py:18 .\server\apps\product\admin.py:79
+#: .\server\apps\product\models.py:36
 msgid "Description"
 msgstr "Description"
 
@@ -187,11 +188,35 @@ msgstr "Message ID"
 msgid "Notifications"
 msgstr "Notifications"
 
-#: .\server\apps\order\apps.py:8 .\server\apps\order\models.py:28
-#: .\server\apps\order\models.py:45 .\server\apps\order\models.py:69
-#: .\server\apps\promo\models.py:40
+#: .\server\apps\order\admin.py:21
+msgid "Item"
+msgstr "Item"
+
+#: .\server\apps\order\admin.py:22
+msgid "Items"
+msgstr "Items"
+
+#: .\server\apps\order\admin.py:32 .\server\apps\order\admin.py:102
+msgid "Total"
+msgstr "Total"
+
+#: .\server\apps\order\admin.py:54
+msgid "Payment"
+msgstr "Payment"
+
+#: .\server\apps\order\admin.py:55
+msgid "Payments"
+msgstr "Payments"
+
+#: .\server\apps\order\admin.py:97 .\server\apps\order\apps.py:8
+#: .\server\apps\order\models.py:26 .\server\apps\order\models.py:43
+#: .\server\apps\order\models.py:71 .\server\apps\promo\models.py:40
 msgid "Order"
 msgstr "Order"
+
+#: .\server\apps\order\admin.py:107
+msgid "Contact"
+msgstr "Contact"
 
 #: .\server\apps\order\models.py:14
 msgid "Payment Method"
@@ -201,49 +226,50 @@ msgstr "Payment Method"
 msgid "Note"
 msgstr "Note"
 
-#: .\server\apps\order\models.py:29
+#: .\server\apps\order\models.py:27
 msgid "Orders"
 msgstr "Orders"
 
-#: .\server\apps\order\models.py:48 .\server\apps\product\apps.py:8
-#: .\server\apps\product\models.py:41 .\server\apps\product\models.py:73
+#: .\server\apps\order\models.py:46 .\server\apps\product\apps.py:8
+#: .\server\apps\product\models.py:41 .\server\apps\product\models.py:72
 msgid "Product"
 msgstr "Product"
 
-#: .\server\apps\order\models.py:51 .\server\apps\product\models.py:24
+#: .\server\apps\order\models.py:49 .\server\apps\product\admin.py:37
+#: .\server\apps\product\admin.py:69 .\server\apps\product\models.py:24
 #: .\server\apps\promo\models.py:12 .\server\apps\user\models.py:24
 msgid "Discount"
 msgstr "Discount"
 
-#: .\server\apps\order\models.py:53 .\server\apps\product\models.py:28
+#: .\server\apps\order\models.py:51 .\server\apps\product\models.py:28
 msgid "Quantity"
 msgstr "Quantity"
 
-#: .\server\apps\order\models.py:56
+#: .\server\apps\order\models.py:54
 msgid "Order Item"
 msgstr "Order Item"
 
-#: .\server\apps\order\models.py:57
+#: .\server\apps\order\models.py:55
 msgid "Order Items"
 msgstr "Order Items"
 
-#: .\server\apps\order\models.py:71
+#: .\server\apps\order\models.py:73
 msgid "Bank Session ID"
 msgstr "Bank Session ID"
 
-#: .\server\apps\order\models.py:72
+#: .\server\apps\order\models.py:74
 msgid "Bank Order ID"
 msgstr "Bank Order ID"
 
-#: .\server\apps\order\models.py:73
+#: .\server\apps\order\models.py:75
 msgid "Installments"
 msgstr "Installments"
 
-#: .\server\apps\order\models.py:80
+#: .\server\apps\order\models.py:82
 msgid "Order Payment"
 msgstr "Order Payment"
 
-#: .\server\apps\order\models.py:81
+#: .\server\apps\order\models.py:83
 msgid "Order Payments"
 msgstr "Order Payments"
 
@@ -275,19 +301,19 @@ msgstr "Main Note"
 msgid "Products"
 msgstr "Products"
 
-#: .\server\apps\product\models.py:77
+#: .\server\apps\product\models.py:76
 msgid "Product Image"
 msgstr "Product Image"
 
-#: .\server\apps\product\models.py:78
+#: .\server\apps\product\models.py:77
 msgid "Product Images"
 msgstr "Product Images"
 
-#: .\server\apps\product\models.py:93
+#: .\server\apps\product\models.py:96
 msgid "Product Note"
 msgstr "Product Note"
 
-#: .\server\apps\product\models.py:94
+#: .\server\apps\product\models.py:97
 msgid "Product Notes"
 msgstr "Product Notes"
 

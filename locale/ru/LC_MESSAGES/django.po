@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-26 16:55+0200\n"
+"POT-Creation-Date: 2024-06-26 18:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,7 +28,7 @@ msgstr "Слайд"
 msgid "Photo"
 msgstr "Фото"
 
-#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:90
+#: .\server\apps\banner\models.py:11 .\server\apps\product\models.py:93
 msgid "Text"
 msgstr "Текст"
 
@@ -75,8 +75,7 @@ msgstr "Конфигурация"
 msgid "App Version Configuration"
 msgstr "Конфигурация версии приложения"
 
-#: .\server\apps\core\admin.py:67 .\server\apps\order\models.py:23
-#: .\server\apps\order\models.py:77
+#: .\server\apps\core\admin.py:67 .\server\apps\order\models.py:79
 msgid "Date"
 msgstr "Дата"
 
@@ -93,7 +92,7 @@ msgid "Preview"
 msgstr "Предпросмотр"
 
 #: .\server\apps\core\admin.py:147 .\server\apps\core\models.py:61
-#: .\server\apps\core\models.py:86 .\server\apps\product\models.py:71
+#: .\server\apps\core\models.py:86
 msgid "Image"
 msgstr "Изображение"
 
@@ -118,7 +117,8 @@ msgid "Position"
 msgstr "Позиция"
 
 #: .\server\apps\freezone\admin.py:65 .\server\apps\freezone\models.py:21
-#: .\server\apps\order\models.py:20 .\server\apps\order\models.py:75
+#: .\server\apps\order\admin.py:135 .\server\apps\order\models.py:20
+#: .\server\apps\order\models.py:77
 msgid "Status"
 msgstr "Статус"
 
@@ -130,8 +130,8 @@ msgstr "Фри зона"
 msgid "Title"
 msgstr "Заголовок"
 
-#: .\server\apps\freezone\models.py:13 .\server\apps\order\models.py:50
-#: .\server\apps\product\models.py:23
+#: .\server\apps\freezone\models.py:13 .\server\apps\order\admin.py:27
+#: .\server\apps\order\models.py:48 .\server\apps\product\models.py:23
 msgid "Price"
 msgstr "Цена"
 
@@ -145,7 +145,8 @@ msgstr "Пользователь"
 msgid "Address"
 msgstr "Адрес"
 
-#: .\server\apps\freezone\models.py:18 .\server\apps\product\models.py:36
+#: .\server\apps\freezone\models.py:18 .\server\apps\product\admin.py:79
+#: .\server\apps\product\models.py:36
 msgid "Description"
 msgstr "Описание"
 
@@ -189,11 +190,35 @@ msgstr "ID сообщения"
 msgid "Notifications"
 msgstr "Уведомления"
 
-#: .\server\apps\order\apps.py:8 .\server\apps\order\models.py:28
-#: .\server\apps\order\models.py:45 .\server\apps\order\models.py:69
-#: .\server\apps\promo\models.py:40
+#: .\server\apps\order\admin.py:21
+msgid "Item"
+msgstr "Продукт"
+
+#: .\server\apps\order\admin.py:22
+msgid "Items"
+msgstr "Продукты"
+
+#: .\server\apps\order\admin.py:32 .\server\apps\order\admin.py:102
+msgid "Total"
+msgstr "Итого"
+
+#: .\server\apps\order\admin.py:54
+msgid "Payment"
+msgstr "Оплата"
+
+#: .\server\apps\order\admin.py:55
+msgid "Payments"
+msgstr "Оплаты"
+
+#: .\server\apps\order\admin.py:97 .\server\apps\order\apps.py:8
+#: .\server\apps\order\models.py:26 .\server\apps\order\models.py:43
+#: .\server\apps\order\models.py:71 .\server\apps\promo\models.py:40
 msgid "Order"
 msgstr "Заказ"
+
+#: .\server\apps\order\admin.py:107
+msgid "Contact"
+msgstr "Контакт"
 
 #: .\server\apps\order\models.py:14
 msgid "Payment Method"
@@ -203,49 +228,50 @@ msgstr "Метод оплаты"
 msgid "Note"
 msgstr "Заметка"
 
-#: .\server\apps\order\models.py:29
+#: .\server\apps\order\models.py:27
 msgid "Orders"
 msgstr "Заказы"
 
-#: .\server\apps\order\models.py:48 .\server\apps\product\apps.py:8
-#: .\server\apps\product\models.py:41 .\server\apps\product\models.py:73
+#: .\server\apps\order\models.py:46 .\server\apps\product\apps.py:8
+#: .\server\apps\product\models.py:41 .\server\apps\product\models.py:72
 msgid "Product"
 msgstr "Продукт"
 
-#: .\server\apps\order\models.py:51 .\server\apps\product\models.py:24
+#: .\server\apps\order\models.py:49 .\server\apps\product\admin.py:37
+#: .\server\apps\product\admin.py:69 .\server\apps\product\models.py:24
 #: .\server\apps\promo\models.py:12 .\server\apps\user\models.py:24
 msgid "Discount"
 msgstr "Скидка"
 
-#: .\server\apps\order\models.py:53 .\server\apps\product\models.py:28
+#: .\server\apps\order\models.py:51 .\server\apps\product\models.py:28
 msgid "Quantity"
 msgstr "Количество"
 
-#: .\server\apps\order\models.py:56
+#: .\server\apps\order\models.py:54
 msgid "Order Item"
 msgstr "Элемент заказа"
 
-#: .\server\apps\order\models.py:57
+#: .\server\apps\order\models.py:55
 msgid "Order Items"
 msgstr "Элементы заказа"
 
-#: .\server\apps\order\models.py:71
+#: .\server\apps\order\models.py:73
 msgid "Bank Session ID"
 msgstr "ID сессии банка"
 
-#: .\server\apps\order\models.py:72
+#: .\server\apps\order\models.py:74
 msgid "Bank Order ID"
 msgstr "ID заказа банка"
 
-#: .\server\apps\order\models.py:73
+#: .\server\apps\order\models.py:75
 msgid "Installments"
 msgstr "Рассрочка"
 
-#: .\server\apps\order\models.py:80
+#: .\server\apps\order\models.py:82
 msgid "Order Payment"
 msgstr "Оплата заказа"
 
-#: .\server\apps\order\models.py:81
+#: .\server\apps\order\models.py:83
 msgid "Order Payments"
 msgstr "Оплаты заказа"
 
@@ -277,19 +303,19 @@ msgstr "Основная заметка"
 msgid "Products"
 msgstr "Продукты"
 
-#: .\server\apps\product\models.py:77
+#: .\server\apps\product\models.py:76
 msgid "Product Image"
 msgstr "Изображение продукта"
 
-#: .\server\apps\product\models.py:78
+#: .\server\apps\product\models.py:77
 msgid "Product Images"
 msgstr "Изображения продукта"
 
-#: .\server\apps\product\models.py:93
+#: .\server\apps\product\models.py:96
 msgid "Product Note"
 msgstr "Заметка продукта"
 
-#: .\server\apps\product\models.py:94
+#: .\server\apps\product\models.py:97
 msgid "Product Notes"
 msgstr "Заметки продукта"
 

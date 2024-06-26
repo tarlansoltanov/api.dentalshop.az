@@ -40,13 +40,15 @@ class OrderSerializer(serializers.ModelSerializer):
             "address",
             "note",
             "status",
-            "date",
+            "updated_at",
+            "created_at",
         )
         read_only_fields = (
             "id",
             "items",
             "discount",
-            "date",
+            "updated_at",
+            "created_at",
         )
 
 

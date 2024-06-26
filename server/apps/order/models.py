@@ -20,8 +20,6 @@ class Order(TimeStampedModel):
         verbose_name=_("Status"), choices=OrderStatus.choices, default=OrderStatus.NOT_PAID
     )
 
-    date = models.DateField(verbose_name=_("Date"), auto_now_add=True)
-
     objects = OrderManager()
 
     class Meta:
@@ -36,7 +34,7 @@ class Order(TimeStampedModel):
 
     def get_total(self):
         """Get total price of the order."""
-        return sum([float(item.price) * (1 - item.discount / 100) * item.quantity for item in self.items.all()])
+        return sum([item.get_total() for item in self.items.all()])
 
 
 class OrderItem(TimeStampedModel):
@@ -61,6 +59,10 @@ class OrderItem(TimeStampedModel):
     def __str__(self):
         """Unicode representation of OrderItem."""
         return f'{_("Order")} #{self.id} - {self.product.name}'
+
+    def get_total(self):
+        """Get total price of the item."""
+        return float(self.price) * (1 - self.discount / 100) * self.quantity
 
 
 class OrderPayment(TimeStampedModel):
