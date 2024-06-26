@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.core.models import SlugModel, TimeStampedModel
+from server.apps.core.models import ChildImageModel, SlugModel
 from server.apps.freezone.logic.constants import FreeZoneStatus
 
 
@@ -14,7 +14,7 @@ class FreezoneItem(SlugModel):
 
     user = models.ForeignKey("user.User", verbose_name=_("User"), on_delete=models.CASCADE)
 
-    address = models.CharField(max_length=255, verbose_name=_("Address"), blank=True, null=True)
+    address = models.CharField(verbose_name=_("Address"), max_length=255, blank=True, null=True)
     description = models.TextField(verbose_name=_("Description"), blank=True, null=True)
 
     status = models.PositiveSmallIntegerField(
@@ -25,7 +25,7 @@ class FreezoneItem(SlugModel):
         verbose_name = _("Freezone Item")
         verbose_name_plural = _("Freezone Items")
 
-        ordering = ("-updated_at",)
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of FreezoneItem."""
@@ -36,10 +36,9 @@ class FreezoneItem(SlugModel):
         return slugify(self.title)
 
 
-class FreezoneItemImage(TimeStampedModel):
+class FreezoneItemImage(ChildImageModel):
     """Model definition for FreezoneItemImage."""
 
-    image = models.ImageField(verbose_name=_("Image"), upload_to="freezone/")
     freezone_item = models.ForeignKey(
         FreezoneItem, verbose_name=_("Freezone Item"), on_delete=models.CASCADE, related_name="images"
     )
@@ -48,4 +47,8 @@ class FreezoneItemImage(TimeStampedModel):
         verbose_name = _("Freezone Item Image")
         verbose_name_plural = _("Freezone Item Images")
 
-        ordering = ("-created_at",)
+        ordering = ("position", "-created_at")
+
+    def get_upload_path(self):
+        """Get upload path for FreezoneItemImage."""
+        return "freezone/"
