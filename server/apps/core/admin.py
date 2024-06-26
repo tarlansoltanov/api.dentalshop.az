@@ -149,9 +149,17 @@ class ImageInlineAdmin(SortableStackedInline, ImageAdminMixin):
 
     classes = ("collapse",)
 
-    fields = (
-        "image",
-        "preview",
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    "image",
+                    "preview",
+                    "position",
+                )
+            },
+        ),
     )
 
     readonly_fields = ("preview",)

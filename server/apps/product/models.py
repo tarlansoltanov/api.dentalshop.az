@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
-from server.apps.core.models import SlugModel, TimeStampedModel
+from server.apps.core.models import ChildImageModel, SlugModel, SortableModel
 from server.apps.product.logic.queryset import ProductQuerySet
 
 
@@ -65,10 +65,9 @@ class Product(SlugModel):
         return self.is_promo and self.get_discount() == 0
 
 
-class ProductImage(TimeStampedModel):
+class ProductImage(ChildImageModel):
     """Model definition for ProductImage."""
 
-    image = models.ImageField(verbose_name=_("Image"), upload_to="products")
     product = models.ForeignKey(
         to="product.Product", verbose_name=_("Product"), related_name="images", on_delete=models.CASCADE
     )
@@ -77,14 +76,18 @@ class ProductImage(TimeStampedModel):
         verbose_name = _("Product Image")
         verbose_name_plural = _("Product Images")
 
-        ordering = ("created_at",)
+        ordering = ("position", "created_at")
 
     def __str__(self):
         """Unicode representation of ProductImage."""
         return self.image.name
 
+    def get_upload_path(self):
+        """Get upload path for image."""
+        return "products"
 
-class ProductNote(TimeStampedModel):
+
+class ProductNote(SortableModel):
     """Model definition for ProductNote."""
 
     text = models.TextField(verbose_name=_("Text"))
@@ -93,7 +96,7 @@ class ProductNote(TimeStampedModel):
         verbose_name = _("Product Note")
         verbose_name_plural = _("Product Notes")
 
-        ordering = ("-created_at",)
+        ordering = ("position", "-created_at")
 
     def __str__(self):
         """Unicode representation of ProductNote."""
