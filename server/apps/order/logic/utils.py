@@ -95,15 +95,65 @@ def format_xml_response(data: str) -> dict:
 def send_new_order_email(order: Order):
     """Send email notification to the admin about new order."""
 
-    subject = f"Yeni Satış №{order.id}"
-    body = f"Yeni satış №{order.id} yaradıldı."
+    subject = f"Yeni Sifariş №{order.id}"
 
-    body += "\n\nMəhsullar:"
+    body = "<h1>Yeni sifarişiniz var.</h1>"
+
+    body += "<style>"
+    body += "table { border-collapse: collapse; width: 100%; border: 1px solid #ddd; }"
+    body += "th, td { text-align: left; padding: 8px; }"
+    body += "th { background-color: #f2f2f2; }"
+    body += "a[role='button'] { background-color: #4CAF50; border: none; color: white; padding: 15px 32px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; }"  # noqa: E501
+    body += "</style>"
+
+    body += "</br>"
+
+    body += f"Sifariş №{order.id}"
+
+    body += "</br></br>"
+
+    body += "<table> <tr> <th>Məhsul</th> <th>Qiymət</th> <th>Ədəd</th> <th>Toplam</th> </tr>"
+
     for item in order.items.all():
-        body += f"\n{item.product.name} - {item.quantity} ədəd"
+        body += "<tr>"
+        body += f"<td>{item.product.name}</td>"
+        body += f"<td>{item.price:.2f} AZN</td>"
+        body += f"<td>{item.quantity} ədəd</td>"
+        body += f"<td>{item.get_total():.2f} AZN</td>"
+        body += "</tr>"
 
-    body += f"\n\nToplam: {order.get_total()} AZN"
+    body += "</table>"
+
+    body += "</br>"
+    body += f"\nToplam: {order.get_total()} AZN"
+    body += "</br>"
+    body += f"\nÖdəmə Tipi: {order.get_payment_method_display()}"
+    body += "</br></br>"
+
+    body += "<hr>"
+
+    body += "</br>"
+    body += f"\nMüştəri: {order.user.first_name} ({order.user.last_name})"
+    body += "</br>"
+    body += f"\nƏlaqə: <a href='tel:+994{order.user.phone}'>+994{order.user.phone}</a>"
+    body += "</br>"
+    body += f"\nÜnvan: {order.address}"
+    body += "</br>"
+    body += f"\nQeyd: {order.note}"
+    body += "</br></br>"
+
+    body += "<hr></br>"
+
+    body += (
+        f"<a role='button' href='https://api.dentalshop.az/admin/order/order/{order.id}/change/'>Sifariş detalları</a>"
+    )
 
     recipients = ["info@dentalshop.az"]
 
-    send_mail(subject=subject, message=body, from_email=settings.EMAIL_HOST_USER, recipient_list=recipients)
+    send_mail(
+        subject=subject,
+        message=body,
+        from_email=settings.EMAIL_HOST_USER,
+        recipient_list=recipients,
+        html_message=body,
+    )
