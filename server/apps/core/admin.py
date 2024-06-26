@@ -27,6 +27,13 @@ class ModelAdmin(admin.ModelAdmin):
 
     list_per_page = 20
 
+    def get_queryset(self, request):
+        """
+        Return a QuerySet of all model instances.
+        """
+        self.request = request
+        return super().get_queryset(request)
+
     def get_list_display(self, request):
         """
         Append the ``updated_at`` and ``created_at`` fields to the ``list_display`` attribute.
@@ -72,10 +79,19 @@ class ModelAdmin(admin.ModelAdmin):
 
     def operations(self, obj):
         """Display edit and delete buttons."""
-        btns = [
-            f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/change/" class="button">{_("Change")}</a>',  # noqa: E501
-            f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/delete/" class="button">{_("Delete")}</a>',  # noqa: E501
-        ]
+        view_btn = f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/change/" class="button">{_("View")}</a>'  # noqa: E501
+        edit_btn = f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/change/" class="button">{_("Change")}</a>'  # noqa: E501
+        delete_btn = f'<a href="/admin/{obj._meta.app_label}/{obj._meta.model_name}/{obj.id}/delete/" class="button">{_("Delete")}</a>'  # noqa: E501
+
+        btns = []
+
+        if self.has_change_permission(self.request, obj):
+            btns.append(edit_btn)
+        else:
+            btns.append(view_btn)
+
+        if self.has_delete_permission(self.request, obj):
+            btns.append(delete_btn)
 
         return mark_safe(f'<div class="submit-row" style="display: flex; gap: 10px;">{" ".join(btns)}</div>')
 
