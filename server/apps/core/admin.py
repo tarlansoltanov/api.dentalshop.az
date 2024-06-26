@@ -144,6 +144,11 @@ class ImageInlineAdmin(SortableStackedInline, ImageAdminMixin):
     min_num = 1
     extra = 0
 
+    verbose_name = _("Image")
+    verbose_name_plural = _("Images")
+
+    classes = ("collapse",)
+
     fields = (
         "image",
         "preview",
