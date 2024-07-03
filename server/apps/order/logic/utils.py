@@ -29,7 +29,6 @@ def get_xml_request_order(
     redirect_url: str,
     amount: int,
     installments: int = 0,
-    merchant: str = "E1000010",
     language: str = "AZ",
 ) -> dict:
     """Get XML request for payment order."""
@@ -40,7 +39,7 @@ def get_xml_request_order(
                 "Language": language,
                 "Order": {
                     "OrderType": "Purchase",
-                    "Merchant": merchant,
+                    "Merchant": config("BANK_MERCHANT"),
                     "Amount": int(amount * 100),
                     "Currency": "944",
                     "Description": f"TAKSIT={installments}" if installments > 0 else "xxxxxxxx",
@@ -62,7 +61,7 @@ def send_payment_order(url: str, order: Order, installments: int = 0) -> dict:
     xml = get_xml_request_order(url, order.get_total(), installments)
 
     response = requests.post(
-        "https://tstpg.kapitalbank.az:5443/Exec",
+        config("BANK_URL"),
         data=xml,
         cert=(config("BANK_CERT"), config("BANK_KEY")),
         allow_redirects=True,
