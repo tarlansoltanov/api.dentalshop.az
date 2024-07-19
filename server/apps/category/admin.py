@@ -19,7 +19,6 @@ class CategoryAdmin(DraggableMPTTAdmin, ModelAdmin):
     search_fields = (
         "slug",
         "name_az",
-        "name_en",
         "name_ru",
     )
 
