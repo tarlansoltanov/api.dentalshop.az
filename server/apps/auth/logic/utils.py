@@ -13,11 +13,13 @@ class CustomAdapter(HTTPAdapter):
     def init_poolmanager(self, *args, **kwargs):
         context = create_urllib3_context(ciphers="ALL:@SECLEVEL=1")
         kwargs["ssl_context"] = context
+        context.check_hostname = False
         return super(CustomAdapter, self).init_poolmanager(*args, **kwargs)
 
     def proxy_manager_for(self, *args, **kwargs):
         context = create_urllib3_context(ciphers="ALL:@SECLEVEL=1")
         kwargs["ssl_context"] = context
+        context.check_hostname = False
         return super(CustomAdapter, self).proxy_manager_for(*args, **kwargs)
 
 
@@ -35,7 +37,7 @@ def send_otp_code(user: User) -> None:
 
     with requests.Session() as session:
         session.mount("https://", CustomAdapter())
-        response = session.post("https://click.atlsms.az/index.php?app=json_api_send", json=data)
+        response = session.post("https://click.atlsms.az/index.php?app=json_api_send", json=data, verify=False)
         response.raise_for_status()
 
     trans_id = response.json()["transId"]
