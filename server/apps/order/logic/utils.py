@@ -147,7 +147,7 @@ def send_new_order_email(order: Order):
         f"<a role='button' href='https://api.dentalshop.az/admin/order/order/{order.id}/change/'>Sifariş detalları</a>"
     )
 
-    recipients = ["info@dentalshop.az"]
+    recipients = ["order@dentalshop.az"]
 
     send_mail(
         subject=subject,
